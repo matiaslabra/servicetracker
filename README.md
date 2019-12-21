@@ -5,6 +5,7 @@ TODO
 
 Server/Enviorement
 - [ ] Mongo urls per env
+- [ ] Optimize asset for heroku
 
 Functionalities / UI
 - [ ] Set a status to an entired Zone ( Funct)

@@ -26,7 +26,7 @@
     "start": "cross-env NODE_ENV=development env-cmd node server",
     "start:tunnel": "cross-env NODE_ENV=development ENABLE_TUNNEL=true node server",
     "start:production": "npm run test && npm run build && npm run start:prod",
-    "start:prod": "npm run set:env && cross-env NODE_ENV=production node server",
+    "start:prod": "npm run set:env && cross-env NODE_ENV=production env-cmd node server",
     "presetup": "npm i chalk shelljs",
     "setup": "node ./internals/scripts/setup.js",
     "clean": "shjs ./internals/scripts/clean.js",
