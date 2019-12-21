@@ -5,7 +5,8 @@ const express = require('express');
 //Mongoose config
 const  mongoose  = require("mongoose");
 mongoose.Promise  = require("bluebird");
-const  url  =  "mongodb://localhost:27017/housekeeping";
+
+const  url  =  process.env.MONGO_URL;
 const  connect  =  mongoose.connect(url, { useNewUrlParser: true  });
 
 module.exports = function apiMiddlewares(app, options) {

@@ -114,6 +114,12 @@ module.exports = options => ({
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        MONGO_URL: JSON.stringify(process.env.MONGO_URL),
+      },
+    }),
   ]),
   resolve: {
     modules: ['node_modules', 'app'],

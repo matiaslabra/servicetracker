@@ -3,6 +3,9 @@
 
 TODO
 
+Server/Enviorement
+- [ ] Mongo urls per env
+
 Functionalities / UI
 - [ ] Set a status to an entired Zone ( Funct)
 - [ ] Add attributes for each room ( UI )
