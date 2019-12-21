@@ -132,7 +132,7 @@ export default function* roomsAssignedData() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
-  yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
+  yield takeEvery(SET_ITEM_TO_UPDATE, updateItemAssigned);
   const socket = yield call(connect)
   yield fork(socketRead, socket)
   yield fork(socketWrite, socket)
