@@ -2,7 +2,7 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects';
+import { call, put, select, take, takeEvery, takeLatest, fork } from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga'
 import { LOAD_ASSIGNMENT } from 'containers/App/constants';
 import { SET_ITEM_TO_UPDATE } from 'containers/HomePage/constants';
