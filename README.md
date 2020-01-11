@@ -12,7 +12,7 @@ Project idea/background here
 Functionalities / UI
 - [x] Set a status to an entired Zone (Funct)
 - [x] Responsive navbar (UI)
-- [] Add attributes for each room (UI/Funct)
+- [x] Add attributes for each room (UI/Funct)
 - [ ] Better mobile UX
 - [ ] Report Module
 - [ ] Polish task/room design (UI)
