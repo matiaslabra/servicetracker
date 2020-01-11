@@ -14,18 +14,17 @@ import List from 'components/List';
 
 import RoomItem from 'components/RoomItem';
 import Card from 'components/Card';
+import H2 from 'components/H2';
 
 function AssignmentList({
   roomsList,
-  tasksList,
   action,
   isAssignment,
   isHousekeeping
 }) {
+
   let roomsContent = <div />;
-  let tasksContent = <div />;
-  // console.log('roomsList', roomsList);
-  // console.log('tasksList', tasksList);
+
   if(roomsList.length > 0){
     let zoneObject = {};
     roomsList.map( item =>{
@@ -43,9 +42,9 @@ function AssignmentList({
           <h3>{value.name}</h3>
           <List
             component={ isAssignment ? RoomItem : Card}
-            items={value.rooms}
-            zone={value.name}
-            clickAction = {action}
+            items={ value.rooms }
+            zone={ value.name }
+            clickAction = { action }
             isAssignment={ isAssignment ? isAssignment : false }
             isHousekeeping={ isHousekeeping ? isHousekeeping : false }
           />
@@ -58,7 +57,7 @@ function AssignmentList({
 
   return (
       <section>
-        <h2>Rooms</h2>
+        <H2>Rooms</H2>
         {roomsContent}
       </section>
   )

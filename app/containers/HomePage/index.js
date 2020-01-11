@@ -15,7 +15,7 @@ import moment from 'moment';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { loadAssignment } from '../App/actions';
+import { loadAssignment, changeDate } from '../App/actions';
 import { setItemToUpdate } from '../HomePage/actions';
 import {
   makeSelectAssignment,
@@ -26,13 +26,17 @@ import messages from './messages';
 
 import AssignmentList from '../../components/AssignmentList';
 import TaskList from '../../components/TaskList';
-import Title from '../../components/Title';
+
+import H1 from '../../components/H1';
+import H2 from '../../components/H2';
 
 
 export function HomePage({
   getAssignment,
   updateItemStatus,
-  assignment }) {
+  assignment,
+  onChangeDate
+}) {
 
   useInjectReducer({ key: 'homePage', reducer });
   useInjectSaga({ key: 'homePage', saga });
@@ -56,12 +60,13 @@ export function HomePage({
       </Helmet>
       {/* <FormattedMessage {...messages.header} /> */}
 
-      <Title>
-        <h1>Housekeeping</h1>
-        <div><input type="date" defaultValue={moment().format('YYYY-MM-DD')}/></div>
-      </Title>
       <section>
-        <h2>Tasks</h2>
+        <H1>Assignment <small>{moment().format('dddd, MMMM Do YYYY')} </small></H1>
+        <div><input type="date" onChange={onChangeDate} defaultValue={moment().format('YYYY-MM-DD')}/></div>
+      </section>
+
+      <section>
+        <H2>Tasks</H2>
         <TaskList
           items={assignment.tasks}
           clickAction = {itemClickAction}
@@ -90,7 +95,14 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getAssignment: () => dispatch(loadAssignment()),
-    updateItemStatus: item => dispatch(setItemToUpdate(item))
+    updateItemStatus: item => dispatch(setItemToUpdate(item)),
+    onChangeDate: evt => {
+      if (evt.target !== undefined){
+        dispatch(changeDate(evt.target.value))
+      }else{
+        dispatch(changeDate(evt));
+      }
+    }
   };
 }
 

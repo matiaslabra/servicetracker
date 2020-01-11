@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Title = styled.div`
-  flex: 1 0 70%;
+  flex: 1 0 60%;
   display: flex;
   justify-content: center;
   flex-direction: column;

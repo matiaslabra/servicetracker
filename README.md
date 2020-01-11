@@ -1,20 +1,24 @@
 # GFH Room tracker 
 ## React + Redux + Redux-Saga + Socket.IO + MongoDB
 
-TODO
+Project idea/background here
 
-Server/Enviorement
-- [ ] Mongo urls per env
-- [ ] Optimize asset for heroku
+## TODO
+
+### Server/Environment
+- [x] Mongo urls per env
+- [ ] Optimize asset for Heroku
 
 Functionalities / UI
-- [ ] Set a status to an entired Zone ( Funct)
-- [ ] Add attributes for each room ( UI )
-- [ ] Fix my english spelling
+- [x] Set a status to an entired Zone (Funct)
+- [x] Responsive navbar (UI)
+- [] Add attributes for each room (UI/Funct)
+- [ ] Better mobile UX
+- [ ] Report Module
+- [ ] Polish task/room design (UI)
 
 Code
-- [ ] Polish UI
-- [ ] Refactory Components
+- [ ] Polish/Refactory Components
 - [ ] Housekeeping/Document Code
 
 

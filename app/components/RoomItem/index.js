@@ -4,28 +4,29 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import AssignBox from './AssignBox';
-import HKBox from './HKBox';
+import Box from './Box';
 import Title from './Title';
 import Footer from './Footer';
+import ButtonsWrapper from './ButtonsWrapper';
+import Button from './Button';
 
 // import styled from 'styled-components';
 
-function RoomItem({
+const RoomItem = forwardRef(({
   item,
   isAssignment,
   isHousekeeping,
   clickAction,
-}) {
+}, ref) => {
   // useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined
 
   // hk : housekeeping
   // assign: assignment
   const [roomProperties, setRoomProperties] = useState({
     assignKey : 0,
-    assignArray: ['Not assigned', 'Check in', 'Check out', 'Service', 'Full service', 'Check out / in'],
+    assignArray: ['Not assigned', 'Check out', 'Service', 'Full service', 'Check out / in'],
     hkKey: 0,
     hkArray: ['Not taken', 'Taken', 'Done', 'Occupied'],
     washDoona: false,
@@ -39,14 +40,19 @@ function RoomItem({
       setRoomProperties({...roomProperties, assignKey : item.assignKey})
     }
  },['assignKey']);
-  // Reading State
-  {/* <p>You clicked {count} times</p> */}
-  // Seting State
-  {/* <button onClick={() => setCount(count + 1)}></button> */}
-  const roomClickAction = () => {
+
+  //Expose specifics functions to ref
+  useImperativeHandle(ref, () => {
+    return {
+      roomClickAction: roomClickAction
+    }
+ });
+
+  const roomClickAction = (status) => {
     let nextKey = 0;
+
     if(isAssignment){
-      nextKey = roomProperties.assignKey + 1;
+      nextKey = Number.isInteger(status)? status : (roomProperties.assignKey + 1);
       if(nextKey > (roomProperties.assignArray.length-1)){
         nextKey = 0;
       }
@@ -61,34 +67,21 @@ function RoomItem({
     }
   }
 
+  return (
+    <Box
+      assignKey={roomProperties.assignKey}
 
-  if (isAssignment == true) {
-    return (
-      <AssignBox
-        assignKey={roomProperties.assignKey}
-        onClick={roomClickAction}
-      >
-      <Title>{item.name}</Title>
-      <Footer>{roomProperties.assignArray[roomProperties.assignKey]}</Footer>
-      </AssignBox>
-    );
-  }
-
-  if( isHousekeeping == true ){
-    console.log('RoomItem', item);
-    return (
-      <HKBox
-        hkKey={roomProperties.hkKey}
-        assignKey={roomProperties.assignKey}
-        onClick={roomClickAction}
-      >
-      <Title>{item.room.zone} - {item.room.name}</Title>
-      <Footer>{roomProperties.hkArray[roomProperties.hkKey]}</Footer>
-      </HKBox>
-    );
-  }
-
-}
+    >
+    <ButtonsWrapper>
+      <Button status={roomProperties.washDoona} onClick={() => {setRoomProperties({...roomProperties, washDoona: !roomProperties.washDoona})}}>D</Button>
+      <Button status={roomProperties.washCurtain} onClick={() => {setRoomProperties({...roomProperties, washCurtain: !roomProperties.washCurtain})}}>C</Button>
+      <Button status={roomProperties.washMattressProtector} onClick={() => {setRoomProperties({...roomProperties, washMattressProtector: !roomProperties.washMattressProtector})}}>MP</Button>
+    </ButtonsWrapper>
+    <Title onClick={roomClickAction}>{item.name}</Title>
+    <Footer>{roomProperties.assignArray[roomProperties.assignKey]}</Footer>
+    </Box>
+  );
+});
 
 RoomItem.propTypes = {};
 

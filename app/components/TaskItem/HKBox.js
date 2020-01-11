@@ -16,10 +16,6 @@ const HKBox = styled.div`
     }
   }};
   color: ${props => props.hkKey == 0  ? '#000' : '#fff'};
-  text-align: center;
-  height: 3.5em;
-  width: 20em;
-  margin: 5px 0px 5px 0px;
 
   // Room numer non selectable
   -webkit-touch-callout: none;
@@ -28,8 +24,10 @@ const HKBox = styled.div`
 
   // to vertically align content
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  flex-wrap: wrap;
+
+  flex-direction: row;
+  height: 50px;
 
   position: relative;
   background-color:

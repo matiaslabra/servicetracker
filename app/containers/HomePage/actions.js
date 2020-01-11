@@ -6,7 +6,7 @@
 
 import {
   SET_ITEM_TO_UPDATE,
-  SET_ITEM_TO_UPDATE_SUCCESS
+  SET_ITEM_TO_UPDATE_SUCCESS,
 } from './constants';
 
 
@@ -16,4 +16,3 @@ export function setItemToUpdate(item) {
     item
   };
 }
-

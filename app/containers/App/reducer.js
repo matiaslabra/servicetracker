@@ -17,7 +17,7 @@ import {
   UPDATED_ASSIGNED_ROOM_SUCCESS,
   LOAD_ASSIGNMENT,
   LOAD_ASSIGNMENT_SUCCESS,
-  LOAD_ASSIGNMENT_ERROR
+  CHANGE_DATE
 } from './constants';
 
 export const initialState = {
@@ -36,6 +36,8 @@ export const initialState = {
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case CHANGE_DATE:
+        draft.date = action.date;
       case LOAD_ASSIGNMENT:
         draft.isLoadgin = true;
         draft.error = false;
@@ -48,6 +50,7 @@ const appReducer = (state = initialState, action) =>
         draft.assignment.rooms = action.assignment.rooms
         draft.assignment.tasks = action.assignment.tasks
         draft.assignment.date = action.assignment.date
+        draft.date = action.assignment.date
         break;
       case UPDATED_ASSIGNED_ITEM:
         draft.isLoadgin = true;
@@ -55,14 +58,20 @@ const appReducer = (state = initialState, action) =>
         break;
       case UPDATED_ASSIGNED_TASK_SUCCESS:
         const updatedTask = action.task;
-        console.log('UPDATED_ASSIGNED_TASK_SUCCESS with:', action);
-        draft.assignment.tasks[draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)].hkKey = updatedTask.hkKey;
+        // if someone update and item from a different assignment date
+        if(draft.date == updatedTask.date){
+          draft.assignment.tasks[draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)].hkKey = updatedTask.hkKey;
+        }
         draft.isLoadgin = false;
         break;
       case UPDATED_ASSIGNED_ROOM_SUCCESS:
         const updatedRoom = action.room;
-        // console.log('UPDATED_ASSIGNED_ITEM_SUCCESS with:', action);
-        draft.assignment.rooms[draft.assignment.rooms.findIndex(room => room._id == updatedRoom._id)].hkKey = updatedRoom.hkKey;
+        // if someone update and item from a different assignment date
+        console.log('draft', draft.date)
+        console.log('room', updatedRoom.date)
+        if(draft.date == updatedRoom.date){
+          draft.assignment.rooms[draft.assignment.rooms.findIndex(room => room._id == updatedRoom._id)].hkKey = updatedRoom.hkKey;
+        }
         draft.isLoadgin = false;
         break;
       case SET_ASSIGNMENT:

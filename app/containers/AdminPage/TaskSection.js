@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const TaskSection = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  max-width: 40rem;
   background-color: #FFF;
   margin: auto;
 `;

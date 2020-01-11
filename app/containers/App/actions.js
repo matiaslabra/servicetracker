@@ -13,16 +13,18 @@ import {
   SET_ASSIGNMENT_ERROR,
   UPDATED_ASSIGNED_ITEM,
   UPDATED_ASSIGNED_ROOM_SUCCESS,
-  UPDATED_ASSIGNED_TASK_SUCCESS
+  UPDATED_ASSIGNED_TASK_SUCCESS,
+  CHANGE_DATE
 } from './constants';
 
-/**
- *
- */
 
-/**
- *
- */
+export function changeDate(date) {
+  return {
+    type: CHANGE_DATE,
+    date,
+  };
+}
+
 export function loadAssignment() {
   return {
     type: LOAD_ASSIGNMENT,

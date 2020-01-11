@@ -8,11 +8,11 @@ import { statement } from "@babel/template";
 import produce from 'immer';
 import {
   SET_ITEM_TO_UPDATE,
-  SET_ITEM_TO_UPDATE_SUCCESS
+  SET_ITEM_TO_UPDATE_SUCCESS,
 } from './constants';
 
 export const initialState = {
-  itemToUpdate:''
+  itemToUpdate:'',
 };
 
 /* eslint-disable default-case, no-param-reassign */

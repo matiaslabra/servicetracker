@@ -30,6 +30,7 @@ router.get('/', (req, res) => {
             lastServiceType: { $ifNull: [ "$lastServiceType", "No register" ] },
             lastCurtainWash: { $ifNull: [ "$lastCurtainWash", "No register" ] },
             lastDoonaWash: { $ifNull: [ "$lastDoonaWash", "No register" ] },
+
         }
     }
   ]).exec(function(err, rooms){

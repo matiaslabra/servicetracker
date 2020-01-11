@@ -7,7 +7,7 @@
  *
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -30,10 +30,13 @@ const AppWrapper = styled.div`
 `;
 
 export default function App() {
+
+  const [open, setOpen] = useState(false);
+
   return (
     <AppWrapper>
       <Notify />
-      <Header />
+      <Header open={open} setOpen={setOpen}  />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/admin" component={AdminPage} />

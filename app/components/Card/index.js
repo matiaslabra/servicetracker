@@ -18,7 +18,7 @@ function Card({
 }) {
   const [cardProperties, setCardProperties] = useState({
     hkKey: item.hkKey,
-    hkArray: ['Not taken', 'Taken', 'Done', 'Not Done'],
+    hkArray: ['Not taken', 'In progress', 'Done'],
   });
 
   useEffect(() => {
@@ -33,12 +33,14 @@ function Card({
     if(nextKey > (cardProperties.hkArray.length-1)){
       nextKey = 0;
     }
+
     setCardProperties({...cardProperties, hkKey: nextKey});
     clickAction({
       room: item._id,
       _id: item._id,
       hkKey: nextKey,
-      type: 'room'
+      type: 'room',
+      date: item.date
     });
   }
 

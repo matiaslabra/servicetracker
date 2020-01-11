@@ -4,13 +4,13 @@
 
 import { call, put, select, take, takeEvery, takeLatest, fork } from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga'
-import { LOAD_ASSIGNMENT } from 'containers/App/constants';
+import { LOAD_ASSIGNMENT, CHANGE_DATE } from 'containers/App/constants';
 import { SET_ITEM_TO_UPDATE } from 'containers/HomePage/constants';
 import { assignmentLoaded, updateAssignmentRoomDone, updateAssignmentTaskDone  } from 'containers/App/actions';
 
 import request from 'utils/request';
-import { makeSelectAssignment,  } from 'containers/App/selectors';
-import { makeSelectUpdatedItem,  } from 'containers/HomePage/selectors';
+import { makeSelectAssignment, makeSelectDate } from 'containers/App/selectors';
+import { makeSelectUpdatedItem  } from 'containers/HomePage/selectors';
 
 import io from 'socket.io-client';
 
@@ -71,10 +71,10 @@ function* socketRead(socket) {
 
 export function* getAssignment() {
   // Select username from store
-  // const rooms = yield select(makeSelectAssignedRooms());
+  const date = yield select(makeSelectDate());
   // const baseURL = `http://localhost:4001/api`;
   // const baseURL = `http://169.254.220.17:4001/api`;
-  const requestURL = `api/assignment`;
+  const requestURL = `api/assignment?date=` + date;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -131,6 +131,7 @@ export default function* roomsAssignedData() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
+  yield takeLatest(CHANGE_DATE, getAssignment);
   yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
   yield takeEvery(SET_ITEM_TO_UPDATE, updateItemAssigned);
   const socket = yield call(connect)

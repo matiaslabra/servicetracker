@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -17,9 +16,7 @@ const Box = styled.div`
   background:
     ${props => {
       if(props.hkKey == 0){
-        return '#e5e6e6';
-      }else if(props.hkKey == 1){
-        return '#22a6b3';
+        return '#f0932b';
       }else if(props.hkKey == 2){
         return '#eb4d4b';
       }else if(props.hkKey == 3){

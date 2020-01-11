@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import moment from 'moment';
-import 'moment/min/locales';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -25,6 +23,8 @@ import { setAssignment} from '../App/actions';
 import { changeDate, loadRooms, loadTasks, addTask} from '../AdminPage/actions';
 
 import AssignmentList from '../../components/AssignmentList';
+import H1 from '../../components/H1';
+import H2 from '../../components/H2';
 import TaskSection from './TaskSection'
 import TaskList from '../../components/TaskList';
 
@@ -43,7 +43,7 @@ export function AdminPage({
   const [assignSelection, setAssignSelection] = useState({
     rooms: [],
     tasks: [],
-    date: moment().format('YYYY-MM-DD')
+    date: new Date().toISOString().slice(0,10)
   });
 
   useEffect(() => {
@@ -107,12 +107,12 @@ export function AdminPage({
       </Helmet>
       {/* <FormattedMessage {...messages.header} /> */}
       <section>
-        <h1>Room assignment</h1>
+        <H1>Room assignment</H1>
         <span><input type="date" onChange={onChangeDate} defaultValue={assignSelection.date}/></span>
         <span><button onClick={()=>onClickButton(assignSelection)}>Save</button></span>
       </section>
       <div>
-      <h2>Tasks</h2>
+      <H2>Tasks</H2>
       <TaskSection>
         <form
           onSubmit={evt => {
@@ -136,9 +136,8 @@ export function AdminPage({
       </TaskSection>
       <AssignmentList
         roomsList= {rooms}
-        tasksList= {tasks}
         action = {updateAssignList}
-        isAssignment={true}
+        isAssignment={ true }
       />
       </div>
     </article>

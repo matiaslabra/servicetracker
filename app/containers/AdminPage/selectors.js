@@ -25,14 +25,15 @@ const makeSelectTasks = () =>
  * Default selector used by AdminPage
  */
 
-const makeSelectAdminPage = () =>
+const makeSelectDate = () =>
   createSelector(
     selectAdminPageDomain,
-    substate => substate,
+    substate => substate.date,
   );
 
 export {
   selectAdminPageDomain,
+  makeSelectDate,
   makeSelectRooms,
   makeSelectTasks
 };

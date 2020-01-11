@@ -46,10 +46,10 @@ module.exports = io => {
   }
 
   router.get('/', (req, res) => {
-    let today = moment().format('YYYY-MM-DD');
-    // console.log(today);
+    console.log(req.query);
+    let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');;
     Assignment.findOne({
-      date: today
+      date: date
     })
     .populate('rooms.room')
     .populate('tasks.task')
@@ -57,7 +57,8 @@ module.exports = io => {
       if(!assignment){
         assignment = {
           rooms:[],
-          tasks:[]
+          tasks:[],
+          date: date
         }
       }
       // res.send(processAssignment(assignment));
@@ -92,7 +93,7 @@ module.exports = io => {
         }
         res.send({
           success: true,
-          item: updatedItem
+          item: updatedItem,
         });
       })
       .catch(e => res.status(400).send(e));

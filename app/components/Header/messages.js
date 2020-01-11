@@ -16,4 +16,8 @@ export default defineMessages({
     id: `${scope}.assignment`,
     defaultMessage: 'Assignment',
   },
+  report: {
+    id: `${scope}.reports`,
+    defaultMessage: 'Report',
+  },
 });

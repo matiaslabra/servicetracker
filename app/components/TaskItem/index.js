@@ -49,7 +49,7 @@ function TaskItem({
         type: 'task'
       });
     }
- });
+ },[]);
 
   // Reading State
   {/* <p>You clicked {count} times</p> */}
@@ -80,13 +80,9 @@ function TaskItem({
         task: item._id,
         _id: item._id,
         hkKey: nextKey,
-        type: 'task'
+        type: 'task',
+        date: item.date
       });
-      // clickAction({
-      //   rooms: room,
-      //   zone: zone,
-      //   hkKey: nextKey
-      // });
     }
   }
 

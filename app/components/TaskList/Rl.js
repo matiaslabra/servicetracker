@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Rl = styled.section`
+const Rl = styled.div`
   list-style-type: none;
   padding: 0;
   margin: 0;

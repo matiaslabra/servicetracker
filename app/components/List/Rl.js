@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Rl = styled.ul`
+const Rl = styled.div`
   display: flex;
   flex-wrap: wrap;
 

@@ -16,7 +16,14 @@ const makeSelectLocation = () =>
     globalState => globalState.assignment,
    );
 
+   const makeSelectDate = () =>
+   createSelector(
+    selectGlobal,
+    globalState => globalState.date,
+   );
+
 export {
   makeSelectLocation,
-  makeSelectAssignment
+  makeSelectAssignment,
+  makeSelectDate
 };

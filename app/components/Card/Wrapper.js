@@ -20,16 +20,14 @@ const Wrapper = styled.div`
   border-color:
     ${props => {
       if(props.assignKey == 0){
-        return '#e5e6e6';
-      }else if(props.assignKey == 1){
         return '#22a6b3';
-      }else if(props.assignKey == 2){
+      }else if(props.assignKey == 1){
         return '#eb4d4b';
-      }else if(props.assignKey == 3){
+      }else if(props.assignKey == 2){
         return '#f9ca24';
-      }else if(props.assignKey == 4){
+      }else if(props.assignKey == 3){
         return '#f0932b';
-      }else if(props.assignKey == 5){
+      }else if(props.assignKey == 4){
         return '#eb4d4b';
       }
     }};
@@ -43,7 +41,7 @@ const Wrapper = styled.div`
       if(props.hkKey == 0){
         return '#e5e6e6';
       }else if(props.hkKey == 1){
-        return '#22a6b3';
+        return '#f9ca24';
       }else if(props.hkKey == 2){
         return '#2ecc71';
       }else if(props.hkKey == 3){
@@ -63,7 +61,7 @@ const Wrapper = styled.div`
       if(props.hkKey == 0){
         return '#e5e6e6';
       }else if(props.hkKey == 1){
-        return '#22a6b3';
+        return '#f9ca24';
       }else if(props.hkKey == 2){
         return '#2ecc71';
       }else if(props.hkKey == 3){

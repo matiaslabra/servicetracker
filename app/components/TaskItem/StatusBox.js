@@ -8,7 +8,7 @@ flex-direction: column;
 text-align: center;
 font-size: 0.75em;
 font-weight: 300;
-border-right: 1px solid black;
+border-right: 1px solid white;
 `;
 
 export default StatusBox;

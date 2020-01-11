@@ -17,6 +17,12 @@ const makeSelectUpdatedItem = () =>
     substate => substate.itemToUpdate,
   );
 
+  const makeSelectDate = () =>
+  createSelector(
+    selectHomePageDomain,
+    substate => substate.date,
+  );
+
 const makeSelectLoading = () =>
   createSelector(
     selectHomePageDomain,
@@ -36,4 +42,5 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectUpdatedItem,
+  makeSelectDate
 };
