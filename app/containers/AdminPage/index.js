@@ -60,8 +60,7 @@ export function AdminPage({
       wasFounded = newRoomsToAssign.find((o, i) => {
         if (o._id === item._id) {
           newRoomsToAssign[i] = item;
-          if(assignSelection.assignKey == 0){
-            // delete newRoomsToAssign[i];
+          if(item.assignKey == 0){
             newRoomsToAssign.splice(i, 1);
           }
           return true; // stop searching
@@ -70,7 +69,7 @@ export function AdminPage({
       if(!wasFounded){
         newRoomsToAssign.push(item);
       }
-      // console.log('newRoomsToAssign', newRoomsToAssign);
+      console.log('newRoomsToAssign', newRoomsToAssign);
       setAssignSelection({...assignSelection, rooms : newRoomsToAssign});
     }else{
       let newTaskToAssign = assignSelection.tasks;
@@ -79,7 +78,6 @@ export function AdminPage({
         if (o._id === item._id) {
           newTaskToAssign[i] = item;
           if(item.assignKey == 0){
-            // delete newRoomsToAssign[i];
             newTaskToAssign.splice(i, 1);
           }
           return true; // stop searching
@@ -109,7 +107,7 @@ export function AdminPage({
       <section>
         <H1>Room assignment</H1>
         <span><input type="date" onChange={onChangeDate} defaultValue={assignSelection.date}/></span>
-        <span><button onClick={()=>onClickButton(assignSelection)}>Save</button></span>
+        <span><button onClick={()=>console.log(assignSelection)}>Save</button></span>
       </section>
       <div>
       <H2>Tasks</H2>
