@@ -47,50 +47,34 @@ export function AdminPage({
   });
 
   useEffect(() => {
-    // loading
     initTasks();
     initRooms();
   },[]);
 
   const updateAssignList = (item) => {
-
-    if(item.type == 'room'){
-      let newRoomsToAssign = assignSelection.rooms;
-      let wasFounded = false;
-      wasFounded = newRoomsToAssign.find((o, i) => {
-        if (o._id === item._id) {
-          newRoomsToAssign[i] = item;
-          if(item.assignKey == 0){
-            newRoomsToAssign.splice(i, 1);
-          }
-          return true; // stop searching
-        }
-      });
-      if(!wasFounded){
-        newRoomsToAssign.push(item);
-      }
-      console.log('newRoomsToAssign', newRoomsToAssign);
-      setAssignSelection({...assignSelection, rooms : newRoomsToAssign});
+    let newItemToAssign;
+    if(item.type == 'rooms'){
+      newItemToAssign = assignSelection.rooms;
     }else{
-      let newTaskToAssign = assignSelection.tasks;
-      let wasFounded = false;
-      wasFounded = newTaskToAssign.find((o, i) => {
-        if (o._id === item._id) {
-          newTaskToAssign[i] = item;
-          if(item.assignKey == 0){
-            newTaskToAssign.splice(i, 1);
-          }
-          return true; // stop searching
-        }
-      });
-      if(!wasFounded){
-        item.task = item._id;
-        newTaskToAssign.push(item);
-      }
-      // console.log('newTaskToAssign', newTaskToAssign);
-      setAssignSelection({...assignSelection, tasks : newTaskToAssign});
+      newItemToAssign = assignSelection.tasks;
     }
+    let wasFounded = false;
+    wasFounded = newItemToAssign.find((o, i) => {
+      if (o._id === item._id) {
+        newItemToAssign[i] = item;
+        if(item.assignKey == 0){
+          newItemToAssign.splice(i, 1);
+        }
+        return true; // stop searching
+      }
+    });
+    if(!wasFounded){
+      newItemToAssign.push(item);
+    }
+    console.log('newItemToAssign', newItemToAssign);
+    setAssignSelection({...assignSelection, [item.type] : newItemToAssign});
   }
+
   const _onSubmit = (evt) => {
     let task = evt.target.value ? evt.target.value : evt.target.querySelector('input').value;
     if(task !== ''){
@@ -107,7 +91,7 @@ export function AdminPage({
       <section>
         <H1>Room assignment</H1>
         <span><input type="date" onChange={onChangeDate} defaultValue={assignSelection.date}/></span>
-        <span><button onClick={()=>console.log(assignSelection)}>Save</button></span>
+        <span><button onClick={()=>onClickButton(assignSelection)}>Save</button></span>
       </section>
       <div>
       <H2>Tasks</H2>

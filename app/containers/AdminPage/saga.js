@@ -21,22 +21,8 @@ import {
   ADD_NEW_TASK
 } from '../AdminPage/constants';
 
-import {createNotification, NOTIFICATION_TYPE_SUCCESS} from 'react-redux-notify';
+import {createNotification, removeAllNotifications, NOTIFICATION_TYPE_SUCCESS, NOTIFICATION_TYPE_INFO} from 'react-redux-notify';
 
-
-/**
- * Github repos request/response handler
- */
-export function* setAssignmentSuccess() {
-  const mySuccessNotification = {
-    message: 'Assignment set successfully',
-    type: NOTIFICATION_TYPE_SUCCESS,
-    duration: 3500,
-    canDismiss: true,
-  }
-
-  yield put(createNotification(mySuccessNotification))
-}
 export function* setAssignment() {
   // Select username from store
   const assignment = yield select(makeSelectAssignment());
@@ -44,7 +30,14 @@ export function* setAssignment() {
   const requestURL = `/api/assignment`;
 
   try {
-    // Call our request helper (see 'utils/request')
+    const infoNotification = {
+      message: 'Uploading Assignment',
+      type: NOTIFICATION_TYPE_INFO,
+      canDismiss: false,
+    }
+
+    yield put(createNotification(infoNotification))
+
     yield call(request, requestURL, {
       method: 'POST',
       body: JSON.stringify(assignment),
@@ -54,8 +47,17 @@ export function* setAssignment() {
         // 'Content-Type': 'application/x-www-form-urlencoded',
       }
     });
-    // yield put(roomsAssigned(repos));
     yield put(setAssignmentDone());
+    const successNotification = {
+      message: 'Assignment set successfully',
+      type: NOTIFICATION_TYPE_SUCCESS,
+      duration: 3000,
+      canDismiss: true,
+    }
+
+    yield put(removeAllNotifications(true));
+    yield put(createNotification(successNotification));
+
   } catch (err) {
     console.log(err);
     yield put(setAssignmentError(err));
@@ -109,7 +111,7 @@ export function* getTasks() {
 export function* createTask(action) {
   const baseURL = `http://localhost:4001/api`;
   const requestURL = `/api/task`;
-  console.log('<saga> create new task with :', action.task)
+  // console.log('<saga> create new task with :', action.task)
   try {
     // Call our request helper (see 'utils/request')
     const response = yield call(request, requestURL, {
@@ -133,13 +135,8 @@ export function* createTask(action) {
  * Root saga manages watcher lifecycle
  */
 export default function* roomsData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield takeLatest(SET_ASSIGNMENT, setAssignment);
   yield takeLatest(LOAD_TASKS, getTasks);
   yield takeLatest(LOAD_ROOMS, getRooms);
-  yield takeEvery(SET_ASSIGNMENT_SUCCESS, setAssignmentSuccess);
   yield takeEvery(ADD_NEW_TASK, createTask);
 }

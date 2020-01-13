@@ -46,7 +46,7 @@ function TaskItem({
         _id: item._id,
         assignKey: 1,
         service: taskProperties.assignArray[1],
-        type: 'task'
+        type: 'tasks'
       });
     }
  },[]);
@@ -68,7 +68,7 @@ function TaskItem({
         _id: item._id,
         assignKey: nextKey,
         service: taskProperties.assignArray[nextKey],
-        type: 'task',
+        type: 'tasks',
       });
     }else{
       nextKey = taskProperties.hkKey + 1;
@@ -80,7 +80,7 @@ function TaskItem({
         task: item._id,
         _id: item._id,
         hkKey: nextKey,
-        type: 'task',
+        type: 'tasks',
         date: item.date
       });
     }

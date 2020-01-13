@@ -62,7 +62,7 @@ const RoomItem = forwardRef(({
         _id: item._id,
         assignKey: nextKey,
         service: roomProperties.assignArray[nextKey],
-        type: 'room'
+        type: 'rooms'
       });
     }
   }
