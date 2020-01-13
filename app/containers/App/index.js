@@ -7,7 +7,7 @@
  *
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -20,6 +20,9 @@ import GlobalStyle from '../../global-styles';
 // notify styles
 import 'react-redux-notify/dist/ReactReduxNotify.css';
 import { Notify } from 'react-redux-notify';
+import history from 'utils/history';
+
+
 
 
 const AppWrapper = styled.div`
@@ -28,10 +31,16 @@ const AppWrapper = styled.div`
   height: 100%;
 
 `;
-
 export default function App() {
 
   const [open, setOpen] = useState(false);
+
+  history.listen( location =>  {
+    //Do your stuff here
+    if(open){
+      setOpen(false);
+    }
+  });
 
   return (
     <AppWrapper>
