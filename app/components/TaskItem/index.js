@@ -28,18 +28,18 @@ function TaskItem({
   const [taskProperties, setTaskProperties] = useState({
     assignKey : 0,
     assignArray: ['Not assigned', 'Assigned'],
-    hkKey: 0,
+    hkKey: item.hkKey,
     hkArray: ['Not taken', 'Taken', 'Done', 'Not Done'],
     isDaily: item.isDaily
   });
 
   useEffect(() => {
     // loading on
+    console.log('useEffect in taskItem called');
     if(taskProperties.hkKey != item.hkKey){
       setTaskProperties({...taskProperties, hkKey: item.hkKey});
     }
-
-    if(item.isDaily){
+    if(item.isDaily && taskProperties.assignKey == 0){
       setTaskProperties({...taskProperties, assignKey : 1})
       clickAction({
         task:item._id,
@@ -48,7 +48,7 @@ function TaskItem({
         type: 'tasks'
       });
     }
- },[]);
+ });
 
   // Reading State
   {/* <p>You clicked {count} times</p> */}

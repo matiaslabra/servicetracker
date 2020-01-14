@@ -105,7 +105,7 @@ export function* updateItemAssigned() {
  */
 export default function* roomsAssignedData() {
 
-  yield takeEvery(SET_ITEM_TO_UPDATE, updateItemAssigned);
+  yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
   const socket = yield call(connect)
   yield fork(socketRead, socket)
   yield fork(socketWrite, socket)
