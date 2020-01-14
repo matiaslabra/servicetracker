@@ -10,6 +10,7 @@
 import React, {useState, useEffect} from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
+import { useInjectSaga } from 'utils/injectSaga';
 
 import HomePage from 'containers/HomePage/Loadable';
 import AdminPage from 'containers/AdminPage/Loadable';
@@ -21,8 +22,7 @@ import GlobalStyle from '../../global-styles';
 import 'react-redux-notify/dist/ReactReduxNotify.css';
 import { Notify } from 'react-redux-notify';
 import history from 'utils/history';
-
-
+import saga from './saga';
 
 
 const AppWrapper = styled.div`
@@ -34,9 +34,9 @@ const AppWrapper = styled.div`
 export default function App() {
 
   const [open, setOpen] = useState(false);
-
-  history.listen( location =>  {
-    //Do your stuff here
+  useInjectSaga({ key: 'app', saga });
+  history.listen( () =>  {
+    //Close mobile Navbar when history.listen detect any change
     if(open){
       setOpen(false);
     }

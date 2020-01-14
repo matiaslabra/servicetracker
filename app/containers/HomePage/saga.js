@@ -3,15 +3,12 @@
  */
 
 import { call, put, select, take, takeEvery, takeLatest, fork } from 'redux-saga/effects';
-import {eventChannel} from 'redux-saga'
-import { LOAD_ASSIGNMENT, CHANGE_DATE } from 'containers/App/constants';
+import {eventChannel} from 'redux-saga';
 import { SET_ITEM_TO_UPDATE } from 'containers/HomePage/constants';
-import { assignmentLoaded, updateAssignmentRoomDone, updateAssignmentTaskDone  } from 'containers/App/actions';
-
-import request from 'utils/request';
 import { makeSelectAssignment, makeSelectDate } from 'containers/App/selectors';
+import {updateAssignmentRoomDone, updateAssignmentTaskDone } from 'containers/App/actions';
 import { makeSelectUpdatedItem  } from 'containers/HomePage/selectors';
-
+import request from 'utils/request';
 import io from 'socket.io-client';
 
 /**
@@ -69,26 +66,6 @@ function* socketRead(socket) {
  * HomePage assignment handler
  */
 
-export function* getAssignment() {
-  // Select username from store
-  const date = yield select(makeSelectDate());
-  // const baseURL = `http://localhost:4001/api`;
-  // const baseURL = `http://169.254.220.17:4001/api`;
-  const requestURL = `api/assignment?date=` + date;
-
-  try {
-    // Call our request helper (see 'utils/request')
-    const assignment = yield call(request, requestURL, {
-      method: 'GET',
-    });
-    // yield put(roomsAssigned(repos));
-    yield put(assignmentLoaded(assignment));
-  } catch (err) {
-    console.log(err);
-    // yield put(roomsAssignedError(err));
-  }
-}
-
 export function* updateItemAssigned() {
   // Select item to update from HomePage reducer
   const itemToUpdate = yield select(makeSelectUpdatedItem());
@@ -122,17 +99,11 @@ export function* updateItemAssigned() {
     // yield put(roomsAssignedError(err));
   }
 }
-
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* roomsAssignedData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
-  yield takeLatest(CHANGE_DATE, getAssignment);
-  yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
+
   yield takeEvery(SET_ITEM_TO_UPDATE, updateItemAssigned);
   const socket = yield call(connect)
   yield fork(socketRead, socket)

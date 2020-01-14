@@ -5,7 +5,7 @@ export default styled(Link)`
   color: #fff;
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.25rem;
   border-bottom: 1px solid transparent;
   margin: 0 1.5rem;
   transition: all 300ms linear 0s;

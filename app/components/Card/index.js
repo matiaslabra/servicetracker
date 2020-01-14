@@ -26,14 +26,14 @@ function Card({
     if(cardProperties.hkKey != item.hkKey){
       setCardProperties({...cardProperties, hkKey: item.hkKey});
     }
-  });
+  },[]);
   const _cardClickAction = () => {
-    let nextKey = 0;
-    nextKey = cardProperties.hkKey + 1;
+    // console.log(cardProperties.hkKey)
+    let nextKey = cardProperties.hkKey + 1;
     if(nextKey > (cardProperties.hkArray.length-1)){
       nextKey = 0;
     }
-
+    // console.log(nextKey)
     setCardProperties({...cardProperties, hkKey: nextKey});
     clickAction({
       room: item._id,

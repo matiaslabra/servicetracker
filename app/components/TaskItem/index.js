@@ -28,7 +28,7 @@ function TaskItem({
   const [taskProperties, setTaskProperties] = useState({
     assignKey : 0,
     assignArray: ['Not assigned', 'Assigned'],
-    hkKey: item.hkKey,
+    hkKey: 0,
     hkArray: ['Not taken', 'Taken', 'Done', 'Not Done'],
     isDaily: item.isDaily
   });
@@ -45,7 +45,6 @@ function TaskItem({
         task:item._id,
         _id: item._id,
         assignKey: 1,
-        service: taskProperties.assignArray[1],
         type: 'tasks'
       });
     }
@@ -67,7 +66,6 @@ function TaskItem({
         task:item._id,
         _id: item._id,
         assignKey: nextKey,
-        service: taskProperties.assignArray[nextKey],
         type: 'tasks',
       });
     }else{

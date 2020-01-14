@@ -11,16 +11,21 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import moment from 'moment';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { makeSelectRooms,makeSelectTasks, makeSelectLoading } from './selectors';
+import {
+  makeSelectAssignment,
+} from 'containers/App/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 import { setAssignment} from '../App/actions';
 import { changeDate, loadRooms, loadTasks, addTask} from '../AdminPage/actions';
+import { loadAssignment } from '../App/actions';
 
 import AssignmentList from '../../components/AssignmentList';
 import H1 from '../../components/H1';
@@ -33,9 +38,11 @@ export function AdminPage({
   initRooms,
   initTasks,
   tasks,
+  assignment,
   onClickButton,
   onChangeDate,
-  onSubmitForm
+  onSubmitForm,
+  getAssignment
 }){
   useInjectReducer({ key: 'adminPage', reducer });
   useInjectSaga({ key: 'adminPage', saga })
@@ -43,12 +50,13 @@ export function AdminPage({
   const [assignSelection, setAssignSelection] = useState({
     rooms: [],
     tasks: [],
-    date: new Date().toISOString().slice(0,10)
+    date: moment().format('YYYY-MM-DD')
   });
-
   useEffect(() => {
     initTasks();
     initRooms();
+    getAssignment();
+    console.log('props assignment', assignment);
   },[]);
 
   const updateAssignList = (item) => {
@@ -78,7 +86,8 @@ export function AdminPage({
   const _onSubmit = (evt) => {
     let task = evt.target.value ? evt.target.value : evt.target.querySelector('input').value;
     if(task !== ''){
-      onSubmitForm(task);
+      onSubmitForm(task); //submiting
+      evt.target.reset(); // clear input
     }
   }
   return (
@@ -132,10 +141,12 @@ AdminPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   rooms: makeSelectRooms(),
   tasks: makeSelectTasks(),
+  assignment: makeSelectAssignment(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    getAssignment: () => dispatch(loadAssignment(true)),
     onClickButton: assignSelection => {dispatch(setAssignment(assignSelection))},
     initRooms: evt => {dispatch(loadRooms())},
     initTasks: evt => {dispatch(loadTasks())},
