@@ -12,10 +12,12 @@ import Ul from './Ul'
 import Box from './Box'
 import Footer from './Footer'
 
+;
 function Card({
   item,
   clickAction
 }) {
+
   const [cardProperties, setCardProperties] = useState({
     hkKey: item.hkKey,
     hkArray: ['Not taken', 'In progress', 'Done'],
@@ -24,9 +26,11 @@ function Card({
   useEffect(() => {
     // setCardProperties
     if(cardProperties.hkKey != item.hkKey){
+      // localStateKey = cardProperties.hkKey;
       setCardProperties({...cardProperties, hkKey: item.hkKey});
     }
-  },[]);
+  });
+
   const _cardClickAction = () => {
     // console.log(cardProperties.hkKey)
     let nextKey = cardProperties.hkKey + 1;
@@ -39,7 +43,7 @@ function Card({
       room: item._id,
       _id: item._id,
       hkKey: nextKey,
-      type: 'room',
+      type: 'rooms',
       date: item.date
     });
   }

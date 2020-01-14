@@ -74,29 +74,29 @@ module.exports = io => {
     let dbItem;
     const assignmentId = req.body.assignment_id
 
-      Assignment.findById(assignmentId)
-      .then((assignment) => {
-        if(item.type == 'room'){
-          dbItem = assignment.rooms.id(item._id); // returns a matching subdocument
-        }else{
-          dbItem = assignment.tasks.id(item._id);
-        }
-        dbItem.hkKey = item.hkKey
-        return assignment.save(); // saves document with subdocuments and triggers validation
-      })
-      .then((assignment) => {
-        let updatedItem;
-        if(item.type == 'room'){
-          updatedItem =  assignment.rooms.id(item._id)
-        } else{
-          updatedItem =  assignment.tasks.id(item._id)
-        }
-        res.send({
-          success: true,
-          item: updatedItem,
-        });
-      })
-      .catch(e => res.status(400).send(e));
+    Assignment.findById(assignmentId)
+    .then((assignment) => {
+      if(item.type == 'rooms'){
+        dbItem = assignment.rooms.id(item._id); // returns a matching subdocument
+      }else{
+        dbItem = assignment.tasks.id(item._id);
+      }
+      dbItem.hkKey = item.hkKey
+      return assignment.save(); // saves document with subdocuments and triggers validation
+    })
+    .then((assignment) => {
+      let updatedItem;
+      if(item.type == 'rooms'){
+        updatedItem =  assignment.rooms.id(item._id)
+      } else{
+        updatedItem =  assignment.tasks.id(item._id)
+      }
+      res.send({
+        success: true,
+        item: updatedItem,
+      });
+    })
+    .catch(e => res.status(400).send(e));
   });
 
   router.post('/', (req, res) => {

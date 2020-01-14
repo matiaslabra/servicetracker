@@ -43,10 +43,8 @@ export function HomePage({
 
   useEffect(() => {
      // loading on
-     if(assignment.id ==='' || assignment.id === undefined){
-       getAssignment();
-      }
-  },[]); //empty array at the end tells to run insede code once
+     getAssignment();
+  },['assignment']); //empty array at the end tells to run insede code once
   console.log('props assignment', assignment)
 
   const itemClickAction = (item) => {

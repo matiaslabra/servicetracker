@@ -29,7 +29,7 @@ export function* subscribe(socket) {
   return new eventChannel(emit => {
     const updateAssignment = data => {
       console.log("listened data", data);
-      if(data.item.type == 'room'){
+      if(data.item.type == 'rooms'){
         return emit(updateAssignmentRoomDone(data.item));
       }else{
         return emit(updateAssignmentTaskDone(data.item));
@@ -47,7 +47,6 @@ export function* socketWrite(socket) {
 
   while (true) {
     const {item} = yield take(SET_ITEM_TO_UPDATE)
-    console.log("socketWrite ",item);
     socket.emit('update-item', item)
   }
 }
@@ -75,8 +74,14 @@ export function* updateItemAssigned() {
   const requestURL = `api/assignment/item`;
 
   try {
-    // Call our request helper (see 'utils/request')
-    const response = yield call(request, requestURL, {
+    // We dont wait for our local changes item is updated right away
+    if(itemToUpdate.type == 'rooms'){
+      yield put(updateAssignmentRoomDone(itemToUpdate));
+    }else{
+      yield put(updateAssignmentTaskDone(itemToUpdate));
+    }
+
+    yield call(request, requestURL, {
       method: 'PUT',
       body: JSON.stringify({
         item: itemToUpdate,
@@ -89,11 +94,7 @@ export function* updateItemAssigned() {
       }
     })
     // yield put(roomsAssigned(repos));
-    if(itemToUpdate.type == 'room'){
-      yield put(updateAssignmentRoomDone(response.item));
-    }else{
-      yield put(updateAssignmentTaskDone(response.item));
-    }
+
   } catch (err) {
     console.log(err);
     // yield put(roomsAssignedError(err));
