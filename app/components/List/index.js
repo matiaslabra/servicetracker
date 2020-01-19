@@ -32,9 +32,9 @@ function List(props) {
   if (props.items.length > 0) {
     content = props.items.map((item, i) => {
       if(isAssignment){
-        return <ComponentToRender ref={el => itemsRef.current[i] = el}  {...roomListProps} key={`item-${item._id}`} id={item._id} item = {item} />
+        return <ComponentToRender ref={el => itemsRef.current[i] = el}  {...roomListProps} key={`item-${item._id}`} _id={item._id} item = {item} />
       }else{
-        return <ComponentToRender  {...roomListProps} key={`item-${item._id}`} id={item._id} item = {item} />
+        return <ComponentToRender  {...roomListProps} key={`item-${item._id}`} _id={item._id} item = {item} />
       }
     });
   } else {

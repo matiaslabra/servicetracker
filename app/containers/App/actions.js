@@ -27,7 +27,7 @@ export function changeDate(date) {
 
 export function loadAssignment() {
   return {
-    type: LOAD_ASSIGNMENT,
+    type: LOAD_ASSIGNMENT
   };
 }
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 var moment = require('moment');
-// mongoose.set('debug', true);
+mongoose.set('debug', true);
 
 const assignmentSchema = new Schema({
   tasks: [
@@ -12,7 +12,6 @@ const assignmentSchema = new Schema({
       assignKey: Number,
       hkKey: { type: Number, default: 0 },
       service: String,
-      date: { type: String, default: moment().format('YYYY-MM-DD') },
     }
   ],
   rooms: [
@@ -20,7 +19,6 @@ const assignmentSchema = new Schema({
       room: {
           type: Schema.Types.ObjectId, ref: 'Room'
       },
-      date: { type: String, default: moment().format('YYYY-MM-DD') },
       assignKey: Number,
       hkKey: { type: Number, default: 0 },
       service: String,

@@ -13,7 +13,8 @@ import {
 } from 'containers/AdminPage/actions';
 
 import request from 'utils/request';
-import { makeSelectAssignment,  } from 'containers/App/selectors';
+import { makeSelectDate } from 'containers/AdminPage/selectors';
+import { makeSelectAssignment } from 'containers/App/selectors';
 import { SET_ASSIGNMENT, SET_ASSIGNMENT_SUCCESS } from '../App/constants';
 import {
   LOAD_TASKS,
@@ -67,9 +68,11 @@ export function* setAssignment() {
 export function* getRooms() {
 
   //  const baseURL = `http://localhost:4001/api`;
-   const requestURL = `/api/room`;
+  const date = yield select(makeSelectDate());
 
-   try {
+  const requestURL = `/api/room?date=` + date;
+
+  try {
      // Call our request helper (see 'utils/request')
      const rooms = yield call(request, requestURL, {
        method: 'GET',

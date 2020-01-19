@@ -59,10 +59,10 @@ const appReducer = (state = initialState, action) =>
       case UPDATED_ASSIGNED_TASK_SUCCESS:
         const updatedTask = action.task;
         // if someone update and item from a different assignment date
-        if(draft.date == updatedTask.date){
+        // if(draft.date == updatedTask.date){
           draft.assignment.tasks[draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)].hkKey = updatedTask.hkKey;
           draft.assignment.tasks[draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)].origin = updatedTask.origin;
-        }
+        // }
         draft.isLoadgin = false;
         break;
       case UPDATED_ASSIGNED_ROOM_SUCCESS:
@@ -70,10 +70,10 @@ const appReducer = (state = initialState, action) =>
         // if someone update and item from a different assignment date
         console.log('draft', draft.date)
         console.log('room', updatedRoom.date)
-        if(draft.date == updatedRoom.date){
+        // if(draft.date == updatedRoom.date){
           draft.assignment.rooms[draft.assignment.rooms.findIndex(room => room._id == updatedRoom._id)].hkKey = updatedRoom.hkKey;
           draft.assignment.rooms[draft.assignment.rooms.findIndex(room => room._id == updatedRoom._id)].origin = updatedRoom.origin;
-        }
+        // }
         draft.isLoadgin = false;
         break;
       case SET_ASSIGNMENT:

@@ -70,9 +70,6 @@ function Card({
     <Descrip>
       <Ul>
         <li> <b>{ item.service}</b></li>
-        <li> Doona : { item.washDoona ? 'Yes' : 'No'}</li>
-        <li> Curtains : { item.washCurtain } </li>
-        <li> Mattress cover : { item.washMattressProtector } </li>
       </Ul>
     </Descrip>
     </Wrapper>

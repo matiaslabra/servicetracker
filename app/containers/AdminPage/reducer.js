@@ -29,6 +29,8 @@ const adminPageReducer = (state = initialState, action) =>
       case CHANGE_DATE:
         console.log('adminPage reducer: change_date with', action)
         draft.date = action.date;
+        draft.tasks = [];
+        draft.rooms = [];
         break;
       case LOAD_ROOMS:
         draft.loading = true;

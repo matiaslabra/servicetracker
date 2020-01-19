@@ -47,7 +47,9 @@ module.exports = io => {
 
   router.get('/', (req, res) => {
     console.log(req.query);
-    let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');;
+    let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
+    let isEditor = (req.query.editor == 'true' ? true : false);
+
     Assignment.findOne({
       date: date
     })
@@ -65,9 +67,9 @@ module.exports = io => {
       res.send(assignment);
     });
 
-
     // return res.send(assigment);
   });
+
   router.put('/item', (req, res) => {
     console.log('req.body', req.body);
     const item = req.body.item

@@ -26,29 +26,27 @@ function TaskItem({
   // hk : housekeeping
   // assign: assignment
   const [taskProperties, setTaskProperties] = useState({
+    _id: item._id,
+    task: item._id,
     assignKey : 0,
     assignArray: ['Not assigned', 'Assigned'],
-    hkKey: item.hkKey,
-    hkArray: ['Not taken', 'Taken', 'Done', 'Not Done'],
-    isDaily: item.isDaily
+    hkKey: item.hkKey ? item.hkKey : 0,
+    hkArray: ['Not taken', 'Taken', 'Done'],
+    isDaily: false,
+    type: 'tasks'
   });
 
   useEffect(() => {
     // loading on
-    console.log('useEffect in taskItem called');
+    // console.log('useEffect in taskItem called');
     if(taskProperties.hkKey != item.hkKey){
       setTaskProperties({...taskProperties, hkKey: item.hkKey});
     }
     if(item.isDaily && taskProperties.assignKey == 0){
-      setTaskProperties({...taskProperties, assignKey : 1})
-      clickAction({
-        task:item._id,
-        _id: item._id,
-        assignKey: 1,
-        type: 'tasks'
-      });
+      setTaskProperties({...taskProperties, assignKey : 1, isDaily: true})
+      clickAction({...taskProperties, assignKey: 1, type: 'tasks'});
     }
- });
+ },[taskProperties.isDaily, taskProperties.hkKey]);
 
   // Reading State
   {/* <p>You clicked {count} times</p> */}
@@ -62,12 +60,7 @@ function TaskItem({
         nextKey = 0;
       }
       setTaskProperties({...taskProperties, assignKey: nextKey});
-      clickAction({
-        task:item._id,
-        _id: item._id,
-        assignKey: nextKey,
-        type: 'tasks',
-      });
+      clickAction({...taskProperties, assignKey: nextKey});
     }else{
       nextKey = taskProperties.hkKey + 1;
       if(nextKey > (taskProperties.hkArray.length-1)){

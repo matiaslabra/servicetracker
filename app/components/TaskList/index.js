@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Rl from './Rl';
+import Li from './Li';
 import TaskItem from '../TaskItem';
 // import Wrapper from './Wrapper';
 
@@ -24,7 +25,7 @@ function List(props) {
     ));
   } else {
     // Otherwise render empty message
-    content = <div>No items assigned</div>;
+    content = <Li>No items assigned</Li>;
   }
 
   return (

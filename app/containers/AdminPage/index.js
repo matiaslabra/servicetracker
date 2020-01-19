@@ -15,10 +15,7 @@ import moment from 'moment';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { makeSelectRooms,makeSelectTasks, makeSelectLoading } from './selectors';
-import {
-  makeSelectAssignment,
-} from 'containers/App/selectors';
+import { makeSelectRooms,makeSelectTasks, makeSelectDate } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -35,14 +32,13 @@ import TaskList from '../../components/TaskList';
 
 export function AdminPage({
   rooms,
+  date,
   initRooms,
   initTasks,
   tasks,
-  assignment,
   onClickButton,
   onChangeDate,
   onSubmitForm,
-  getAssignment
 }){
   useInjectReducer({ key: 'adminPage', reducer });
   useInjectSaga({ key: 'adminPage', saga })
@@ -53,11 +49,12 @@ export function AdminPage({
     date: moment().format('YYYY-MM-DD')
   });
   useEffect(() => {
-    initTasks();
-    initRooms();
-    getAssignment();
-    console.log('props assignment', assignment);
-  },[]);
+    if(assignSelection.date != date){
+      initTasks();
+      initRooms();
+    }
+
+  },);
 
   const updateAssignList = (item) => {
     let newItemToAssign;
@@ -76,11 +73,17 @@ export function AdminPage({
         return true; // stop searching
       }
     });
-    if(!wasFounded){
+    if(!wasFounded && item.assignKey != 0){
       newItemToAssign.push(item);
     }
     console.log('newItemToAssign', newItemToAssign);
     setAssignSelection({...assignSelection, [item.type] : newItemToAssign});
+  }
+  const _onChangeDate = (evt) => {
+    let newDate = evt.target !== undefined ? evt.target.value : evt;
+    // setAssignSelection({...assignSelection, [item.type] : newItemToAssign});
+
+    onChangeDate(newDate);
   }
 
   const _onSubmit = (evt) => {
@@ -99,7 +102,7 @@ export function AdminPage({
       {/* <FormattedMessage {...messages.header} /> */}
       <section>
         <H1>Room assignment</H1>
-        <span><input type="date" onChange={onChangeDate} defaultValue={assignSelection.date}/></span>
+        <span><input type="date" onChange={_onChangeDate} defaultValue={assignSelection.date}/></span>
         <span><button onClick={()=>onClickButton(assignSelection)}>Save</button></span>
       </section>
       <div>
@@ -141,7 +144,7 @@ AdminPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   rooms: makeSelectRooms(),
   tasks: makeSelectTasks(),
-  assignment: makeSelectAssignment(),
+  date: makeSelectDate(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -151,13 +154,7 @@ function mapDispatchToProps(dispatch) {
     initRooms: evt => {dispatch(loadRooms())},
     initTasks: evt => {dispatch(loadTasks())},
     onSubmitForm: task => {dispatch(addTask(task))},
-    onChangeDate: evt => {
-      if (evt.target !== undefined){
-        dispatch(changeDate(evt.target.value))
-      }else{
-        dispatch(changeDate(evt));
-      }
-    }
+    onChangeDate: date => {dispatch(changeDate(date))}
   };
 }
 

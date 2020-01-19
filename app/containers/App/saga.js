@@ -2,14 +2,15 @@ import { call, put, select, take, takeEvery, takeLatest, fork } from 'redux-saga
 import { LOAD_ASSIGNMENT, CHANGE_DATE } from 'containers/App/constants';
 import { assignmentLoaded } from 'containers/App/actions';
 import request from 'utils/request';
-import { makeSelectAssignment, makeSelectDate } from 'containers/App/selectors';
+import { makeSelectAssignment, makeSelectAppDate } from 'containers/App/selectors';
 
-export function* getAssignment() {
+export function* getAssignment(){
   // Select date from store
-  const date = yield select(makeSelectDate());
+
+  const date = yield select(makeSelectAppDate());
   // const baseURL = `http://localhost:4001/api`;
   // const baseURL = `http://169.254.220.17:4001/api`;
-  const requestURL = `api/assignment?date=` + date;
+  const requestURL = `api/assignment?date=` + date
 
   try {
     // Call our request helper (see 'utils/request')

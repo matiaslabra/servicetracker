@@ -25,21 +25,35 @@ const RoomItem = forwardRef(({
   // hk : housekeeping
   // assign: assignment
   const [roomProperties, setRoomProperties] = useState({
-    assignKey : 0,
+    _id: item._id,
+    room: item._id, // mongoose assignment - room relation
+    assignKey : item.assignment ? item.assignment.rooms.assignKey : 0,
     assignArray: ['Not assigned', 'Check out', 'Service', 'Full service', 'Check out / in'],
     hkKey: 0,
     hkArray: ['Not taken', 'Taken', 'Done', 'Occupied'],
-    washDoona: false,
-    washCurtain: false,
-    washMattressProtector: false,
+    washDoona: item.assignment ? item.assignment.rooms.washDoona : false,
+    washCurtain: item.assignment ? item.assignment.rooms.washCurtain : false,
+    washMattressProtector: item.assignment ? item.assignment.rooms.washMattressProtector : false,
+    type: 'rooms'
   });
+
 
   useEffect(() => {
     // loading on
     if(isHousekeeping){
       setRoomProperties({...roomProperties, assignKey : item.assignKey})
+    }else if (isAssignment) {
+      // if('assignment' in item && roomProperties.assignKey == 0){
+      //   setRoomProperties({
+      //     ...roomProperties,
+      //     assignKey : item.assignment.rooms.assignKey,
+      //     washDoona : item.assignment.rooms.washDoona,
+      //     washCurtain : item.assignment.rooms.washCurtain,
+      //     washMattressProtector : item.assignment.rooms.washMattressProtector,
+      //   })
+      // }
     }
- },['assignKey']);
+ },[roomProperties.assignKey]);
 
   //Expose specifics functions to ref
   useImperativeHandle(ref, () => {
@@ -47,35 +61,45 @@ const RoomItem = forwardRef(({
       roomClickAction: roomClickAction
     }
  });
+  const roomWashPropertiesClick = (propertie) => {
+    if(roomProperties.assignKey != 0){
+      setRoomProperties({...roomProperties, [propertie]: !roomProperties[propertie]});
+      clickAction({ ...roomProperties, [propertie]: !roomProperties[propertie]
+      });
+    }
+  }
 
   const roomClickAction = (status) => {
-    let nextKey = 0;
 
+    let nextKey = 0;
+    let options = {};
     if(isAssignment){
-      nextKey = Number.isInteger(status)? status : (roomProperties.assignKey + 1);
+      // Number.isInteger necesary since status refer to a class to work with useImperativeHandle when
+      // read from inside
+      nextKey = Number.isInteger(status) ? status : (roomProperties.assignKey + 1);
       if(nextKey > (roomProperties.assignArray.length-1)){
         nextKey = 0;
       }
-      setRoomProperties({...roomProperties, assignKey: nextKey});
-      clickAction({
-        room: item._id,
-        _id: item._id,
-        assignKey: nextKey,
-        service: roomProperties.assignArray[nextKey],
-        type: 'rooms'
-      });
+      if(nextKey == 0){
+        options = {
+          washDoona: false,
+          washCurtain: false,
+          washMattressProtector: false
+        }
+      }
+      setRoomProperties({...roomProperties, assignKey: nextKey , ...options});
+      clickAction({...roomProperties, assignKey: nextKey, service: roomProperties.assignArray[nextKey]});
     }
   }
 
   return (
     <Box
       assignKey={roomProperties.assignKey}
-
     >
     <ButtonsWrapper>
-      <Button status={roomProperties.washDoona} onClick={() => {setRoomProperties({...roomProperties, washDoona: !roomProperties.washDoona})}}>D</Button>
-      <Button status={roomProperties.washCurtain} onClick={() => {setRoomProperties({...roomProperties, washCurtain: !roomProperties.washCurtain})}}>C</Button>
-      <Button status={roomProperties.washMattressProtector} onClick={() => {setRoomProperties({...roomProperties, washMattressProtector: !roomProperties.washMattressProtector})}}>MP</Button>
+      <Button status={roomProperties.washDoona} onClick={() => {roomWashPropertiesClick('washDoona')}}>D</Button>
+      <Button status={roomProperties.washCurtain} onClick={() => {roomWashPropertiesClick('washCurtain')}}>SC</Button>
+      <Button status={roomProperties.washMattressProtector} onClick={() => {roomWashPropertiesClick('washMattressProtector')}}>MP</Button>
     </ButtonsWrapper>
     <Title onClick={roomClickAction}>{item.name}</Title>
     <Footer>{roomProperties.assignArray[roomProperties.assignKey]}</Footer>
