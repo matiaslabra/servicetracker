@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import moment from 'moment';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -46,17 +45,36 @@ export function AdminPage({
   const [assignSelection, setAssignSelection] = useState({
     rooms: [],
     tasks: [],
-    date: moment().format('YYYY-MM-DD')
+    date: '',
+    roomsChecked: false
   });
   useEffect(() => {
     if(assignSelection.date != date){
+      console.log('assignSelection.date != date');
+      setAssignSelection({tasks:[], rooms:[], date: date, roomsChecked: false});
       initTasks();
       initRooms();
     }
 
-  },);
+    if(rooms.length > 0 && assignSelection.roomsChecked == false){
+      console.log('rooms > 0', rooms);
+      _checkRoomsForEdition(rooms)
+    }
 
-  const updateAssignList = (item) => {
+  });
+
+  const _checkRoomsForEdition = rooms => {
+    let roomsToEdit = [];
+    rooms.map( item => {
+      // console.log(item);
+      if('assignment' in item){
+        roomsToEdit.push(item.assignment.rooms)
+      }
+    })
+    console.log('roomsToEdit', roomsToEdit);
+    setAssignSelection({...assignSelection, rooms:roomsToEdit, roomsChecked: true});
+  }
+  const updateAssignList = item => {
     let newItemToAssign;
     if(item.type == 'rooms'){
       newItemToAssign = assignSelection.rooms;

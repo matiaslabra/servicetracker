@@ -8,6 +8,8 @@
  */
 
 import produce from 'immer';
+import moment from 'moment';
+
 import {
   SET_ASSIGNMENT,
   SET_ASSIGNMENT_SUCCESS,
@@ -28,7 +30,7 @@ export const initialState = {
     date: '',
     updated: ''
   },
-  date: '',
+  date: moment().format('YYYY-MM-DD'),
   isLoading: false,
   error: false
 };

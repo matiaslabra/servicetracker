@@ -4,6 +4,8 @@
  *
  */
 import produce from 'immer';
+import moment from 'moment';
+
 import {
   CHANGE_DATE,
   LOAD_ROOMS,
@@ -16,7 +18,7 @@ import {
 
 
 export const initialState = {
-  date: '',
+  date: moment().format('YYYY-MM-DD'),
   rooms: [],
   tasks: [],
   loading: false,
