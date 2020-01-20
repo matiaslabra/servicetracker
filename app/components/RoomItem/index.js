@@ -42,16 +42,6 @@ const RoomItem = forwardRef(({
     // loading on
     if(isHousekeeping){
       setRoomProperties({...roomProperties, assignKey : item.assignKey})
-    }else if (isAssignment) {
-      // if('assignment' in item && roomProperties.assignKey == 0){
-      //   setRoomProperties({
-      //     ...roomProperties,
-      //     assignKey : item.assignment.rooms.assignKey,
-      //     washDoona : item.assignment.rooms.washDoona,
-      //     washCurtain : item.assignment.rooms.washCurtain,
-      //     washMattressProtector : item.assignment.rooms.washMattressProtector,
-      //   })
-      // }
     }
  },[roomProperties.assignKey]);
 

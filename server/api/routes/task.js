@@ -1,18 +1,57 @@
 const { Router } = require('express');
 const Task = require('../models/taskSchema');
 const moment = require('moment');
-const  mongoose  = require("mongoose");
 
 const router = Router();
 
 router.get('/', (req, res) => {
-  // let today = moment().format('YYYY-MM-DD');
+  let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
   // console.log(today);
-  Task.find().exec(function(err, tasks){
-      res.send(tasks);
+  Task.aggregate([{
+    $lookup:{
+      from: 'assignments',
+      localField: '_id',
+      foreignField: 'tasks._id',
+      as: "assignment",
+    }
+  },
+  {
+    $addFields: {
+      assignment: {
+        $arrayElemAt: [{
+          $map:{
+            input: {
+              $filter: {
+                input: "$assignment",
+                cond: {
+                  $eq:["$$this.date", date]
+                }
+              }
+            },
+            as: "item",
+            in: {
+              tasks:{
+                $arrayElemAt: [{
+                  $filter:{
+                    input: "$$item.tasks",
+                    as: "task",
+                    cond: {
+                      $and: [
+                        {$eq: ["$$task._id", "$_id"]}
+                      ]
+                    }
+                  }
+                },0]
+              }
+            }
+          }
+        },0]
+      }
+    }
+  }]).exec(function(err, tasks){
+    console.log(tasks);
+    res.send(tasks);
   });
-
-  // return res.send(assigment);
 });
 
 router.post('/', (req, res) => {

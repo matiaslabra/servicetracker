@@ -69,7 +69,6 @@ export function* getRooms() {
 
   //  const baseURL = `http://localhost:4001/api`;
   const date = yield select(makeSelectDate());
-
   const requestURL = `/api/room?date=` + date;
 
   try {
@@ -90,8 +89,9 @@ export function* getRooms() {
    }
 }
 export function* getTasks() {
-  const baseURL = `http://localhost:4001/api`;
-  const requestURL = `/api/task`;
+
+  const date = yield select(makeSelectDate());
+  const requestURL = `/api/task?date=` + date;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -112,7 +112,7 @@ export function* getTasks() {
 }
 
 export function* createTask(action) {
-  const baseURL = `http://localhost:4001/api`;
+
   const requestURL = `/api/task`;
   // console.log('<saga> create new task with :', action.task)
   try {

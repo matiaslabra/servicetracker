@@ -45,23 +45,30 @@ export function AdminPage({
   const [assignSelection, setAssignSelection] = useState({
     rooms: [],
     tasks: [],
-    date: '',
-    roomsChecked: false
+    date: date,
+    roomsChecked: false,
+    tasksChecked: false
   });
+
   useEffect(() => {
-    if(assignSelection.date != date){
-      console.log('assignSelection.date != date');
-      setAssignSelection({tasks:[], rooms:[], date: date, roomsChecked: false});
-      initTasks();
-      initRooms();
-    }
+  // if(assignSelection.date != date){
+    console.log('useEffect AdminPage index assignSelection.date', assignSelection.date)
+    console.log('useEffect AdminPage index date', date)
+    // setAssignSelection({...assignSelection, tasks:[], rooms:[], date: date});
+    initRooms();
+    initTasks();
+  },[assignSelection.date]);
 
-    if(rooms.length > 0 && assignSelection.roomsChecked == false){
-      console.log('rooms > 0', rooms);
-      _checkRoomsForEdition(rooms)
+  useEffect(() => {
+    // if(assignSelection.date != date){
+    if(rooms.length > 0 && !assignSelection.roomsChecked){
+      _checkRoomsForEdition(rooms);
     }
+    if(tasks.length > 0 && !assignSelection.tasksChecked){
+      _checkTasksForEdition(tasks);
+    }
+  },[rooms, tasks]);
 
-  });
 
   const _checkRoomsForEdition = rooms => {
     let roomsToEdit = [];
@@ -71,8 +78,27 @@ export function AdminPage({
         roomsToEdit.push(item.assignment.rooms)
       }
     })
-    console.log('roomsToEdit', roomsToEdit);
+    // console.log('roomsToEdit', roomsToEdit);
     setAssignSelection({...assignSelection, rooms:roomsToEdit, roomsChecked: true});
+  }
+
+  const _checkTasksForEdition = tasks => {
+    let tasksToEdit = [];
+    tasks.map( item => {
+      // if assignSelection.rooms > 0 means there's an assignment
+      // but this fails if its a tasks only day with :warning:
+      if(assignSelection.rooms > 0){
+        if('assignment' in item ){
+          tasksToEdit.push(item.assignment.tasks)
+        }
+      }else{
+        if(item.isDaily){
+          tasksToEdit.push(item)
+        }
+      }
+    })
+    // console.log('tasksToEdit', tasksToEdit);
+    setAssignSelection({...assignSelection, tasks:tasksToEdit, tasksChecked: true});
   }
   const updateAssignList = item => {
     let newItemToAssign;
@@ -99,7 +125,14 @@ export function AdminPage({
   }
   const _onChangeDate = (evt) => {
     let newDate = evt.target !== undefined ? evt.target.value : evt;
-    // setAssignSelection({...assignSelection, [item.type] : newItemToAssign});
+    //when date changes clean rooms already assigned and items checks
+    setAssignSelection({
+      rooms: [],
+      tasks: [],
+      roomsChecked: false,
+      tasksChecked: false,
+      date: newDate
+    });
 
     onChangeDate(newDate);
   }

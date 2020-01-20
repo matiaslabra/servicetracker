@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const AssignBox = styled.li`
+  margin: 5px;
   border-bottom: 1px solid #ccc;
 
   color: ${props => props.assignKey == 0  ? '#000' : '#fff'};

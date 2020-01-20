@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 const HKBox = styled.div`
+
+  margin: 5px;
   border: 1px solid;
   border-color: ${props => {
     if(props.hkKey == 0){

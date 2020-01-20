@@ -28,30 +28,22 @@ function TaskItem({
   const [taskProperties, setTaskProperties] = useState({
     _id: item._id,
     task: item._id,
-    assignKey : 0,
+    assignKey : item.assignment || item.isDaily ? 1 : 0,
     assignArray: ['Not assigned', 'Assigned'],
     hkKey: item.hkKey ? item.hkKey : 0,
     hkArray: ['Not taken', 'Taken', 'Done'],
-    isDaily: false,
+    isDaily: item.isDaily ? item.isDaily : false,
     type: 'tasks'
   });
 
   useEffect(() => {
     // loading on
-    // console.log('useEffect in taskItem called');
+    // console.log('useEffect in taskItem', item);
     if(taskProperties.hkKey != item.hkKey){
       setTaskProperties({...taskProperties, hkKey: item.hkKey});
     }
-    if(item.isDaily && taskProperties.assignKey == 0){
-      setTaskProperties({...taskProperties, assignKey : 1, isDaily: true})
-      clickAction({...taskProperties, assignKey: 1, type: 'tasks'});
-    }
- },[taskProperties.isDaily, taskProperties.hkKey]);
+ });
 
-  // Reading State
-  {/* <p>You clicked {count} times</p> */}
-  // Seting State
-  {/* <button onClick={() => setCount(count + 1)}></button> */}
   const roomClickAction = () => {
     let nextKey = 0;
     if(isAssignment){
