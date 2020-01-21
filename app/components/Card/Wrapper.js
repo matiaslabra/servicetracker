@@ -6,7 +6,8 @@ import Aditional from './Aditional'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   height: 75px;
   background-color: #e5e6e6;;
   overflow: hidden;

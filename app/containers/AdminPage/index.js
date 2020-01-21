@@ -93,7 +93,8 @@ export function AdminPage({
         }
       }else{
         if(item.isDaily){
-          tasksToEdit.push(item)
+          // if its daily we push to task array the default task object
+          tasksToEdit.push({...item, task: item._id, assignKey: 1, type: 'tasks'})
         }
       }
     })

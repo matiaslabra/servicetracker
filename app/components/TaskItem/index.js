@@ -63,8 +63,7 @@ function TaskItem({
         task: item._id,
         _id: item._id,
         hkKey: nextKey,
-        type: 'tasks',
-        date: item.date
+        type: 'tasks'
       });
     }
   }
