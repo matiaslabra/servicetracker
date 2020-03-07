@@ -8,8 +8,6 @@ export function* getAssignment(){
   // Select date from store
 
   const date = yield select(makeSelectAppDate());
-  // const baseURL = `http://localhost:4001/api`;
-  // const baseURL = `http://169.254.220.17:4001/api`;
   const requestURL = `api/assignment?date=` + date
 
   try {

@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useRef, useEffect }  from 'react';
 
 import Rl from './Rl';
+import Button from '../Button';
+
 // import Wrapper from './Wrapper';
 
 function List(props) {
@@ -47,10 +49,10 @@ function List(props) {
     <section>
       {isAssignment &&
         <div>
-          <button onClick={() => onButtonClick(1)}>All Check out</button>
-          <button onClick={() => onButtonClick(2)}>All Service</button>
-          <button onClick={() => onButtonClick(3)}>All Full Service</button>
-          <button onClick={() => onButtonClick(0)}>Reset</button>
+          <Button onClick={() => onButtonClick(1)}>All Check out</Button>
+          <Button onClick={() => onButtonClick(2)}>All Service</Button>
+          <Button onClick={() => onButtonClick(3)}>All Full Service</Button>
+          <Button onClick={() => onButtonClick(0)}>Reset</Button>
         </div>
       }
       <Rl>{content}</Rl>

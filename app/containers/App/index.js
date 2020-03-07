@@ -14,6 +14,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 
 import HomePage from 'containers/HomePage/Loadable';
 import AdminPage from 'containers/AdminPage/Loadable';
+import ReportPage from 'containers/ReportPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import Header from 'components/Header';
@@ -49,6 +50,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/report" component={ReportPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
