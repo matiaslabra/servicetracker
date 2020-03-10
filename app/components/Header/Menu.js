@@ -16,8 +16,7 @@ export default styled.ul`
     cursor: pointer;
 
     &:hover {
-      color: #fdcb6e;
-      border-bottom: 1px solid #fdcb6e;
+      border-bottom: 2px solid #22a6b3;
     }
 
     @media (max-width: 768px) {
