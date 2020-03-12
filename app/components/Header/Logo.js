@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 const Logo = styled.div`
   text-transform: uppercase;
   font-weight: 600;

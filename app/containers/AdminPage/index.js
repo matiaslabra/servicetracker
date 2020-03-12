@@ -21,12 +21,14 @@ import { setAssignment} from '../App/actions';
 import { changeDate, loadRooms, loadTasks, addTask} from '../AdminPage/actions';
 import { loadAssignment } from '../App/actions';
 
-import AssignmentList from '../../components/AssignmentList';
+import Section from '../../components/Section';
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
 import Button from '../../components/Button';
 import TaskSection from './TaskSection'
-import TaskList from '../../components/TaskList';
+import TaskItem from '../../components/TaskItem';
+import RoomItem from '../../components/RoomItem';
+import List from '../../components/List';
 
 export function AdminPage({
   rooms,
@@ -177,15 +179,27 @@ export function AdminPage({
             <input placeholder='Enter new task'/>
             <input type="submit" value="Add"/>
           </form>
-          <TaskList
+          {/* <TaskList
             items={tasks}
             clickAction = {updateAssignList}
             isAssignment={true}
             isHousekeeping={ false }
-          />
+          /> */}
+        <Section
+          title = 'Tasks'
+          component = {List}
+          itemComponent = {TaskItem}
+          data = {tasks === undefined ? [] : tasks} // :temporal:
+          clickAction = {updateAssignList}
+          action = {updateAssignList}
+          isAssignment={ true }
+        />
         </TaskSection>
-        <AssignmentList
-          roomsList= {rooms}
+        <Section
+          title = 'Rooms'
+          component = {List}
+          itemComponent = {RoomItem}
+          data = {rooms === undefined ? [] : rooms}
           action = {updateAssignList}
           isAssignment={ true }
         />

@@ -3,7 +3,7 @@
 
 ## Case 
 
-GFH its a busy roadhouse that needs to keep track of their housekeeping (HK) services status. A day consists of  different services to about 15 rooms. When a costumer comes back to their room or check in for a new one, administration call their HK team if XYZ rooms are available.
+GFH its a busy roadhouse that needs to keep track of their housekeeping (HK) services status. A day consists of  different services to about 15 rooms. When a customer comes back to their room or check in for a new one, administration call their HK team if XYZ rooms are available.
 
 ## Solution 
 

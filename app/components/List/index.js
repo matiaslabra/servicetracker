@@ -2,37 +2,43 @@ import PropTypes from 'prop-types';
 import React, { useRef, useEffect }  from 'react';
 
 import Rl from './Rl';
+import Li from './Li';
 import Button from '../Button';
 
 // import Wrapper from './Wrapper';
 
-function List(props) {
-
-  const {clickAction, isAssignment, isHousekeeping } = props;
+function List({
+  clickAction,
+  isAssignment,
+  isHousekeeping,
+  component,
+  data
+}) {
 
   const roomListProps = {
     clickAction,
     isAssignment,
     isHousekeeping,
   };
-
-  const ComponentToRender = props.component;
+  console.log('data in List', data)
+  const ComponentToRender = component;
+  const WrapperComponent = data.orientation == 'horizontal' ? Rl : Li;
 
   let content = <div />;
-  // If we have items, render them
+  let items = data.items == undefined ? [] : data.items ;
   const itemsRef = useRef([]);
 
   useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, props.items.length);
-  }, [props.items]);
+    itemsRef.current = itemsRef.current.slice(0, items.length);
+  }, [items]);
 
   const onButtonClick = (status) => {
     //tells children to change their status to given one
     itemsRef.current.map(inputEl => inputEl.roomClickAction(status));
   };
 
-  if (props.items.length > 0) {
-    content = props.items.map((item, i) => {
+  if (items.length > 0) {
+    content = items.map((item, i) => {
       if(isAssignment){
         return <ComponentToRender ref={el => itemsRef.current[i] = el}  {...roomListProps} key={`item-${item._id}`} _id={item._id} item = {item} />
       }else{
@@ -55,14 +61,14 @@ function List(props) {
           <Button onClick={() => onButtonClick(0)}>Reset</Button>
         </div>
       }
-      <Rl>{content}</Rl>
+      <WrapperComponent>{content}</WrapperComponent>
     </section>
   );
 }
 
 List.propTypes = {
   component: PropTypes.elementType.isRequired,
-  items: PropTypes.array,
+  data: PropTypes.array,
 };
 
 export default List;

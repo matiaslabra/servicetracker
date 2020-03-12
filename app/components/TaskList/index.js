@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Rl from './Rl';
-import Li from './Li';
+// import Li from './Li';
 import TaskItem from '../TaskItem';
 // import Wrapper from './Wrapper';
 

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-var moment = require('moment');
-mongoose.set('debug', true);
+// var moment = require('moment');
+// mongoose.set('debug', true);
 
 const assignmentSchema = new Schema({
   tasks: [

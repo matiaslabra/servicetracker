@@ -24,7 +24,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
-import AssignmentList from '../../components/AssignmentList';
+import Section from '../../components/Section';
 import TaskList from '../../components/TaskList';
 
 import H1 from '../../components/H1';
@@ -72,7 +72,7 @@ export function HomePage({
           clickAction = {itemClickAction}
           isHousekeeping={true}
         />
-        <AssignmentList
+        <Section
           roomsList= {assignment.rooms}
           isHousekeeping = {true}
           action = {itemClickAction}

@@ -4,6 +4,22 @@ const moment = require('moment');
 
 const router = Router();
 
+let processItems = items =>{
+  let zoneArray = []
+  let zoneObject = {};
+
+  zoneObject.items = [];
+  if(items.length > 0){
+    items.map( item =>{
+      zoneObject['items'].push(item);
+    });
+    zoneObject.name = 'tasks'
+    zoneObject.dataOrientation = 'vertical,';
+  }
+
+  return [zoneObject];
+}
+
 router.get('/', (req, res) => {
   let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
   // console.log(today);
@@ -49,8 +65,8 @@ router.get('/', (req, res) => {
       }
     }
   }]).exec(function(err, tasks){
-    console.log(tasks);
-    res.send(tasks);
+    // console.log(tasks);
+    res.send(processItems(tasks));
   });
 });
 

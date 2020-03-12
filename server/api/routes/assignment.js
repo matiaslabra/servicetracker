@@ -23,7 +23,6 @@ module.exports = io => {
         sendResponse(data);
     })
     socket.on('update-item',async (data) => {
-
       console.log('socket on.update-item', data);
       socket.broadcast.emit('assignment-items',{ item : data })
   })
@@ -46,7 +45,7 @@ module.exports = io => {
   }
 
   router.get('/', (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
     let isEditor = (req.query.editor == 'true' ? true : false);
 
@@ -63,15 +62,13 @@ module.exports = io => {
           date: date
         }
       }
-      // res.send(processAssignment(assignment));
-      res.send(assignment);
+      res.send(processAssignment(assignment));
+      // res.send(assignment);
     });
-
-    // return res.send(assigment);
   });
 
   router.put('/item', (req, res) => {
-    console.log('req.body', req.body);
+    // console.log('req.body', req.body);
     const item = req.body.item
     let dbItem;
     const assignmentId = req.body.assignment_id
@@ -102,7 +99,6 @@ module.exports = io => {
   });
 
   router.post('/', (req, res) => {
-    console.log(req.body);
 
     let newAssigment = new Assignment({
       rooms: req.body.rooms,

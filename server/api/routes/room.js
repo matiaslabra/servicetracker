@@ -4,10 +4,27 @@ const moment = require ('moment');
 
 const router = express.Router();
 
-router.use(function(req, res, next) {
-  // console.log('Something is happening.');
-  next();
-});
+let processItems = items =>{
+  let zoneArray = []
+  let zoneObject = {};
+  if(items.length > 0){
+    items.map( item =>{
+      if(!(item.zone in zoneObject)){
+        zoneObject[item.zone] = {};
+        zoneObject[item.zone].items = [];
+        zoneObject[item.zone].name = item.zone;
+        zoneObject[item.zone].dataOrientation = 'horizontal';
+      }
+      zoneObject[item.zone].items.push(item);
+    });
+    //  console.log('zoneObject', zoneObject);
+     Object.entries(zoneObject).map( ([key, value]) => {
+      zoneArray.push(value)
+    })
+  }
+
+  return zoneArray;
+}
 
 router.get('/', (req, res) => {
   let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
@@ -58,36 +75,8 @@ router.get('/', (req, res) => {
   {
     $sort: { "numberName" : 1 }
   }]).exec(function(err, rooms){
-    // console.log('rooms', rooms);
-    res.send(rooms);
+    res.send(processItems(rooms));
   });
-
-  // Room.aggregate([
-  //   // { $match : { _id : mongoose.Types.ObjectId("5de3a5da5fc33c78ab352095") } },
-  //   { $addFields :
-  //       {
-  //           "numberName" : { $toInt: "$name" }
-  //       }
-  //   },
-  //   {
-  //       $sort: { "numberName" : 1 }
-  //   },
-  //   {
-  //       $project: {
-  //           name: 1,
-  //           zone: 1,
-  //           lastTimeCleaned: { $ifNull: [ "$lastTimeCleaned", "No register" ] },
-  //           lastServiceType: { $ifNull: [ "$lastServiceType", "No register" ] },
-  //           lastCurtainWash: { $ifNull: [ "$lastCurtainWash", "No register" ] },
-  //           lastDoonaWash: { $ifNull: [ "$lastDoonaWash", "No register" ] },
-
-  //       }
-  //   }
-  // ]).exec(function(err, rooms){
-  //     res.send(rooms);
-  // });
-
-  // return res.send(assigment);
 });
 
 module.exports = router;
