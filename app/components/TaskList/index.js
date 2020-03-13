@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Rl from './Rl';
-// import Li from './Li';
-import TaskItem from '../TaskItem';
+import TaskListItem from 'containers/TaskListItem'
+import List from '../List';
 // import Wrapper from './Wrapper';
 
-function List(props) {
+function TaskList(props) {
 
   const {clickAction, isAssignment, isHousekeeping } = props;
 
@@ -21,7 +21,7 @@ function List(props) {
   // If we have items, render them
   if (props.items.length > 0) {
     content = props.items.map(item => (
-      <TaskItem {...roomListProps} key={`item-${item._id}`} id={item._id} item = {item} />
+      <TaskListItem {...roomListProps} key={`item-${item._id}`} id={item._id} item = {item} />
     ));
   } else {
     // Otherwise render empty message
@@ -29,7 +29,6 @@ function List(props) {
   }
 
   return (
-
       <Rl>{content}</Rl>
   );
 }
@@ -38,4 +37,4 @@ List.propTypes = {
   items: PropTypes.array,
 };
 
-export default List;
+export default TaskList;

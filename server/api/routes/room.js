@@ -13,7 +13,7 @@ let processItems = items =>{
         zoneObject[item.zone] = {};
         zoneObject[item.zone].items = [];
         zoneObject[item.zone].name = item.zone;
-        zoneObject[item.zone].dataOrientation = 'horizontal';
+        zoneObject[item.zone].displayOrientation = 'horizontal';
       }
       zoneObject[item.zone].items.push(item);
     });

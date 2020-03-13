@@ -43,14 +43,15 @@ const RoomItem = forwardRef(({
     if(isHousekeeping){
       setRoomProperties({...roomProperties, assignKey : item.assignKey})
     }
- },[roomProperties.assignKey]);
+ },[item.assignKey]);
 
   //Expose specifics functions to ref
   useImperativeHandle(ref, () => {
     return {
       roomClickAction: roomClickAction
     }
- });
+  });
+
   const roomWashPropertiesClick = (propertie) => {
     if(roomProperties.assignKey != 0){
       setRoomProperties({...roomProperties, [propertie]: !roomProperties[propertie]});
@@ -97,6 +98,11 @@ const RoomItem = forwardRef(({
   );
 });
 
-RoomItem.propTypes = {};
+RoomItem.propTypes = {
+  item: PropTypes.object,
+  isAssignment: PropTypes.bool,
+  isHousekeeping: PropTypes.bool,
+  clickAction: PropTypes.func
+};
 
 export default RoomItem;

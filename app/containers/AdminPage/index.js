@@ -21,14 +21,15 @@ import { setAssignment} from '../App/actions';
 import { changeDate, loadRooms, loadTasks, addTask} from '../AdminPage/actions';
 import { loadAssignment } from '../App/actions';
 
-import Section from '../../components/Section';
+import MultipleComponents from '../../components/RoomList';
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
 import Button from '../../components/Button';
 import TaskSection from './TaskSection'
-import TaskItem from '../../components/TaskItem';
-import RoomItem from '../../components/RoomItem';
-import List from '../../components/List';
+
+
+import TaskList from '../../components/TaskList';
+import RoomList from '../../components/RoomList';
 
 export function AdminPage({
   rooms,
@@ -53,10 +54,10 @@ export function AdminPage({
 
   useEffect(() => {
     // calls to get rooms / tasks data from api
-    // recall if assignSelection.date changes
+    // recall if date from props changes
     initRooms();
     initTasks();
-  },[assignSelection.date]);
+  },[date]);
 
   useEffect(() => {
     // second useEffect checks if rooms and tasks pulled from api have already an assigment
@@ -67,7 +68,7 @@ export function AdminPage({
       _checkTasksForEdition(tasks);
     }
   },[rooms, tasks]);
-
+    console.log('rooms in page', rooms);
   /**
    * _checkRoomsForEdition
    * @description if item has an assigment push items to state's rooms/tasks stack
@@ -168,7 +169,6 @@ export function AdminPage({
         <Button onClick={()=>onClickButton(assignSelection)}>Save assignment</Button>
       </section>
       <section>
-        <H2>Tasks</H2>
         <TaskSection>
           <form
             onSubmit={evt => {
@@ -185,23 +185,18 @@ export function AdminPage({
             isAssignment={true}
             isHousekeeping={ false }
           /> */}
-        <Section
-          title = 'Tasks'
-          component = {List}
-          itemComponent = {TaskItem}
-          data = {tasks === undefined ? [] : tasks} // :temporal:
+        <TaskList
+          items = {tasks}
           clickAction = {updateAssignList}
           action = {updateAssignList}
           isAssignment={ true }
         />
         </TaskSection>
-        <Section
-          title = 'Rooms'
-          component = {List}
-          itemComponent = {RoomItem}
-          data = {rooms === undefined ? [] : rooms}
+        <RoomList
+          items = {rooms}
           action = {updateAssignList}
-          isAssignment={ true }
+          isAssignment= { true }
+          hasMultipleSet = { true }
         />
       </section>
     </article>

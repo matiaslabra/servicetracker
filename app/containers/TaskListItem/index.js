@@ -10,11 +10,6 @@ import AssignBox from './AssignBox';
 import HKBox from './HKBox';
 import Title from './Title';
 import StatusBox from './StatusBox';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
-
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 
 function TaskItem({
   item,
@@ -94,6 +89,12 @@ function TaskItem({
   }
 }
 
-TaskItem.propTypes = {};
+TaskItem.propTypes = {
+  item: PropTypes.object,
+  isAssignment: PropTypes.bool,
+  isHousekeeping: PropTypes.bool,
+  isDaily: PropTypes.bool,
+  clickAction: PropTypes.func
+};
 
 export default TaskItem;
