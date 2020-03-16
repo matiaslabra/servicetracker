@@ -7,7 +7,7 @@
 import React, { useState, useEffect }  from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
+import { connect, batch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -47,24 +47,29 @@ export function AdminPage({
   const [assignSelection, setAssignSelection] = useState({
     rooms: [],
     tasks: [],
-    date: date,
+    date: date
+  });
+
+  const [itemCheck, setItemCheck] = useState({
     roomsChecked: false,
     tasksChecked: false
-  });
+  })
 
   useEffect(() => {
     // calls to get rooms / tasks data from api
     // recall if date from props changes
-    initRooms();
-    initTasks();
+    batch(() => {
+      initRooms();
+      initTasks();
+    })
   },[date]);
 
   useEffect(() => {
     // second useEffect checks if rooms and tasks pulled from api have already an assigment
-    if(rooms.length > 0 && !assignSelection.roomsChecked){
+    if(rooms.length > 0 && !itemCheck.roomsChecked){
       _checkRoomsForEdition(rooms);
     }
-    if(tasks.length > 0 && !assignSelection.tasksChecked){
+    if(tasks.length > 0 && !itemCheck.tasksChecked){
       _checkTasksForEdition(tasks);
     }
   },[rooms, tasks]);
@@ -81,7 +86,10 @@ export function AdminPage({
         roomsToEdit.push(item.assignment.rooms)
       }
     })
-    setAssignSelection({...assignSelection, rooms:roomsToEdit, roomsChecked: true});
+    if(roomsToEdit.length > 0){
+      setAssignSelection({...assignSelection, rooms:roomsToEdit});
+    }
+    setItemCheck({...itemCheck, roomsChecked: true});
   }
 
   /**
@@ -104,8 +112,10 @@ export function AdminPage({
       }
     })
     // console.log('tasksToEdit', tasksToEdit);
-    setAssignSelection({...assignSelection, tasks:tasksToEdit, tasksChecked: true});
-  }
+    if(tasksToEdit.length > 0){
+      setAssignSelection({...assignSelection, tasks:tasksToEdit});
+    }
+    setItemCheck({...itemCheck, tasksChecked: true});  }
 
   /**
    * updateAssignList

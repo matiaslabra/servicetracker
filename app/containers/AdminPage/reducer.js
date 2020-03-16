@@ -19,8 +19,8 @@ import {
 
 export const initialState = {
   date: moment().format('YYYY-MM-DD'),
-  rooms: [{}],
-  tasks: [{}],
+  rooms: [],
+  tasks: [],
   loading: false,
   error: false
 }

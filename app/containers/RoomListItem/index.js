@@ -21,7 +21,6 @@ const RoomItem = forwardRef(({
   clickAction,
 }, ref) => {
   // useEffect Hook as componentDidMount, componentDidUpdate, and componentWillUnmount combined
-
   // hk : housekeeping
   // assign: assignment
   const [roomProperties, setRoomProperties] = useState({

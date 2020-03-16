@@ -39,7 +39,7 @@ module.exports = io => {
         }
         zoneObject[item.zone].rooms.push(item.name);
       });
-    }s
+    }
 
     return zoneObject;
   }
@@ -61,8 +61,10 @@ module.exports = io => {
           tasks:[],
           date: date
         }
+        res.send(assignment);
+      }else{
+        res.send(processAssignment(assignment));
       }
-      res.send(processAssignment(assignment));
       // res.send(assignment);
     });
   });

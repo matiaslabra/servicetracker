@@ -26,6 +26,7 @@ import messages from './messages';
 
 // import Section from '../../components/Section';
 import TaskList from '../../components/TaskList';
+import RoomList from '../../components/RoomList';
 
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
@@ -72,24 +73,25 @@ export function HomePage({
           clickAction = {itemClickAction}
           isHousekeeping={true}
         />
-        {/* <Section
-          roomsList= {assignment.rooms}
+        <RoomList
+          items= {assignment.rooms}
           isHousekeeping = {true}
           action = {itemClickAction}
-        /> */}
+        />
       </section>
     </article>
   );
 }
 
 HomePage.propTypes = {
-  // rooms: PropTypes.object,
+  assigment: PropTypes.object,
+  getAssignment: PropTypes.func,
+  updateItemStatus: PropTypes.func,
+  onChangeDate: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
-  // homePage: makeSelectHomePage(),
-    assignment: makeSelectAssignment(),
-    // loading: makeSelectLoading(),
+  assignment: makeSelectAssignment(),
 });
 
 function mapDispatchToProps(dispatch) {

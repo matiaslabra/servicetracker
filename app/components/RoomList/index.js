@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import List from '../List';
 
 import RoomListItem from 'containers/RoomListItem';
-import H2 from 'components/H2';
+
 
 function RoomList({
   component,
@@ -22,10 +22,9 @@ function RoomList({
 
   const ComponentToRender = component;
   let sectionContent = <div />;
-  let itemArray = items;
 
-  if(Object.keys(itemArray).length > 0){
-    sectionContent = itemArray.map((item , index) => {
+  if(items.length > 0){
+    sectionContent = items.map((item , index) => {
       return (
         <React.Fragment key = {'framgmentkey' + index }>
           <List

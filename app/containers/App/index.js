@@ -30,8 +30,8 @@ const AppWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-
 `;
+
 export default function App() {
 
   const [open, setOpen] = useState(false);
