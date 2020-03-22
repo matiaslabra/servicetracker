@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Title from './Title'
 import Footer from './Footer'
-import Aditional from './Aditional'
+import Additional from './Additional'
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,7 +55,7 @@ const Wrapper = styled.div`
     }};
   }
 
-  ${Aditional} {
+  ${Additional} {
     color: ${props => props.hkKey == 0 ? '#000' : '#fff'};
     background-color:
     ${props => {

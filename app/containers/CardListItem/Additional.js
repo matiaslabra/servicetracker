@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 
-const Aditional = styled.div`
+const Additional = styled.div`
   position: absolute;
   width: 75px;
   height: 100%;
@@ -30,4 +30,4 @@ const Aditional = styled.div`
 
 
 
-export default Aditional;
+export default Additional;

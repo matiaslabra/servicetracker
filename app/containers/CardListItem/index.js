@@ -4,7 +4,7 @@ import React,{ useState, useEffect }  from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import Wrapper from './Wrapper'
-import Aditional from './Aditional'
+import Additional from './Additional'
 import Title from './Title'
 import Info from './Info'
 import Descrip from './Descrip'
@@ -43,8 +43,9 @@ function Card({
       room: item._id,
       _id: item._id,
       hkKey: nextKey,
+      zone: item.room.zone,
       type: 'rooms',
-      date: item.date
+      // date: item.date
     });
   }
 
@@ -55,7 +56,7 @@ function Card({
       assignKey={item.assignKey}
       onClick={_cardClickAction}
     >
-    <Aditional>
+    <Additional>
         <Box >
           <Title>{item.room.zone + item.room.name}</Title>
           <Footer>{cardProperties.hkArray[cardProperties.hkKey]}</Footer>
@@ -66,7 +67,7 @@ function Card({
           <li>Beds: 1 x Queen + 1 x Single</li>
         </Ul>
       </Info>
-    </Aditional>
+    </Additional>
     <Descrip>
       <Ul>
         <li> <b>{ item.service}</b></li>
