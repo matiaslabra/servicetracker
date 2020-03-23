@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React from 'react';
 
 import NavBar from './NavBar';
 import HeaderLink from './HeaderLink';
@@ -9,7 +8,6 @@ import ToggleWrap from './ToggleWrap';
 import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import FlexContainer from './FlexContainer';
-import messages from './messages';
 
 function Header({open, setOpen}) {
   return (
@@ -18,27 +16,14 @@ function Header({open, setOpen}) {
       <FlexContainer>
         <Logo>GFH Room tracker</Logo>
         <Menu>
-          {/* links */}
-          <HeaderLink  to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/admin">
-            <FormattedMessage {...messages.assignment} />
-          </HeaderLink>
-          <HeaderLink to="/report">
-            <FormattedMessage {...messages.report} />
-          </HeaderLink>
+          {/* Desktop/Table menu */}
+          <HeaderLink  to="/">Home</HeaderLink>
+          <HeaderLink to="/admin">Assignment</HeaderLink>
         </Menu>
         { open && <MobileMenu >
-          <HeaderLink  to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/admin">
-            <FormattedMessage {...messages.assignment} />
-          </HeaderLink>
-          <HeaderLink to="/report">
-            <FormattedMessage {...messages.report} />
-          </HeaderLink>
+          {/* Mobile menu */}
+          <HeaderLink  to="/">Home</HeaderLink>
+          <HeaderLink to="/admin">Assignment</HeaderLink>
         </MobileMenu> }
         <ToggleWrap>
           <Toggle

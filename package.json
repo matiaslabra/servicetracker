@@ -91,7 +91,6 @@
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-helmet": "6.0.0-beta",
-    "react-intl": "2.8.0",
     "react-moment": "^0.9.6",
     "react-redux": "7.0.2",
     "react-redux-notify": "^4.2.1",
