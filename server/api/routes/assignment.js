@@ -1,6 +1,4 @@
 const express = require ('express');
-const Room = require ('../models/roomSchema');
-const Task = require ('../models/taskSchema');
 const Assignment = require ('../models/assignmentSchema');
 const moment = require ('moment');
 
@@ -8,7 +6,7 @@ const router = express.Router();
 module.exports = io => {
 
   io.sockets.on("connection",function(socket){
-    // Everytime a client logs in, display a connected message
+    // Every time a client logs in, display a connected message
     console.log("Server-Client Connected!");
     socket.on("disconnect", ()=>{
       console.log("Disconnected")
@@ -25,29 +23,38 @@ module.exports = io => {
     socket.on('update-item',async (data) => {
       console.log('socket on.update-item', data);
       socket.broadcast.emit('assignment-items',{ item : data })
-  })
+    })
   });
 
-  let processAssignment = assignment =>{
+  /**
+   * sortRoomsByZone takes an array of items and arranges 
+   * them by they zone value.
+   * @param {Array} items 
+   */
+  const sortRoomsByZone = items => {
+    let zoneArray = []
     let zoneObject = {};
-    if(assignment.rooms.length){
-      let response = assignment.rooms.map( item =>{
-        if(!(item.zone in zoneObject)){
-          zoneObject[item.zone] = {};
-          zoneObject[item.zone].rooms = [];
-          zoneObject[item.zone].name = item.zone; //temp
+    if(items.length > 0){
+      items.map( item =>{
+        if(!(item.room.zone in zoneObject)){
+          zoneObject[item.room.zone] = {};
+          zoneObject[item.room.zone].items = [];
+          zoneObject[item.room.zone].name = item.room.zone;
+          zoneObject[item.room.zone].displayOrientation = 'horizontal';
         }
-        zoneObject[item.zone].rooms.push(item.name);
+        zoneObject[item.room.zone].items.push(item);
       });
-    }
 
-    return zoneObject;
+      Object.entries(zoneObject).map( ([key, value]) => {
+        zoneArray.push(value)
+      })
+    }
+    return zoneArray;
   }
 
   router.get('/', (req, res) => {
-    // console.log(req.query);
+
     let date = req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
-    let isEditor = (req.query.editor == 'true' ? true : false);
 
     Assignment.findOne({
       date: date
@@ -55,18 +62,20 @@ module.exports = io => {
     .populate('rooms.room')
     .populate('tasks.task')
     .exec(function(err, assignment){
-      if(!assignment){
-        assignment = {
+      let processedAssignment;
+      if(assignment){
+        processedAssignment = assignment.toObject();
+        processedAssignment.rooms = sortRoomsByZone(assignment.rooms)
+      }else{
+        processedAssignment = {
           rooms:[],
           tasks:[],
           date: date
         }
-        res.send(assignment);
-      }else{
-        res.send(processAssignment(assignment));
       }
-      // res.send(assignment);
+      res.send(processedAssignment);
     });
+    
   });
 
   router.put('/item', (req, res) => {
@@ -102,12 +111,12 @@ module.exports = io => {
 
   router.post('/', (req, res) => {
 
-    let newAssigment = new Assignment({
+    let newAssignment = new Assignment({
       rooms: req.body.rooms,
       tasks: req.body.tasks,
       date: req.body.date
     })
-    newAssigment
+    newAssignment
       .save()
       .then (doc => {
         res.send({
@@ -115,7 +124,7 @@ module.exports = io => {
           assignment: doc
         });
       })
-
   });
+  
   return router;
 }

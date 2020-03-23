@@ -5,10 +5,9 @@ const express = require('express');
 //Mongoose config
 const  mongoose  = require("mongoose");
 mongoose.Promise  = require("bluebird");
-
 const  url  =  process.env.MONGO_URL != undefined ? process.env.MONGO_URL : 'mongodb://localhost:27017/housekeeping';
-console.log(url);
-const  connect  =  mongoose.connect(url, { useNewUrlParser: true  });
+
+mongoose.connect(url, { useNewUrlParser: true  });
 
 module.exports = function apiMiddlewares(app, options) {
 

@@ -4,7 +4,12 @@ const moment = require ('moment');
 
 const router = express.Router();
 
-let processItems = items =>{
+/**
+ * sortRoomsByZone takes an array of items and arranges 
+ * them by they zone value.
+ * @param {Array} items 
+ */
+let sortRoomsByZone = items =>{
   let zoneArray = []
   let zoneObject = {};
   if(items.length > 0){
@@ -17,8 +22,7 @@ let processItems = items =>{
       }
       zoneObject[item.zone].items.push(item);
     });
-    //  console.log('zoneObject', zoneObject);
-     Object.entries(zoneObject).map( ([key, value]) => {
+    Object.entries(zoneObject).map( ([key, value]) => {
       zoneArray.push(value)
     })
   }
@@ -75,7 +79,7 @@ router.get('/', (req, res) => {
   {
     $sort: { "numberName" : 1 }
   }]).exec(function(err, rooms){
-    res.send(processItems(rooms));
+    res.send(sortRoomsByZone(rooms));
   });
 });
 
