@@ -21,11 +21,10 @@ import { setAssignment} from '../App/actions';
 import { changeDate, loadRooms, loadTasks, addTask} from '../AdminPage/actions';
 import { loadAssignment } from '../App/actions';
 
-import MultipleComponents from '../../components/RoomList';
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
 import Button from '../../components/Button';
-import TaskSection from './TaskSection'
+import TaskListWrapper from './TaskListWrapper'
 
 
 import TaskList from '../../components/TaskList';
@@ -74,6 +73,7 @@ export function AdminPage({
     }
   },[rooms, tasks]);
     console.log('rooms in page', rooms);
+
   /**
    * _checkRoomsForEdition
    * @description if item has an assigment push items to state's rooms/tasks stack
@@ -151,10 +151,13 @@ export function AdminPage({
     setAssignSelection({
       rooms: [],
       tasks: [],
-      roomsChecked: false,
-      tasksChecked: false,
       date: newDate
     });
+    //when date changes item's check status
+    setItemCheck({
+      roomsChecked: false,
+      tasksChecked: false
+    })
 
     onChangeDate(newDate);
   }
@@ -162,7 +165,7 @@ export function AdminPage({
   const _onSubmit = (evt) => {
     let task = evt.target.value ? evt.target.value : evt.target.querySelector('input').value;
     if(task !== ''){
-      onSubmitForm(task); //submiting
+      onSubmitForm(task); // submitting
       evt.target.reset(); // clear input
     }
   }
@@ -172,14 +175,14 @@ export function AdminPage({
         <title>AdminPage</title>
         <meta name="description" content="Admin page room tracker" />
       </Helmet>
-      {/* <FormattedMessage {...messages.header} /> */}
       <section>
         <H1>Room assignment</H1>
         <span><input type="date" onChange={_onChangeDate} defaultValue={assignSelection.date}/></span>
         <Button onClick={()=>onClickButton(assignSelection)}>Save assignment</Button>
       </section>
       <section>
-        <TaskSection>
+        <H2>Tasks</H2>
+        <TaskListWrapper>
           <form
             onSubmit={evt => {
               evt.preventDefault()
@@ -189,19 +192,14 @@ export function AdminPage({
             <input placeholder='Enter new task'/>
             <input type="submit" value="Add"/>
           </form>
-          {/* <TaskList
-            items={tasks}
-            clickAction = {updateAssignList}
-            isAssignment={true}
-            isHousekeeping={ false }
-          /> */}
         <TaskList
           items = {tasks}
           clickAction = {updateAssignList}
           action = {updateAssignList}
           isAssignment={ true }
         />
-        </TaskSection>
+        </TaskListWrapper>
+        <H2>Rooms</H2>
         <RoomList
           items = {rooms}
           action = {updateAssignList}
@@ -214,6 +212,14 @@ export function AdminPage({
 }
 
 AdminPage.propTypes = {
+  rooms: PropTypes.array,
+  tasks: PropTypes.array,
+  date: PropTypes.string,
+  initRooms: PropTypes.func,
+  initTasks: PropTypes.func,
+  onClickButton: PropTypes.func,
+  onChangeDate: PropTypes.func,
+  onSubmitForm: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -226,8 +232,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getAssignment: () => dispatch(loadAssignment(true)),
     onClickButton: assignSelection => {dispatch(setAssignment(assignSelection))},
-    initRooms: evt => {dispatch(loadRooms())},
-    initTasks: evt => {dispatch(loadTasks())},
+    initRooms: () => {dispatch(loadRooms())},
+    initTasks: () => {dispatch(loadTasks())},
     onSubmitForm: task => {dispatch(addTask(task))},
     onChangeDate: date => {dispatch(changeDate(date))}
   };

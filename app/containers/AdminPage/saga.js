@@ -67,7 +67,6 @@ export function* setAssignment() {
 
 export function* getRooms() {
 
-  //  const baseURL = `http://localhost:4001/api`;
   const date = yield select(makeSelectDate());
   const requestURL = `/api/room?date=` + date;
 

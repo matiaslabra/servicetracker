@@ -9,10 +9,10 @@ import PropTypes from 'prop-types';
 import List from '../List';
 
 import RoomListItem from 'containers/RoomListItem';
+import CardListItem from 'containers/CardListItem';
 
 
 function RoomList({
-  component,
   items,
   action,
   isAssignment,
@@ -20,7 +20,6 @@ function RoomList({
   hasMultipleSet
 }) {
 
-  const ComponentToRender = component;
   let sectionContent = <div />;
 
   if(items.length > 0){
@@ -29,7 +28,7 @@ function RoomList({
         <React.Fragment key = {'framgmentkey' + index }>
           <List
             key = {'keylist' + index }
-            component={ RoomListItem }
+            component={ isAssignment ? RoomListItem : CardListItem}
             data = { item }
             clickAction = { action }
             isAssignment={ isAssignment ? isAssignment : false }

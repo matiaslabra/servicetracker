@@ -51,10 +51,10 @@ const RoomItem = forwardRef(({
     }
   });
 
-  const roomWashPropertiesClick = (propertie) => {
+  const roomWashPropertiesClick = (properties) => {
     if(roomProperties.assignKey != 0){
-      setRoomProperties({...roomProperties, [propertie]: !roomProperties[propertie]});
-      clickAction({ ...roomProperties, [propertie]: !roomProperties[propertie]
+      setRoomProperties({...roomProperties, [properties]: !roomProperties[properties]});
+      clickAction({ ...roomProperties, [properties]: !roomProperties[properties]
       });
     }
   }
@@ -64,7 +64,7 @@ const RoomItem = forwardRef(({
     let nextKey = 0;
     let options = {};
     if(isAssignment){
-      // Number.isInteger necesary since status refer to a class to work with useImperativeHandle when
+      // Number.isInteger necessary since status refer to a class to work with useImperativeHandle when
       // read from inside
       nextKey = Number.isInteger(status) ? status : (roomProperties.assignKey + 1);
       if(nextKey > (roomProperties.assignArray.length-1)){

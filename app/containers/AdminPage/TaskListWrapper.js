@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const TaskSection = styled.div`
+const TaskListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 40rem;
@@ -8,4 +8,4 @@ const TaskSection = styled.div`
   margin: auto;
 `;
 
-export default TaskSection;
+export default TaskListWrapper;

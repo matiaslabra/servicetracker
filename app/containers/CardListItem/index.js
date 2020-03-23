@@ -1,8 +1,6 @@
 import React,{ useState, useEffect }  from 'react';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import { FormattedMessage } from 'react-intl';
 import Wrapper from './Wrapper'
 import Additional from './Additional'
 import Title from './Title'
@@ -70,7 +68,7 @@ function Card({
     </Additional>
     <Descrip>
       <Ul>
-        <li> <b>{ item.service}</b></li>
+        <li> <b>{item.service}</b></li>
       </Ul>
     </Descrip>
     </Wrapper>
