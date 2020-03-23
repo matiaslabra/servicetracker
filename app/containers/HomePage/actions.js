@@ -6,7 +6,6 @@
 
 import {
   SET_ITEM_TO_UPDATE,
-  SET_ITEM_TO_UPDATE_SUCCESS,
   CHANGE_DATE
 } from './constants';
 

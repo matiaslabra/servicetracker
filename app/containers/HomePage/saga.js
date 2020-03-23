@@ -2,12 +2,14 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, take, takeEvery, takeLatest, fork } from 'redux-saga/effects';
+import { call, put, select, take, takeLatest, takeEvery, fork } from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga';
 import { SET_ITEM_TO_UPDATE } from 'containers/HomePage/constants';
-import { makeSelectAssignment, makeSelectDate } from 'containers/App/selectors';
+import { makeSelectAssignment } from 'containers/App/selectors';
+import { LOAD_ASSIGNMENT } from 'containers/App/constants';
+import { assignmentLoaded } from 'containers/App/actions';
 import {updateAssignmentRoomDone, updateAssignmentTaskDone } from 'containers/App/actions';
-import { makeSelectUpdatedItem  } from 'containers/HomePage/selectors';
+import { makeSelectUpdatedItem, makeSelectDate  } from 'containers/HomePage/selectors';
 import request from 'utils/request';
 import io from 'socket.io-client';
 
@@ -60,6 +62,24 @@ function* socketRead(socket) {
   }
 }
 
+export function* getAssignment(){
+  // Select date from store
+  console.log('calling getAssigment');
+  const viewDate = yield select(makeSelectDate());
+  const requestURL = `api/assignment?date=` + viewDate;
+
+  try {
+    // Call our request helper (see 'utils/request')
+    const assignment = yield call(request, requestURL, {
+      method: 'GET',
+    });
+    // yield put(roomsAssigned(repos));
+    yield put(assignmentLoaded(assignment));
+  } catch (err) {
+    console.log(err);
+    // yield put(roomsAssignedError(err));
+  }
+}
 
 /**
  * HomePage assignment handler
@@ -69,12 +89,10 @@ export function* updateItemAssigned() {
   // Select item to update from HomePage reducer
   const itemToUpdate = yield select(makeSelectUpdatedItem());
   const assignment = yield select(makeSelectAssignment());
-  // const baseURL = `http://localhost:4001/api`;
-  // const baseURL = `http://169.254.220.17:4001/api`;
   const requestURL = `api/assignment/item`;
 
   try {
-    // We dont wait for our local changes item is updated right away
+    // We don't wait for our local changes, item is updated right away
     if(itemToUpdate.type == 'rooms'){
       yield put(updateAssignmentRoomDone(itemToUpdate));
     }else{
@@ -104,10 +122,10 @@ export function* updateItemAssigned() {
  * Root saga manages watcher lifecycle
  */
 export default function* roomsAssignedData() {
-
   yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
+  yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
   const socket = yield call(connect)
   yield fork(socketRead, socket)
   yield fork(socketWrite, socket)
-  // yield takeLatest(GET_ROOMS, getRooms);
+
 }

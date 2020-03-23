@@ -27,7 +27,7 @@ import {
 import reducer from './reducer';
 import saga from './saga';
 
-// import Section from '../../components/Section';
+import TaskListWrapper from './TaskListWrapper';
 import TaskList from '../../components/TaskList';
 import RoomList from '../../components/RoomList';
 
@@ -47,17 +47,14 @@ export function HomePage({
   useInjectSaga({ key: 'homePage', saga });
   
   useEffect(() => {
-    // loading on
-      getAssignment(date);
-  },[date]);  //run inside when assignment.date changes
+    // Sets initial date (today) to view triggering second useEffect
+    onChangeDate(moment().format('YYYY-MM-DD'));
+  },[]); //run code once
 
-  console.log('props assignment', assignment)
-  console.log('props date', date)
-
-  const itemClickAction = (item) => {
-    console.log('itemClickAction with:', item)
-    updateItemStatus(item);
-  }
+  useEffect(() => {
+    // gets Assignment from API
+    getAssignment();
+  },[date]); //run code when date from props changes
 
   return (
     <article>
@@ -70,18 +67,20 @@ export function HomePage({
         <H1>Assignment <small>{moment(date).format('dddd, MMMM Do YYYY')} </small></H1>
         <div><input type="date" onChange={onChangeDate} defaultValue={moment().format('YYYY-MM-DD')}/></div>
       </section>
-
       <section>
         <H2>Tasks</H2>
-        <TaskList
-          items={assignment.tasks}
-          clickAction = {itemClickAction}
-          isHousekeeping={true}
-        />
+        <TaskListWrapper>
+          <TaskList
+            items={assignment.tasks}
+            clickAction = {updateItemStatus}
+            isHousekeeping={true}
+          />
+        </TaskListWrapper>
+        <H2>Rooms</H2>
         <RoomList
           items= {assignment.rooms}
           isHousekeeping = {true}
-          action = {itemClickAction}
+          action = {updateItemStatus}
         />
       </section>
     </article>
@@ -102,7 +101,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAssignment: date => dispatch(loadAssignment(date)),
+    getAssignment: () => dispatch(loadAssignment()),
     updateItemStatus: item => dispatch(setItemToUpdate(item)),
     onChangeDate: evt => {
       if (evt.target !== undefined){
