@@ -19,6 +19,7 @@ import {
   UPDATED_ASSIGNED_ROOM_SUCCESS,
   LOAD_ASSIGNMENT,
   LOAD_ASSIGNMENT_SUCCESS,
+  LOAD_ASSIGNMENT_ERROR,
 } from './constants';
 
 export const initialState = {
@@ -27,10 +28,10 @@ export const initialState = {
     rooms: [],
     tasks: [],
     date: '',
-    updated: ''
+    updated: '',
   },
   isLoading: false,
-  error: false
+  error: false,
 };
 
 const appReducer = (state = initialState, action) =>
@@ -40,15 +41,18 @@ const appReducer = (state = initialState, action) =>
         draft.isLoading = true;
         draft.error = false;
         break;
+      case LOAD_ASSIGNMENT_ERROR:
+        draft.isLoading = false;
+        draft.error = error;
+        break;
       case LOAD_ASSIGNMENT_SUCCESS:
         draft.isLoading = false;
         draft.error = false;
-        console.log('LOAD_ASSIGNMENT_SUCCESS:', action)
-        draft.assignment.id = action.assignment._id
-        draft.assignment.rooms = action.assignment.rooms
-        draft.assignment.tasks = action.assignment.tasks
-        draft.assignment.date = action.assignment.date
-        draft.date = action.assignment.date
+        draft.assignment.id = action.assignment._id;
+        draft.assignment.rooms = action.assignment.rooms;
+        draft.assignment.tasks = action.assignment.tasks;
+        draft.assignment.date = action.assignment.date;
+        draft.date = action.assignment.date;
         break;
       case UPDATED_ASSIGNED_ITEM:
         draft.isLoading = true;
@@ -56,23 +60,30 @@ const appReducer = (state = initialState, action) =>
         break;
       case UPDATED_ASSIGNED_TASK_SUCCESS:
         let updatedTask = action.task;
-        // if someone update and item from a different assignment date
-        // if(draft.date == updatedTask.date){
-          draft.assignment.tasks[draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)].hkKey = updatedTask.hkKey;
+        // if someone updates an item from a different assignment date
+        // if(draft.date == updatedTask.date){ :todo:
+        draft.assignment.tasks[
+          draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)
+        ].hkKey = updatedTask.hkKey;
         // }
         draft.isLoading = false;
         break;
       case UPDATED_ASSIGNED_ROOM_SUCCESS:
         let updatedRoom = action.room;
-        // if someone update an item from a different assignment date
+        // if someone updates an item from a different assignment date
         // if(draft.date == updatedRoom.date){ :todo:
-        let groupIndex = draft.assignment.rooms.findIndex(group => group.name == updatedRoom.zone);
-        draft.assignment.rooms[groupIndex].items[draft.assignment.rooms[groupIndex].items.findIndex(room => room._id == updatedRoom._id)].hkKey = updatedRoom.hkKey;
+        let groupIndex = draft.assignment.rooms.findIndex(
+          group => group.name == updatedRoom.zone,
+        );
+        draft.assignment.rooms[groupIndex].items[
+          draft.assignment.rooms[groupIndex].items.findIndex(
+            room => room._id == updatedRoom._id,
+          )
+        ].hkKey = updatedRoom.hkKey;
         // }
         draft.isLoading = false;
         break;
       case SET_ASSIGNMENT:
-        console.log('SET_ASSIGNMENT with:', action);
         draft.isLoading = true;
         draft.error = false;
         draft.assignment.date = action.assignment.date;
@@ -80,16 +91,16 @@ const appReducer = (state = initialState, action) =>
         draft.assignment.tasks = action.assignment.tasks;
         break;
       case SET_ASSIGNMENT_SUCCESS:
-          console.log('SET_ASSIGNMENT_SUCCESS');
-          draft.isLoading = false;
-          draft.error = false;
-          draft.assignment.tasks = [];
-          draft.assignment.rooms = []
-          draft.assignment.date = ''
+        // if assignment is successfully created we clean the assignment object
+        draft.isLoading = false;
+        draft.error = false;
+        draft.assignment.tasks = [];
+        draft.assignment.rooms = [];
+        draft.assignment.date = '';
         break;
       case SET_ASSIGNMENT_ERROR:
-          draft.isLoading = false;
-          draft.error = action.error;
+        draft.isLoading = false;
+        draft.error = action.error;
         break;
     }
   });
