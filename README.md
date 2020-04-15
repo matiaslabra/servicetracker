@@ -21,11 +21,10 @@ Implementing the lastest version of `React Boilerplate` to learn the new additio
 - [x] Add attributes for each room (UI/Funct)
 - [x] Polish task/room design (UI)
 - [ ] Better mobile UX (70%)
-- [ ] Report Module
 
 ### Code
-- [ ] Housekeeping/Document Code
-- [ ] Polish/Refactory Components
+- [x] Housekeeping/Document Code
+- [x] Polish/Refactory Components
 - [ ] Implement react unit testing
 
 
