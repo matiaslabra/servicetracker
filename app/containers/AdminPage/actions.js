@@ -11,8 +11,8 @@ import {
   LOAD_TASKS,
   LOAD_TASKS_SUCCESS,
   ADD_NEW_TASK,
-  ADD_NEW_TASK_SUCCESS
- } from './constants';
+  ADD_NEW_TASK_SUCCESS,
+} from './constants';
 
 export function changeDate(date) {
   return {
@@ -30,7 +30,7 @@ export function loadRooms() {
 export function roomsLoaded(rooms) {
   return {
     type: LOAD_ROOMS_SUCCESS,
-    rooms
+    rooms,
   };
 }
 
@@ -48,21 +48,21 @@ export function loadTasks() {
 export function tasksLoaded(tasks) {
   return {
     type: LOAD_TASKS_SUCCESS,
-    tasks
+    tasks,
   };
 }
 
 export function addTask(task) {
   return {
     type: ADD_NEW_TASK,
-    task
+    task,
   };
 }
 
 export function taskCreated(task) {
   return {
     type: ADD_NEW_TASK_SUCCESS,
-    task
+    task,
   };
 }
 
@@ -71,7 +71,3 @@ export function tasksLoadedError() {
     type: LOAD_TASKS_ERROR,
   };
 }
-
-
-
-

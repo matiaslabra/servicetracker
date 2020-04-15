@@ -4,7 +4,7 @@ const task = require('./task');
 // import message from './message';
 
 module.exports = {
-  assignment: assignment,
-  room: room,
-  task: task,
-}
+  assignment,
+  room,
+  task,
+};

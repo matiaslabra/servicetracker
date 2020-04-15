@@ -26,11 +26,35 @@ export function ReportPage() {
 
   const [roomsData, setRoomsData] = useState({
     rooms: [
-      { id: 1, name: 'P1', lastDoonaWash: '2020-01-02', lastService: 'Full-Service', lastServiceDate: '2020-03-04' },
-      { id: 2, name: 'P2', lastDoonaWash: '2020-01-02', lastService: 'Full-Service', lastServiceDate: '2020-03-04' },
-      { id: 3, name: 'D2', lastDoonaWash: '2020-01-02', lastService: 'Full-Service', lastServiceDate: '2020-03-04' },
-      { id: 4, name: 'C2', lastDoonaWash: '2020-01-02', lastService: 'Full-Service', lastServiceDate: '2020-03-04' }
-   ]
+      {
+        id: 1,
+        name: 'P1',
+        lastDoonaWash: '2020-01-02',
+        lastService: 'Full-Service',
+        lastServiceDate: '2020-03-04',
+      },
+      {
+        id: 2,
+        name: 'P2',
+        lastDoonaWash: '2020-01-02',
+        lastService: 'Full-Service',
+        lastServiceDate: '2020-03-04',
+      },
+      {
+        id: 3,
+        name: 'D2',
+        lastDoonaWash: '2020-01-02',
+        lastService: 'Full-Service',
+        lastServiceDate: '2020-03-04',
+      },
+      {
+        id: 4,
+        name: 'C2',
+        lastDoonaWash: '2020-01-02',
+        lastService: 'Full-Service',
+        lastServiceDate: '2020-03-04',
+      },
+    ],
   });
 
   // const tableHeaders =>
@@ -46,11 +70,11 @@ export function ReportPage() {
       </section>
       <section>
         <table>
-          <thead></thead>
+          <thead />
         </table>
       </section>
     </article>
-  )
+  );
 }
 
 ReportPage.propTypes = {

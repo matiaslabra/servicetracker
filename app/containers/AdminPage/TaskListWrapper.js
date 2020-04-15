@@ -4,7 +4,7 @@ const TaskListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 40rem;
-  background-color: #FFF;
+  background-color: #fff;
   margin: auto;
 `;
 

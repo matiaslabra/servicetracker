@@ -2,14 +2,29 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, take, takeLatest, takeEvery, fork } from 'redux-saga/effects';
-import {eventChannel} from 'redux-saga';
+import {
+  call,
+  put,
+  select,
+  take,
+  takeLatest,
+  takeEvery,
+  fork,
+} from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga';
 import { SET_ITEM_TO_UPDATE } from 'containers/HomePage/constants';
 import { makeSelectAssignment } from 'containers/App/selectors';
 import { LOAD_ASSIGNMENT } from 'containers/App/constants';
-import { assignmentLoaded } from 'containers/App/actions';
-import {updateAssignmentRoomDone, updateAssignmentTaskDone } from 'containers/App/actions';
-import { makeSelectUpdatedItem, makeSelectDate  } from 'containers/HomePage/selectors';
+import {
+  assignmentLoaded,
+  updateAssignmentRoomDone,
+  updateAssignmentTaskDone,
+} from 'containers/App/actions';
+
+import {
+  makeSelectUpdatedItem,
+  makeSelectDate,
+} from 'containers/HomePage/selectors';
 import request from 'utils/request';
 import io from 'socket.io-client';
 
@@ -22,7 +37,7 @@ function connect() {
   return new Promise(resolve => {
     socket.on('connect', () => {
       resolve(socket);
-      console.log("Socket connected");
+      console.log('Socket connected');
     });
   });
 }
@@ -30,43 +45,41 @@ function connect() {
 export function* subscribe(socket) {
   return new eventChannel(emit => {
     const updateAssignment = data => {
-      console.log("listened data", data);
-      if(data.item.type == 'rooms'){
+      console.log('listened data', data);
+      if (data.item.type == 'rooms') {
         return emit(updateAssignmentRoomDone(data.item));
-      }else{
-        return emit(updateAssignmentTaskDone(data.item));
       }
-    }
-    console.log("socket listening on assignment-items");
-    socket.on('assignment-items', updateAssignment)
+      return emit(updateAssignmentTaskDone(data.item));
+    };
+    console.log('socket listening on assignment-items');
+    socket.on('assignment-items', updateAssignment);
     return () => {
       // socket.off(‘newTask’, handler);
     };
-  })
+  });
 }
 
 export function* socketWrite(socket) {
-
   while (true) {
-    const {item} = yield take(SET_ITEM_TO_UPDATE)
-    socket.emit('update-item', item)
+    const { item } = yield take(SET_ITEM_TO_UPDATE);
+    socket.emit('update-item', item);
   }
 }
 
 function* socketRead(socket) {
   const channel = yield call(subscribe, socket);
   while (true) {
-    let action = yield take(channel);
-    console.log("action",action);
+    const action = yield take(channel);
+    console.log('action', action);
     yield put(action);
   }
 }
 
-export function* getAssignment(){
+export function* getAssignment() {
   // Select date from store
   console.log('calling getAssigment');
   const viewDate = yield select(makeSelectDate());
-  const requestURL = `api/assignment?date=` + viewDate;
+  const requestURL = `api/assignment?date=${viewDate}`;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -93,9 +106,9 @@ export function* updateItemAssigned() {
 
   try {
     // We don't wait for our local changes, item is updated right away
-    if(itemToUpdate.type == 'rooms'){
+    if (itemToUpdate.type == 'rooms') {
       yield put(updateAssignmentRoomDone(itemToUpdate));
-    }else{
+    } else {
       yield put(updateAssignmentTaskDone(itemToUpdate));
     }
 
@@ -103,16 +116,15 @@ export function* updateItemAssigned() {
       method: 'PUT',
       body: JSON.stringify({
         item: itemToUpdate,
-        assignment_id: assignment.id
+        assignment_id: assignment.id,
       }),
       mode: 'cors',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
         // 'Content-Type': 'application/x-www-form-urlencoded',
-      }
-    })
+      },
+    });
     // yield put(roomsAssigned(repos));
-
   } catch (err) {
     console.log(err);
     // yield put(roomsAssignedError(err));
@@ -124,8 +136,7 @@ export function* updateItemAssigned() {
 export default function* roomsAssignedData() {
   yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
   yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
-  const socket = yield call(connect)
-  yield fork(socketRead, socket)
-  yield fork(socketWrite, socket)
-
+  const socket = yield call(connect);
+  yield fork(socketRead, socket);
+  yield fork(socketWrite, socket);
 }

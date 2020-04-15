@@ -9,27 +9,26 @@ import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import FlexContainer from './FlexContainer';
 
-function Header({open, setOpen}) {
+function Header({ open, setOpen }) {
   return (
     <NavBar>
-        {/* logo */}
+      {/* logo */}
       <FlexContainer>
         <Logo>GFH Room tracker</Logo>
         <Menu>
           {/* Desktop/Table menu */}
-          <HeaderLink  to="/">Home</HeaderLink>
+          <HeaderLink to="/">Home</HeaderLink>
           <HeaderLink to="/admin">Assignment</HeaderLink>
         </Menu>
-        { open && <MobileMenu >
-          {/* Mobile menu */}
-          <HeaderLink  to="/">Home</HeaderLink>
-          <HeaderLink to="/admin">Assignment</HeaderLink>
-        </MobileMenu> }
+        {open && (
+          <MobileMenu>
+            {/* Mobile menu */}
+            <HeaderLink to="/">Home</HeaderLink>
+            <HeaderLink to="/admin">Assignment</HeaderLink>
+          </MobileMenu>
+        )}
         <ToggleWrap>
-          <Toggle
-            open={open}
-            onClick={() => setOpen(!open)}
-          />
+          <Toggle open={open} onClick={() => setOpen(!open)} />
         </ToggleWrap>
       </FlexContainer>
     </NavBar>

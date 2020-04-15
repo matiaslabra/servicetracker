@@ -15,15 +15,14 @@ import {
 import request from 'utils/request';
 import { makeSelectDate } from 'containers/AdminPage/selectors';
 import { makeSelectAssignment } from 'containers/App/selectors';
-import { SET_ASSIGNMENT, SET_ASSIGNMENT_SUCCESS } from '../App/constants';
-import { LOAD_TASKS, LOAD_ROOMS, ADD_NEW_TASK } from '../AdminPage/constants';
-
 import {
   createNotification,
   removeAllNotifications,
   NOTIFICATION_TYPE_SUCCESS,
   NOTIFICATION_TYPE_INFO,
 } from 'react-redux-notify';
+import { SET_ASSIGNMENT, SET_ASSIGNMENT_SUCCESS } from '../App/constants';
+import { LOAD_TASKS, LOAD_ROOMS, ADD_NEW_TASK } from './constants';
 
 export function* setAssignment() {
   // Select username from store
@@ -66,7 +65,7 @@ export function* setAssignment() {
 
 export function* getRooms() {
   const date = yield select(makeSelectDate());
-  const requestURL = `/api/room?date=` + date;
+  const requestURL = `/api/room?date=${date}`;
 
   try {
     // Call our request helper (see 'utils/request')
@@ -86,7 +85,7 @@ export function* getRooms() {
 }
 export function* getTasks() {
   const date = yield select(makeSelectDate());
-  const requestURL = `/api/task?date=` + date;
+  const requestURL = `/api/task?date=${date}`;
 
   try {
     // Call our request helper (see 'utils/request')

@@ -1,30 +1,33 @@
 import styled from 'styled-components';
 
 const HKBox = styled.div`
-
   margin: 5px;
   border: 1px solid;
   border-color: ${props => {
-    if(props.hkKey == 0){
-      return '#fff';
-    }else if(props.hkKey == 1){
-      return '#22a6b3';
-    }else if(props.hkKey == 2){
-      return '#2ecc71';
-    }else if(props.hkKey == 3){
-      return '#e67e22';
-    }else if(props.hkKey == 4){
-      return '#f0932b';
+    let borderColor = '';
+    if (props.hkKey === 0) {
+      borderColor = '#fff';
     }
+    if (props.hkKey === 1) {
+      borderColor = '#22a6b3';
+    }
+    if (props.hkKey === 2) {
+      borderColor = '#2ecc71';
+    }
+    if (props.hkKey === 3) {
+      borderColor = '#e67e22';
+    }
+    if (props.hkKey === 4) {
+      borderColor = '#f0932b';
+    }
+    return borderColor;
   }};
-  color: ${props => props.hkKey == 0  ? '#000' : '#fff'};
+  color: ${props => (props.hkKey === 0 ? '#000' : '#fff')};
 
-  // Room numer non selectable
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
+  ${'' /* room number non selectable */}
   user-select: none;
 
-  // to vertically align content
+  ${'' /* vertically align content */}
   display: flex;
   flex-wrap: wrap;
 
@@ -32,27 +35,29 @@ const HKBox = styled.div`
   height: 50px;
 
   position: relative;
-  background-color:
-    ${props => {
-      if(props.hkKey == 0){
-        return '#e5e6e6';
-      }else if(props.hkKey == 1){
-        return '#22a6b3';
-      }else if(props.hkKey == 2){
-        return '#2ecc71';
-      }else if(props.hkKey == 3){
-        return '#e67e22';
-      }else if(props.hkKey == 4){
-        return '#f0932b';
-      }
-    }};
+  background-color: ${props => {
+    if (props.hkKey === 0) {
+      return '#e5e6e6';
+    }
+    if (props.hkKey === 1) {
+      return '#22a6b3';
+    }
+    if (props.hkKey === 2) {
+      return '#2ecc71';
+    }
+    if (props.hkKey === 3) {
+      return '#e67e22';
+    }
+    if (props.hkKey === 4) {
+      return '#f0932b';
+    }
+  }};
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   &:after {
-    content: "";
+    content: '';
     border-radius: 5px;
     position: absolute;
     z-index: -1;
@@ -62,16 +67,14 @@ const HKBox = styled.div`
     height: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     opacity: 0;
-    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
   &:hover {
-    -webkit-transform: scale(1.05, 1.05);
     transform: scale(1.05, 1.05);
   }
   &:hover::after {
     opacity: 1;
-}
+  }
 `;
 
 /**
@@ -81,6 +84,5 @@ const HKBox = styled.div`
  * yellow: f9ca24
  * orange: f0932b
  */
-
 
 export default HKBox;

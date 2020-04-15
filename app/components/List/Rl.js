@@ -9,4 +9,3 @@ const Rl = styled.div`
 `;
 
 export default Rl;
-

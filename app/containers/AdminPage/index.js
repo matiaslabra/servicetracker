@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { connect, batch } from 'react-redux';
@@ -13,19 +13,17 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { makeSelectRooms,makeSelectTasks, makeSelectDate } from './selectors';
+import { makeSelectRooms, makeSelectTasks, makeSelectDate } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { setAssignment} from '../App/actions';
-import { changeDate, loadRooms, loadTasks, addTask} from '../AdminPage/actions';
-import { loadAssignment } from '../App/actions';
+import { setAssignment, loadAssignment } from '../App/actions';
+import { changeDate, loadRooms, loadTasks, addTask } from './actions';
 
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
 import Button from '../../components/Button';
-import TaskListWrapper from './TaskListWrapper'
-
+import TaskListWrapper from './TaskListWrapper';
 
 import TaskList from '../../components/TaskList';
 import RoomList from '../../components/RoomList';
@@ -39,20 +37,20 @@ export function AdminPage({
   onClickButton,
   onChangeDate,
   onSubmitForm,
-}){
+}) {
   useInjectReducer({ key: 'adminPage', reducer });
-  useInjectSaga({ key: 'adminPage', saga })
+  useInjectSaga({ key: 'adminPage', saga });
 
   const [assignSelection, setAssignSelection] = useState({
-    rooms: [],
+    rooms: [],
     tasks: [],
-    date: date
+    date,
   });
 
   const [itemCheck, setItemCheck] = useState({
     roomsChecked: false,
-    tasksChecked: false
-  })
+    tasksChecked: false,
+  });
 
   useEffect(() => {
     // calls to get rooms / tasks data from api
@@ -60,62 +58,67 @@ export function AdminPage({
     batch(() => {
       initRooms();
       initTasks();
-    })
-  },[date]);
+    });
+  }, [date]);
 
   useEffect(() => {
     // second useEffect checks if rooms and tasks pulled from api have already an assigment
-    if(rooms.length > 0 && !itemCheck.roomsChecked){
-      _checkRoomsForEdition(rooms);
+    if (rooms.length > 0 && !itemCheck.roomsChecked) {
+      checkRoomsForEdition(rooms);
     }
-    if(tasks.length > 0 && !itemCheck.tasksChecked){
-      _checkTasksForEdition(tasks);
+    if (tasks.length > 0 && !itemCheck.tasksChecked) {
+      checkTasksForEdition(tasks);
     }
-  },[rooms, tasks]);
-    console.log('rooms in page', rooms);
+  }, [rooms, tasks]);
 
   /**
-   * _checkRoomsForEdition
-   * @description if item has an assigment push items to state's rooms/tasks stack
+   * checkRoomsForEdition
+   * @description if item has an assignment push items to state's rooms/tasks stack
    * @param {Array} rooms
    */
-  const _checkRoomsForEdition = rooms => {
-    let roomsToEdit = [];
-    rooms.map( item => {
-      if('assignment' in item){
-        roomsToEdit.push(item.assignment.rooms)
-      }
-    })
-    if(roomsToEdit.length > 0){
-      setAssignSelection({...assignSelection, rooms:roomsToEdit});
+  const checkRoomsForEdition = zones => {
+    // :todo: improve double loop
+    const roomsToEdit = [];
+    zones.forEach(zone => {
+      zone.items.forEach(item => {
+        if (item.hasOwnProperty('assignment') === true) roomsToEdit.push(item);
+      });
+    });
+    if (roomsToEdit.length > 0) {
+      setAssignSelection({ ...assignSelection, rooms: roomsToEdit });
     }
-    setItemCheck({...itemCheck, roomsChecked: true});
-  }
+    setItemCheck({ ...itemCheck, roomsChecked: true });
+  };
 
   /**
-   * _checkTasksForEdition
-   * @description same as _checkRoomsForEdition but with tasks and their daily logic
+   * checkTasksForEdition
+   * @description same as checkRoomsForEdition but with tasks and their daily logic
    * @param {Array} tasks
    */
-  const _checkTasksForEdition = tasks => {
-    let tasksToEdit = [];
-    tasks.map( item => {
-      if('assignment' in item ){
-        tasksToEdit.push(item.assignment.tasks)
-      }
-      // if there's no tasks/rooms assigment its a new day then check for daily tasks
-      if(assignSelection.rooms.length === 0 && tasksToEdit.length === 0){
-        if(item.isDaily){
-          // if its daily we push to task array the default task object
-          tasksToEdit.push({...item, task: item._id, assignKey: 1, type: 'tasks'})
-        }
-      }
-    })
-    // console.log('tasksToEdit', tasksToEdit);
-    if(tasksToEdit.length > 0){
-      setAssignSelection({...assignSelection, tasks:tasksToEdit});
+  const checkTasksForEdition = items => {
+    const tasksToEdit = [];
+    items.forEach(item => {
+      if (item.hasOwnProperty('assignment') === true) tasksToEdit.push(item);
+    });
+    // if there's no tasks/rooms assigned its a new day then we check for daily tasks
+    if (assignSelection.rooms.length === 0 && tasksToEdit.length === 0) {
+      items.forEach(item => {
+        if (!item.isDaily) return;
+        // if its daily we push to task array the default task object
+        tasksToEdit.push({
+          ...item,
+          task: item._id,
+          assignKey: 1,
+          type: 'tasks',
+        });
+      });
     }
-    setItemCheck({...itemCheck, tasksChecked: true});  }
+
+    if (tasksToEdit.length > 0) {
+      setAssignSelection({ ...assignSelection, tasks: tasksToEdit });
+    }
+    setItemCheck({ ...itemCheck, tasksChecked: true });
+  };
 
   /**
    * updateAssignList
@@ -125,50 +128,52 @@ export function AdminPage({
    */
   const updateAssignList = item => {
     let newItemToAssign;
-    if(item.type == 'rooms'){
+    if (item.type == 'rooms') {
       newItemToAssign = assignSelection.rooms;
-    }else{
+    } else {
       newItemToAssign = assignSelection.tasks;
     }
     let wasFounded = false;
     wasFounded = newItemToAssign.find((o, i) => {
       if (o._id === item._id) {
         newItemToAssign[i] = item;
-        if(item.assignKey == 0){
+        if (item.assignKey == 0) {
           newItemToAssign.splice(i, 1);
         }
         return true; // stop searching
       }
     });
-    if(!wasFounded && item.assignKey != 0){
+    if (!wasFounded && item.assignKey != 0) {
       newItemToAssign.push(item);
     }
-    setAssignSelection({...assignSelection, [item.type] : newItemToAssign});
-  }
-  const _onChangeDate = (evt) => {
-    let newDate = evt.target !== undefined ? evt.target.value : evt;
-    //when date changes clean rooms already assigned and items checks
+    setAssignSelection({ ...assignSelection, [item.type]: newItemToAssign });
+  };
+  const onChangeDateBridge = evt => {
+    const newDate = evt.target !== undefined ? evt.target.value : evt;
+    // when date changes clean rooms already assigned and items checks
     setAssignSelection({
-      rooms: [],
+      rooms: [],
       tasks: [],
-      date: newDate
+      date: newDate,
     });
-    //when date changes item's check status
+    // when date changes item's check status
     setItemCheck({
       roomsChecked: false,
-      tasksChecked: false
-    })
+      tasksChecked: false,
+    });
 
     onChangeDate(newDate);
-  }
+  };
 
-  const _onSubmit = (evt) => {
-    let task = evt.target.value ? evt.target.value : evt.target.querySelector('input').value;
-    if(task !== ''){
+  const onSubmitFormBridge = evt => {
+    const task = evt.target.value
+      ? evt.target.value
+      : evt.target.querySelector('input').value;
+    if (task !== '') {
       onSubmitForm(task); // submitting
       evt.target.reset(); // clear input
     }
-  }
+  };
   return (
     <article>
       <Helmet>
@@ -177,34 +182,42 @@ export function AdminPage({
       </Helmet>
       <section>
         <H1>Room assignment</H1>
-        <span><input type="date" onChange={_onChangeDate} defaultValue={assignSelection.date}/></span>
-        <Button onClick={()=>onClickButton(assignSelection)}>Save assignment</Button>
+        <span>
+          <input
+            type="date"
+            onChange={onChangeDateBridge}
+            defaultValue={assignSelection.date}
+          />
+        </span>
+        <Button onClick={() => onClickButton(assignSelection)}>
+          Save assignment
+        </Button>
       </section>
       <section>
         <H2>Tasks</H2>
         <TaskListWrapper>
           <form
             onSubmit={evt => {
-              evt.preventDefault()
-              _onSubmit(evt)
+              evt.preventDefault();
+              onSubmitFormBridge(evt);
             }}
           >
-            <input placeholder='Enter new task'/>
-            <input type="submit" value="Add"/>
+            <input placeholder="Enter new task" />
+            <input type="submit" value="Add" />
           </form>
-        <TaskList
-          items = {tasks}
-          clickAction = {updateAssignList}
-          action = {updateAssignList}
-          isAssignment={ true }
-        />
+          <TaskList
+            items={tasks}
+            clickAction={updateAssignList}
+            action={updateAssignList}
+            isAssignment
+          />
         </TaskListWrapper>
         <H2>Rooms</H2>
         <RoomList
-          items = {rooms}
-          action = {updateAssignList}
-          isAssignment= { true }
-          hasMultipleSet = { true }
+          items={rooms}
+          action={updateAssignList}
+          isAssignment
+          hasMultipleSet
         />
       </section>
     </article>
@@ -231,11 +244,21 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getAssignment: () => dispatch(loadAssignment(true)),
-    onClickButton: assignSelection => {dispatch(setAssignment(assignSelection))},
-    initRooms: () => {dispatch(loadRooms())},
-    initTasks: () => {dispatch(loadTasks())},
-    onSubmitForm: task => {dispatch(addTask(task))},
-    onChangeDate: date => {dispatch(changeDate(date))}
+    onClickButton: assignSelection => {
+      dispatch(setAssignment(assignSelection));
+    },
+    initRooms: () => {
+      dispatch(loadRooms());
+    },
+    initTasks: () => {
+      dispatch(loadTasks());
+    },
+    onSubmitForm: task => {
+      dispatch(addTask(task));
+    },
+    onChangeDate: date => {
+      dispatch(changeDate(date));
+    },
   };
 }
 

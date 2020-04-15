@@ -4,11 +4,7 @@
  *
  */
 
-import {
-  SET_ITEM_TO_UPDATE,
-  CHANGE_DATE
-} from './constants';
-
+import { SET_ITEM_TO_UPDATE, CHANGE_DATE } from './constants';
 
 export function changeDate(date) {
   return {
@@ -19,6 +15,6 @@ export function changeDate(date) {
 export function setItemToUpdate(item) {
   return {
     type: SET_ITEM_TO_UPDATE,
-    item
+    item,
   };
 }

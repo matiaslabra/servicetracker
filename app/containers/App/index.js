@@ -7,7 +7,7 @@
  *
  */
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useInjectSaga } from 'utils/injectSaga';
 
@@ -18,20 +18,18 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import Header from 'components/Header';
 import GlobalStyle from '../../global-styles';
-import Wrapper from './Wrapper'
+import Wrapper from './Wrapper';
 // notify styles
 import 'react-redux-notify/dist/ReactReduxNotify.css';
 import { Notify } from 'react-redux-notify';
 import history from 'utils/history';
 
-
 export default function App() {
-
   const [open, setOpen] = useState(false);
   // useInjectSaga({ key: 'app', saga });
-  history.listen( () =>  {
-    //Close mobile Navbar when history.listen detect any change
-    if(open){
+  history.listen(() => {
+    // Close mobile Navbar when history.listen detect any change
+    if (open) {
       setOpen(false);
     }
   });
@@ -39,7 +37,7 @@ export default function App() {
   return (
     <Wrapper>
       <Notify />
-      <Header open={open} setOpen={setOpen}  />
+      <Header open={open} setOpen={setOpen} />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/admin" component={AdminPage} />

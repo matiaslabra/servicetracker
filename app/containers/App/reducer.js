@@ -59,7 +59,7 @@ const appReducer = (state = initialState, action) =>
         draft.error = false;
         break;
       case UPDATED_ASSIGNED_TASK_SUCCESS:
-        let updatedTask = action.task;
+        const updatedTask = action.task;
         // if someone updates an item from a different assignment date
         // if(draft.date == updatedTask.date){ :todo:
         draft.assignment.tasks[
@@ -69,10 +69,10 @@ const appReducer = (state = initialState, action) =>
         draft.isLoading = false;
         break;
       case UPDATED_ASSIGNED_ROOM_SUCCESS:
-        let updatedRoom = action.room;
+        const updatedRoom = action.room;
         // if someone updates an item from a different assignment date
         // if(draft.date == updatedRoom.date){ :todo:
-        let groupIndex = draft.assignment.rooms.findIndex(
+        const groupIndex = draft.assignment.rooms.findIndex(
           group => group.name == updatedRoom.zone,
         );
         draft.assignment.rooms[groupIndex].items[

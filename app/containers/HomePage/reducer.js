@@ -1,4 +1,4 @@
-import { statement } from "@babel/template";
+import { statement } from '@babel/template';
 
 /*
  *
@@ -9,14 +9,14 @@ import produce from 'immer';
 import {
   SET_ITEM_TO_UPDATE,
   SET_ITEM_TO_UPDATE_SUCCESS,
-  CHANGE_DATE
+  CHANGE_DATE,
 } from './constants';
 
 export const initialState = {
-  date:'',
-  itemToUpdate:'',
-  isLoading:false,
-  error:''
+  date: '',
+  itemToUpdate: '',
+  isLoading: false,
+  error: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -27,10 +27,10 @@ const homePageReducer = (state = initialState, action) =>
         draft.date = action.date;
       case SET_ITEM_TO_UPDATE:
         draft.itemToUpdate = action.item;
-      break;
+        break;
       case SET_ITEM_TO_UPDATE_SUCCESS:
-        draft.itemToUpdate = ''
-      break;
+        draft.itemToUpdate = '';
+        break;
     }
   });
 

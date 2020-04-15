@@ -13,27 +13,26 @@ import {
   SET_ASSIGNMENT_ERROR,
   UPDATED_ASSIGNED_ITEM,
   UPDATED_ASSIGNED_ROOM_SUCCESS,
-  UPDATED_ASSIGNED_TASK_SUCCESS
+  UPDATED_ASSIGNED_TASK_SUCCESS,
 } from './constants';
-
 
 export function loadAssignment() {
   return {
-    type: LOAD_ASSIGNMENT
+    type: LOAD_ASSIGNMENT,
   };
 }
 
 export function assignmentLoaded(assignment) {
   return {
     type: LOAD_ASSIGNMENT_SUCCESS,
-    assignment
+    assignment,
   };
 }
 
 export function setAssignment(assignment) {
   return {
     type: SET_ASSIGNMENT,
-    assignment
+    assignment,
   };
 }
 
@@ -46,14 +45,14 @@ export function updateAssignmentItem() {
 export function updateAssignmentRoomDone(room) {
   return {
     type: UPDATED_ASSIGNED_ROOM_SUCCESS,
-    room
+    room,
   };
 }
 
 export function updateAssignmentTaskDone(task) {
   return {
     type: UPDATED_ASSIGNED_TASK_SUCCESS,
-    task
+    task,
   };
 }
 
@@ -66,7 +65,7 @@ export function setAssignmentDone() {
 export function setAssignmentError(error) {
   return {
     type: SET_ASSIGNMENT_ERROR,
-    error
+    error,
   };
 }
 
@@ -76,5 +75,3 @@ export function setAssignmentError(error) {
 //     error,
 //   };
 // }
-
-

@@ -4,7 +4,7 @@ const AssignBox = styled.li`
   margin: 5px;
   border-bottom: 1px solid #ccc;
 
-  color: ${props => props.assignKey == 0  ? '#000' : '#fff'};
+  color: ${props => (props.assignKey == 0 ? '#000' : '#fff')};
   // Room numer non selectable
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -19,20 +19,23 @@ const AssignBox = styled.li`
   height: 50px;
 
   position: relative;
-  background-color:
-    ${props => {
-      if(props.assignKey == 0){
-        return '#e5e6e6';
-      }else if(props.assignKey == 1){
-        return '#22a6b3';
-      }else if(props.assignKey == 2){
-        return '#eb4d4b';
-      }else if(props.assignKey == 3){
-        return '#f9ca24';
-      }else if(props.assignKey == 4){
-        return '#f0932b';
-      }
-    }};
+  background-color: ${props => {
+    if (props.assignKey == 0) {
+      return '#e5e6e6';
+    }
+    if (props.assignKey == 1) {
+      return '#22a6b3';
+    }
+    if (props.assignKey == 2) {
+      return '#eb4d4b';
+    }
+    if (props.assignKey == 3) {
+      return '#f9ca24';
+    }
+    if (props.assignKey == 4) {
+      return '#f0932b';
+    }
+  }};
   // border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -40,7 +43,7 @@ const AssignBox = styled.li`
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   &:after {
-    content: "";
+    content: '';
     border-radius: 5px;
     position: absolute;
     z-index: -1;
@@ -59,7 +62,7 @@ const AssignBox = styled.li`
   }
   &:hover::after {
     opacity: 1;
-}
+  }
 `;
 
 /**
@@ -69,6 +72,5 @@ const AssignBox = styled.li`
  * yellow: f9ca24
  * orange: f0932b
  */
-
 
 export default AssignBox;

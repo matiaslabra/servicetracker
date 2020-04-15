@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 const Additional = styled.div`
   position: absolute;
   width: 75px;
@@ -15,7 +14,7 @@ const Additional = styled.div`
   user-select: none;
 
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     top: 10%;
@@ -27,7 +26,5 @@ const Additional = styled.div`
     width: 100%;
   }
 `;
-
-
 
 export default Additional;

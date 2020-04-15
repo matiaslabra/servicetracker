@@ -1,42 +1,48 @@
 import styled from 'styled-components';
-import Title from './Title'
-import Footer from './Footer'
-import ButtonsWrapper from './ButtonsWrapper'
+import Title from './Title';
+import Footer from './Footer';
+import ButtonsWrapper from './ButtonsWrapper';
 
 const Box = styled.div`
-  overflow:hidden; // children stick to parent border radio
+  overflow: hidden; // children stick to parent border radio
   border-radius: 5px;
-  color: ${props => props.assignKey == 0 ? '#000' : '#fff'};
+  color: ${props => (props.assignKey == 0 ? '#000' : '#fff')};
   border: 1px solid;
-  border-color:
-  ${props => {
-    if(props.assignKey == 0){
+  border-color: ${props => {
+    if (props.assignKey == 0) {
       return '#fff';
-    }else if(props.assignKey == 1){
+    }
+    if (props.assignKey == 1) {
       return '#eb4d4b';
-    }else if(props.assignKey == 2){
+    }
+    if (props.assignKey == 2) {
       return '#f9ca24';
-    }else if(props.assignKey == 3){
+    }
+    if (props.assignKey == 3) {
       return '#f0932b';
-    }else if(props.assignKey == 4){
+    }
+    if (props.assignKey == 4) {
       return '#eb4d4b';
     }
   }};
 
-  background-color:
-    ${props => {
-      if(props.assignKey == 0){
-        return '#e5e6e6';
-      }else if(props.assignKey == 1){
-        return '#eb4d4b';
-      }else if(props.assignKey == 2){
-        return '#f9ca24';
-      }else if(props.assignKey == 3){
-        return '#f0932b';
-      }else if(props.assignKey == 4){
-        return '#22a6b3';
-      }
-    }};
+  background-color: ${props => {
+    if (props.assignKey == 0) {
+      return '#e5e6e6';
+    }
+    if (props.assignKey == 1) {
+      return '#eb4d4b';
+    }
+    if (props.assignKey == 2) {
+      return '#f9ca24';
+    }
+    if (props.assignKey == 3) {
+      return '#f0932b';
+    }
+    if (props.assignKey == 4) {
+      return '#22a6b3';
+    }
+  }};
 
   text-align: center;
   height: 7em;
@@ -61,7 +67,7 @@ const Box = styled.div`
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   &:after {
-    content: "";
+    content: '';
     border-radius: 5px;
     position: absolute;
     z-index: -1;
@@ -83,33 +89,39 @@ const Box = styled.div`
   }
 
   ${Footer} {
-    background-color:
-    ${props => {
-      if(props.assignKey == 0){
+    background-color: ${props => {
+      if (props.assignKey == 0) {
         return '#e5e6e6';
-      }else if(props.assignKey == 1){
+      }
+    if (props.assignKey == 1) {
         return '#eb4d4b';
-      }else if(props.assignKey == 2){
+      }
+    if (props.assignKey == 2) {
         return '#f9ca24';
-      }else if(props.assignKey == 3){
+      }
+    if (props.assignKey == 3) {
         return '#f0932b';
-      }else if(props.assignKey == 4){
+      }
+    if (props.assignKey == 4) {
         return '#22a6b3';
       }
     }};
   }
   ${Title} {
-    background-color:
-    ${props => {
-      if(props.assignKey == 0){
+    background-color: ${props => {
+      if (props.assignKey == 0) {
         return '#e5e6e6';
-      }else if(props.assignKey == 1){
+      }
+    if (props.assignKey == 1) {
         return '#eb4d4b';
-      }else if(props.assignKey == 2){
+      }
+    if (props.assignKey == 2) {
         return '#f9ca24';
-      }else if(props.assignKey == 3){
+      }
+    if (props.assignKey == 3) {
         return '#f0932b';
-      }else if(props.assignKey == 4){
+      }
+    if (props.assignKey == 4) {
         return '#22a6b3';
       }
     }};
@@ -123,6 +135,5 @@ const Box = styled.div`
  * yellow: f9ca24
  * orange: f0932b
  */
-
 
 export default Box;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Title from './Title'
-import Footer from './Footer'
-import Additional from './Additional'
+import Title from './Title';
+import Footer from './Footer';
+import Additional from './Additional';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,59 +20,73 @@ const Wrapper = styled.div`
 
   border-color:
     ${props => {
-      if(props.assignKey == 0){
+      if (props.assignKey == 0) {
         return '#22a6b3';
-      }else if(props.assignKey == 1){
+      }
+    if (props.assignKey == 1) {
         return '#eb4d4b';
-      }else if(props.assignKey == 2){
+      }
+    if (props.assignKey == 2) {
         return '#f9ca24';
-      }else if(props.assignKey == 3){
+      }
+    if (props.assignKey == 3) {
         return '#f0932b';
-      }else if(props.assignKey == 4){
+      }
+    if (props.assignKey == 4) {
         return '#eb4d4b';
       }
     }};
   ${Footer} {
-    color: ${props => props.hkKey == 0 ? '#000' : '#fff'};
+    color: ${props => (props.hkKey == 0 ? '#000' : '#fff')};
   }
   ${Title} {
-    color: ${props => props.hkKey == 0 ? '#000' : '#fff'};
+    color: ${props => (props.hkKey == 0 ? '#000' : '#fff')};
     background-color:
     ${props => {
-      if(props.hkKey == 0){
-        return '#e5e6e6';
-      }else if(props.hkKey == 1){
-        return '#f9ca24';
-      }else if(props.hkKey == 2){
-        return '#2ecc71';
-      }else if(props.hkKey == 3){
-        return '#f9ca24';
-      }else if(props.hkKey == 4){
-        return '#f0932b';
-      }else if(props.hkKey == 5){
-        return '#eb4d4b';
-      }
-    }};
+    if (props.hkKey == 0) {
+      return '#e5e6e6';
+    }
+      if (props.hkKey == 1) {
+      return '#f9ca24';
+    }
+      if (props.hkKey == 2) {
+      return '#2ecc71';
+    }
+      if (props.hkKey == 3) {
+      return '#f9ca24';
+    }
+      if (props.hkKey == 4) {
+      return '#f0932b';
+    }
+      if (props.hkKey == 5) {
+      return '#eb4d4b';
+    }
+  }};
   }
 
   ${Additional} {
-    color: ${props => props.hkKey == 0 ? '#000' : '#fff'};
+    color: ${props => (props.hkKey == 0 ? '#000' : '#fff')};
     background-color:
     ${props => {
-      if(props.hkKey == 0){
-        return '#e5e6e6';
-      }else if(props.hkKey == 1){
-        return '#f9ca24';
-      }else if(props.hkKey == 2){
-        return '#2ecc71';
-      }else if(props.hkKey == 3){
-        return '#f9ca24';
-      }else if(props.hkKey == 4){
-        return '#f0932b';
-      }else if(props.hkKey == 5){
-        return '#22a6b3';
-      }
-    }};
+    if (props.hkKey == 0) {
+      return '#e5e6e6';
+    }
+      if (props.hkKey == 1) {
+      return '#f9ca24';
+    }
+      if (props.hkKey == 2) {
+      return '#2ecc71';
+    }
+      if (props.hkKey == 3) {
+      return '#f9ca24';
+    }
+      if (props.hkKey == 4) {
+      return '#f0932b';
+    }
+      if (props.hkKey == 5) {
+      return '#22a6b3';
+    }
+  }};
   }
 }
 `;
@@ -84,6 +98,5 @@ const Wrapper = styled.div`
  * yellow: f9ca24
  * orange: f0932b
  */
-
 
 export default Wrapper;

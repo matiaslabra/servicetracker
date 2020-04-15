@@ -4,7 +4,7 @@ const FlexContainer = styled.div`
   max-width: 120rem;
   display: flex;
   margin: auto;
-  padding: 0 2rem;;
+  padding: 0 2rem;
   justify-content: space-between;
   height: 4rem;
 `;

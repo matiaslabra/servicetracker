@@ -35,5 +35,5 @@ export {
   selectAdminPageDomain,
   makeSelectDate,
   makeSelectRooms,
-  makeSelectTasks
+  makeSelectTasks,
 };

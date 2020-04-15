@@ -3,7 +3,7 @@ import React from 'react';
 
 const Wrapper = styled.div`
   position: relative;
-  padding-top: .35rem;
+  padding-top: 0.35rem;
   cursor: pointer;
   display: block;
 
@@ -12,14 +12,14 @@ const Wrapper = styled.div`
     display: block;
     position: relative;
     width: 1.5rem;
-    height: .15rem;
-    margin-bottom: .35rem;
+    height: 0.15rem;
+    margin-bottom: 0.35rem;
     transition: all ease-in-out 0.2s;
   }
 
   .open span:nth-child(2) {
-      opacity: 0;
-    }
+    opacity: 0;
+  }
 
   .open span:nth-child(3) {
     transform: rotate(45deg);
@@ -30,19 +30,16 @@ const Wrapper = styled.div`
     transform: rotate(-45deg);
     top: 7px;
   }
-
 `;
 
-const Toogle = (props) => {
-  return (
-    <Wrapper onClick={props.onClick}>
-      <div className={ props.open ? "open" : "" }>
-        <span>&nbsp;</span>
-        <span>&nbsp;</span>
-        <span>&nbsp;</span>
-      </div>
-    </Wrapper>
-  );
-}
+const Toogle = props => (
+  <Wrapper onClick={props.onClick}>
+    <div className={props.open ? 'open' : ''}>
+      <span>&nbsp;</span>
+      <span>&nbsp;</span>
+      <span>&nbsp;</span>
+    </div>
+  </Wrapper>
+);
 
 export default Toogle;

@@ -10,20 +10,16 @@ const makeSelectLocation = () =>
     routerState => routerState.location,
   );
 
-  const makeSelectAssignment = () =>
-   createSelector(
+const makeSelectAssignment = () =>
+  createSelector(
     selectGlobal,
     globalState => globalState.assignment,
-   );
+  );
 
-   const makeSelectAppDate = () =>
-   createSelector(
+const makeSelectAppDate = () =>
+  createSelector(
     selectGlobal,
     globalState => globalState.date,
-   );
+  );
 
-export {
-  makeSelectLocation,
-  makeSelectAssignment,
-  makeSelectAppDate
-};
+export { makeSelectLocation, makeSelectAssignment, makeSelectAppDate };

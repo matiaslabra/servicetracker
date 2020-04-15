@@ -35,8 +35,6 @@ const makeSelectError = () =>
     substate => substate.error,
   );
 
-
-
 export {
   selectHomePageDomain,
   makeSelectLoading,
