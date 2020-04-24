@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import history from '../../utils/history';
 import NavBar from './NavBar';
 import HeaderLink from './HeaderLink';
 import Logo from './Logo';
@@ -9,7 +9,15 @@ import Menu from './Menu';
 import MobileMenu from './MobileMenu';
 import FlexContainer from './FlexContainer';
 
-function Header({ open, setOpen }) {
+function Header() {
+  const [open, setOpen] = useState(false);
+  history.listen(() => {
+    // Close mobile Navbar when history.listen detect any change
+    if (open) {
+      setOpen(false);
+    }
+  });
+
   return (
     <NavBar>
       {/* logo */}
