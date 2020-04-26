@@ -1,95 +1,57 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
 
-import H2 from '../H2';
 import Rl from './Rl';
 import Li from './Li';
-import Button from '../Button';
 
 // import Wrapper from './Wrapper';
 
 function List({
   clickAction,
+  secClickAction,
   isAssignment,
   isHousekeeping,
-  hasMultipleSet,
   component,
-  data,
+  items,
+  orientation,
 }) {
   const roomListProps = {
     clickAction,
+    secClickAction,
     isAssignment,
     isHousekeeping,
   };
 
   const ComponentToRender = component;
-  const WrapperComponent = data.displayOrientation == 'horizontal' ? Rl : Li;
+  const WrapperComponent = orientation === 'horizontal' ? Rl : Li;
 
   let content = <div />;
-  const items = data.items === undefined ? [] : data.items;
-  const listTitle = data.name === undefined ? '' : data.name;
-
-  const itemsRef = useRef([]);
+  const itemsRef = useRef([null]);
 
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, items.length);
   }, [items]);
 
-  const onButtonClick = status => {
-    // tells children to change their status to given one
-    itemsRef.current.map(inputEl => inputEl.roomClickAction(status));
-  };
-
   if (items.length > 0) {
-    content = items.map((item, i) => {
-      if (isAssignment && hasMultipleSet) {
-        return (
-          <ComponentToRender
-            ref={el => (itemsRef.current[i] = el)}
-            {...roomListProps}
-            key={`item-${item._id}`}
-            _id={item._id}
-            item={item}
-          />
-        );
-      }
-      return (
-        <ComponentToRender
-          {...roomListProps}
-          key={`item-${item._id}`}
-          _id={item._id}
-          item={item}
-        />
-      );
-    });
+    content = items.map(item => (
+      <ComponentToRender {...roomListProps} key={item._id} item={item} />
+    ));
   } else {
     // Otherwise render empty message
     content = <div>No items assigned</div>;
   }
 
-  return (
-    <section>
-      <H2>{listTitle}</H2>
-      {isAssignment && hasMultipleSet && (
-        <div>
-          <Button onClick={() => onButtonClick(1)}>All Check out</Button>
-          <Button onClick={() => onButtonClick(2)}>All Service</Button>
-          <Button onClick={() => onButtonClick(3)}>All Full Service</Button>
-          <Button onClick={() => onButtonClick(0)}>Reset</Button>
-        </div>
-      )}
-      <WrapperComponent>{content}</WrapperComponent>
-    </section>
-  );
+  return <WrapperComponent>{content}</WrapperComponent>;
 }
 
 List.propTypes = {
   component: PropTypes.elementType.isRequired,
-  data: PropTypes.object,
-  clickAction: PropTypes.func,
-  isAssignment: PropTypes.bool,
+  items: PropTypes.array.isRequired,
+  orientation: PropTypes.string.isRequired,
+  clickAction: PropTypes.func.isRequired,
+  secClickAction: PropTypes.func,
+  isAssignment: PropTypes.bool.isRequired,
   isHousekeeping: PropTypes.bool,
-  hasMultipleSet: PropTypes.bool,
 };
 
 export default List;
