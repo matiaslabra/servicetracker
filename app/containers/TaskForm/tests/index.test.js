@@ -1,6 +1,6 @@
 /**
  *
- * Tests for TaskListItem
+ * Tests for TaskForm
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,13 +10,13 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import TaskListItem from '../index';
+import { TaskForm } from '../index';
 
-describe('<TaskListItem />', () => {
+describe('<TaskForm />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
     const dispatch = jest.fn();
-    render(<TaskListItem dispatch={dispatch} />);
+    render(<TaskForm dispatch={dispatch} />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -32,7 +32,7 @@ describe('<TaskListItem />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<TaskListItem />);
+    } = render(<TaskForm />);
     expect(firstChild).toMatchSnapshot();
   });
 });
