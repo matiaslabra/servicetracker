@@ -1,57 +1,28 @@
 const express = require('express');
 const moment = require('moment');
 const Assignment = require('../models/assignmentSchema');
+const sortRoomsByZone = require('../util/sortRoomsByZone');
 
 const router = express.Router();
 module.exports = io => {
-  io.sockets.on('connection', function(socket) {
+  io.sockets.on('connection', socket => {
     // Every time a client logs in, display a connected message
-    console.log('Server-Client Connected!');
+    // console.log('Server-Client Connected!');
     socket.on('disconnect', () => {
-      console.log('Disconnected');
+      // console.log('Disconnected');
     });
-    socket.on('connected', function(data) {
+    socket.on('connected', () => {
       // listen to event at anytime (not only when endpoint is called)
       // execute some code here
     });
 
-    socket.on('taskResponse', data => {
-      // calling a function which is inside the router so we can send a res back
-      sendResponse(data);
-    });
     socket.on('update-item', async data => {
-      console.log('socket on.update-item', data);
+      // console.log('socket on.update-item', data);
       socket.broadcast.emit('assignment-items', { item: data });
     });
   });
 
-  /**
-   * sortRoomsByZone takes an array of items and arranges
-   * them by they zone value.
-   * @param {Array} items
-   */
-  const sortRoomsByZone = items => {
-    const zoneArray = [];
-    const zoneObject = {};
-    if (items.length > 0) {
-      items.map(item => {
-        if (!(item.room.zone in zoneObject)) {
-          zoneObject[item.room.zone] = {};
-          zoneObject[item.room.zone].items = [];
-          zoneObject[item.room.zone].name = item.room.zone;
-          zoneObject[item.room.zone].displayOrientation = 'horizontal';
-        }
-        zoneObject[item.room.zone].items.push(item);
-      });
-
-      Object.entries(zoneObject).map(([key, value]) => {
-        zoneArray.push(value);
-      });
-    }
-    return zoneArray;
-  };
-
-  router.get('/', (req, res) => {
+  router.get('/', async (req, res) => {
     const date =
       req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
 
@@ -60,31 +31,33 @@ module.exports = io => {
     })
       .populate('rooms.room')
       .populate('tasks.task')
-      .exec(function(err, assignment) {
+      .exec((err, assignment) => {
+        if (err) return res.status(400).send(err);
         let processedAssignment;
-        if (assignment) {
-          processedAssignment = assignment.toObject();
-          processedAssignment.rooms = sortRoomsByZone(assignment.rooms);
-        } else {
+        if (!assignment) {
           processedAssignment = {
-            rooms: [],
+            rooms: {},
             tasks: [],
             date,
           };
+          return res.json(processedAssignment);
         }
-        res.send(processedAssignment);
+        processedAssignment = assignment.toObject();
+        processedAssignment.rooms = sortRoomsByZone.housekeeping(
+          assignment.rooms,
+        );
+        return res.json(processedAssignment);
       });
   });
 
   router.put('/item', (req, res) => {
     // console.log('req.body', req.body);
-    const { item } = req.body;
+    const { item, assignmentId } = req.body;
     let dbItem;
-    const assignmentId = req.body.assignment_id;
 
     Assignment.findById(assignmentId)
       .then(assignment => {
-        if (item.type == 'rooms') {
+        if (item.type === 'rooms') {
           dbItem = assignment.rooms.id(item._id); // returns a matching subdocument
         } else {
           dbItem = assignment.tasks.id(item._id);
@@ -94,7 +67,7 @@ module.exports = io => {
       })
       .then(assignment => {
         let updatedItem;
-        if (item.type == 'rooms') {
+        if (item.type === 'rooms') {
           updatedItem = assignment.rooms.id(item._id);
         } else {
           updatedItem = assignment.tasks.id(item._id);
@@ -107,17 +80,28 @@ module.exports = io => {
       .catch(e => res.status(400).send(e));
   });
 
-  router.post('/', (req, res) => {
+  router.post('/', async (req, res) => {
+    const assignmentRooms = req.body.rooms.map(item => ({
+      ...item,
+      room: item._id,
+    }));
+    const assignmentTasks = req.body.tasks.map(item => ({
+      ...item,
+      task: item._id,
+    }));
+    const cleaning = await Assignment.deleteOne({ date: req.body.date });
+
+    if (cleaning.ok !== 1) res.status(400).json(cleaning);
+
     const newAssignment = new Assignment({
-      rooms: req.body.rooms,
-      tasks: req.body.tasks,
+      rooms: assignmentRooms,
+      tasks: assignmentTasks,
       date: req.body.date,
     });
-    newAssignment.save().then(doc => {
-      res.send({
-        success: true,
-        assignment: doc,
-      });
+    const doc = await newAssignment.save();
+    res.send({
+      success: true,
+      assignment: doc,
     });
   });
 

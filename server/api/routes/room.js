@@ -1,34 +1,9 @@
+/* eslint-disable no-param-reassign */
 const express = require('express');
 const moment = require('moment');
 const Room = require('../models/roomSchema');
-
+const sortRoomsByZone = require('../util/sortRoomsByZone');
 const router = express.Router();
-
-/**
- * sortRoomsByZone takes an array of items and arranges
- * them by they zone value.
- * @param {Array} items
- */
-const sortRoomsByZone = items => {
-  const zoneArray = [];
-  const zoneObject = {};
-  if (items.length > 0) {
-    items.forEach(item => {
-      if (!(item.zone in zoneObject)) {
-        zoneObject[item.zone] = {};
-        zoneObject[item.zone].items = [];
-        zoneObject[item.zone].name = item.zone;
-        zoneObject[item.zone].displayOrientation = 'horizontal';
-      }
-      zoneObject[item.zone].items.push(item);
-    });
-    Object.entries(zoneObject).forEach(value => {
-      zoneArray.push(value);
-    });
-  }
-
-  return zoneArray;
-};
 
 router.get('/', (req, res) => {
   const date =
@@ -87,7 +62,7 @@ router.get('/', (req, res) => {
     },
   ]).exec((err, rooms) => {
     if (err) return res.status(401).send({ error: err.message });
-    return res.send(sortRoomsByZone(rooms));
+    return res.json(sortRoomsByZone.assignment(rooms));
   });
 });
 
