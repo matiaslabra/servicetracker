@@ -1,11 +1,10 @@
-import { statement } from '@babel/template';
-
 /*
  *
  * HomePage reducer
  *
  */
 import produce from 'immer';
+import moment from 'moment';
 import {
   SET_ITEM_TO_UPDATE,
   SET_ITEM_TO_UPDATE_SUCCESS,
@@ -13,7 +12,7 @@ import {
 } from './constants';
 
 export const initialState = {
-  date: '',
+  date: moment().format('YYYY-MM-DD'),
   itemToUpdate: '',
   isLoading: false,
   error: '',
@@ -25,6 +24,7 @@ const homePageReducer = (state = initialState, action) =>
     switch (action.type) {
       case CHANGE_DATE:
         draft.date = action.date;
+        break;
       case SET_ITEM_TO_UPDATE:
         draft.itemToUpdate = action.item;
         break;

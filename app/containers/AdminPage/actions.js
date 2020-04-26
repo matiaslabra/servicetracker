@@ -8,8 +8,10 @@ import {
   CHANGE_DATE,
   LOAD_ROOMS,
   LOAD_ROOMS_SUCCESS,
+  LOAD_ROOMS_ERROR,
   LOAD_TASKS,
   LOAD_TASKS_SUCCESS,
+  LOAD_TASKS_ERROR,
   ADD_NEW_TASK,
   ADD_NEW_TASK_SUCCESS,
 } from './constants';
@@ -34,9 +36,10 @@ export function roomsLoaded(rooms) {
   };
 }
 
-export function roomsLoadedError() {
+export function roomsLoadedError(error) {
   return {
     type: LOAD_ROOMS_ERROR,
+    error,
   };
 }
 export function loadTasks() {
@@ -66,8 +69,9 @@ export function taskCreated(task) {
   };
 }
 
-export function tasksLoadedError() {
+export function tasksLoadedError(error) {
   return {
     type: LOAD_TASKS_ERROR,
+    error,
   };
 }

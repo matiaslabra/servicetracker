@@ -1,6 +1,6 @@
 /**
  *
- * Tests for HomePage
+ * Tests for DateForm
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,13 +10,13 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { HomePage } from '../index';
+import { DateForm } from '../index';
 
-describe('<HomePage />', () => {
+describe('<DateForm />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
     const dispatch = jest.fn();
-    render(<HomePage dispatch={dispatch} />);
+    render(<DateForm dispatch={dispatch} />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -24,17 +24,15 @@ describe('<HomePage />', () => {
     expect(true).toEqual(false);
   });
 
-  // /**
-  //  * Unskip this test to use it
-  //  *
-  //  * @see {@link https://jestjs.io/docs/en/api#testskipname-fn}
-  //  */
-  // it.skip('Should render and match the snapshot', () => {
-  //   const {
-  //     container: { firstChild },
-  //   } = render(
-  //       <HomePage />
-  //   );
-  //   expect(firstChild).toMatchSnapshot();
-  // });
+  /**
+   * Unskip this test to use it
+   *
+   * @see {@link https://jestjs.io/docs/en/api#testskipname-fn}
+   */
+  it.skip('Should render and match the snapshot', () => {
+    const {
+      container: { firstChild },
+    } = render(<DateForm />);
+    expect(firstChild).toMatchSnapshot();
+  });
 });

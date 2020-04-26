@@ -24,10 +24,11 @@ import saga from './saga';
 
 import TaskListWrapper from './TaskListWrapper';
 import TaskList from '../../components/TaskList';
-import RoomList from '../../components/RoomList';
 
 import H1 from '../../components/H1';
 import H2 from '../../components/H2';
+import RoomZones from '../../components/RoomZones';
+import HomeRoomList from '../HomeRoomList';
 
 export function HomePage({
   getAssignment,
@@ -38,11 +39,6 @@ export function HomePage({
 }) {
   useInjectReducer({ key: 'homePage', reducer });
   useInjectSaga({ key: 'homePage', saga });
-
-  useEffect(() => {
-    // Sets initial date (today) to view triggering second useEffect
-    onChangeDate(moment().format('YYYY-MM-DD'));
-  }, []); // run code once
 
   useEffect(() => {
     // gets Assignment from API
@@ -58,14 +54,10 @@ export function HomePage({
 
       <section>
         <H1>
-          Assignment <small>{moment(date).format('dddd, MMMM Do YYYY')} </small>
+          Assignment <small>{moment(date).format('dddd, MMMM Do YYYY')}</small>
         </H1>
         <div>
-          <input
-            type="date"
-            onChange={onChangeDate}
-            defaultValue={moment().format('YYYY-MM-DD')}
-          />
+          <input type="date" onChange={onChangeDate} defaultValue={date} />
         </div>
       </section>
       <section>
@@ -73,15 +65,16 @@ export function HomePage({
         <TaskListWrapper>
           <TaskList
             items={assignment.tasks}
-            clickAction={updateItemStatus}
+            parentAction={updateItemStatus}
             isHousekeeping
           />
         </TaskListWrapper>
         <H2>Rooms</H2>
-        <RoomList
-          items={assignment.rooms}
+        <RoomZones
+          component={HomeRoomList}
+          zones={assignment.rooms}
+          updateItem={updateItemStatus}
           isHousekeeping
-          action={updateItemStatus}
         />
       </section>
     </article>
@@ -93,6 +86,7 @@ HomePage.propTypes = {
   getAssignment: PropTypes.func,
   updateItemStatus: PropTypes.func,
   onChangeDate: PropTypes.func,
+  date: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({

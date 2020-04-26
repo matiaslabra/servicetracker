@@ -8,7 +8,6 @@
  */
 
 import produce from 'immer';
-import moment from 'moment';
 
 import {
   SET_ASSIGNMENT,
@@ -25,7 +24,7 @@ import {
 export const initialState = {
   assignment: {
     id: '',
-    rooms: [],
+    rooms: {},
     tasks: [],
     date: '',
     updated: '',
@@ -43,7 +42,7 @@ const appReducer = (state = initialState, action) =>
         break;
       case LOAD_ASSIGNMENT_ERROR:
         draft.isLoading = false;
-        draft.error = error;
+        draft.error = action.error;
         break;
       case LOAD_ASSIGNMENT_SUCCESS:
         draft.isLoading = false;
@@ -59,27 +58,22 @@ const appReducer = (state = initialState, action) =>
         draft.error = false;
         break;
       case UPDATED_ASSIGNED_TASK_SUCCESS:
-        const updatedTask = action.task;
         // if someone updates an item from a different assignment date
         // if(draft.date == updatedTask.date){ :todo:
         draft.assignment.tasks[
-          draft.assignment.tasks.findIndex(task => task._id == updatedTask._id)
-        ].hkKey = updatedTask.hkKey;
+          draft.assignment.tasks.findIndex(task => task._id === action.task._id)
+        ].hkKey = action.task.hkKey;
         // }
         draft.isLoading = false;
         break;
       case UPDATED_ASSIGNED_ROOM_SUCCESS:
-        const updatedRoom = action.room;
         // if someone updates an item from a different assignment date
-        // if(draft.date == updatedRoom.date){ :todo:
-        const groupIndex = draft.assignment.rooms.findIndex(
-          group => group.name == updatedRoom.zone,
-        );
-        draft.assignment.rooms[groupIndex].items[
-          draft.assignment.rooms[groupIndex].items.findIndex(
-            room => room._id == updatedRoom._id,
+        // if(draft.date === updatedRoom.date){ :todo:
+        draft.assignment.rooms[action.room.zone].items[
+          draft.assignment.rooms[action.room.zone].items.findIndex(
+            room => room._id === action.room._id,
           )
-        ].hkKey = updatedRoom.hkKey;
+        ].hkKey = action.room.hkKey;
         // }
         draft.isLoading = false;
         break;
@@ -102,6 +96,7 @@ const appReducer = (state = initialState, action) =>
         draft.isLoading = false;
         draft.error = action.error;
         break;
+      default:
     }
   });
 

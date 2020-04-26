@@ -2,15 +2,7 @@
  * Gets the repositories of the user from Github
  */
 
-import {
-  call,
-  put,
-  select,
-  take,
-  takeLatest,
-  takeEvery,
-  fork,
-} from 'redux-saga/effects';
+import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import { SET_ITEM_TO_UPDATE } from 'containers/HomePage/constants';
 import { makeSelectAssignment } from 'containers/App/selectors';
@@ -37,21 +29,19 @@ function connect() {
   return new Promise(resolve => {
     socket.on('connect', () => {
       resolve(socket);
-      console.log('Socket connected');
     });
   });
 }
 
 export function* subscribe(socket) {
+  // eslint-disable-next-line new-cap
   return new eventChannel(emit => {
     const updateAssignment = data => {
-      console.log('listened data', data);
-      if (data.item.type == 'rooms') {
+      if (data.item.type === 'rooms') {
         return emit(updateAssignmentRoomDone(data.item));
       }
       return emit(updateAssignmentTaskDone(data.item));
     };
-    console.log('socket listening on assignment-items');
     socket.on('assignment-items', updateAssignment);
     return () => {
       // socket.off(‘newTask’, handler);
@@ -70,14 +60,12 @@ function* socketRead(socket) {
   const channel = yield call(subscribe, socket);
   while (true) {
     const action = yield take(channel);
-    console.log('action', action);
     yield put(action);
   }
 }
 
 export function* getAssignment() {
   // Select date from store
-  console.log('calling getAssigment');
   const viewDate = yield select(makeSelectDate());
   const requestURL = `api/assignment?date=${viewDate}`;
 
@@ -89,7 +77,6 @@ export function* getAssignment() {
     // yield put(roomsAssigned(repos));
     yield put(assignmentLoaded(assignment));
   } catch (err) {
-    console.log(err);
     // yield put(roomsAssignedError(err));
   }
 }
@@ -105,8 +92,8 @@ export function* updateItemAssigned() {
   const requestURL = `api/assignment/item`;
 
   try {
-    // We don't wait for our local changes, item is updated right away
-    if (itemToUpdate.type == 'rooms') {
+    // We don't wait for api to change it, item is updated right away
+    if (itemToUpdate.type === 'rooms') {
       yield put(updateAssignmentRoomDone(itemToUpdate));
     } else {
       yield put(updateAssignmentTaskDone(itemToUpdate));
@@ -116,7 +103,7 @@ export function* updateItemAssigned() {
       method: 'PUT',
       body: JSON.stringify({
         item: itemToUpdate,
-        assignment_id: assignment.id,
+        assignmentId: assignment.id,
       }),
       mode: 'cors',
       headers: {
@@ -126,8 +113,7 @@ export function* updateItemAssigned() {
     });
     // yield put(roomsAssigned(repos));
   } catch (err) {
-    console.log(err);
-    // yield put(roomsAssignedError(err));
+    // console.log(err);
   }
 }
 /**

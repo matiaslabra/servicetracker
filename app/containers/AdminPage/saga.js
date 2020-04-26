@@ -21,7 +21,7 @@ import {
   NOTIFICATION_TYPE_SUCCESS,
   NOTIFICATION_TYPE_INFO,
 } from 'react-redux-notify';
-import { SET_ASSIGNMENT, SET_ASSIGNMENT_SUCCESS } from '../App/constants';
+import { SET_ASSIGNMENT } from '../App/constants';
 import { LOAD_TASKS, LOAD_ROOMS, ADD_NEW_TASK } from './constants';
 
 export function* setAssignment() {
@@ -58,7 +58,7 @@ export function* setAssignment() {
     yield put(removeAllNotifications(true));
     yield put(createNotification(successNotification));
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     yield put(setAssignmentError(err));
   }
 }
@@ -79,8 +79,8 @@ export function* getRooms() {
     });
     yield put(roomsLoaded(rooms));
   } catch (err) {
-    console.log(err);
-    //  yield put(roomsLoadedError(err));
+    // console.log(err);
+    yield put(roomsLoadedError(err));
   }
 }
 export function* getTasks() {
@@ -100,8 +100,8 @@ export function* getTasks() {
     // yield put(roomsAssigned(repos));
     yield put(tasksLoaded(tasks));
   } catch (err) {
-    console.log(err);
-    // yield put(tasksLoadedError(err));
+    // console.log(err);
+    yield put(tasksLoadedError(err));
   }
 }
 
@@ -122,8 +122,8 @@ export function* createTask(action) {
     // yield put(roomsAssigned(repos));
     yield put(taskCreated(response.task));
   } catch (err) {
-    console.log(err);
-    // yield put(tasksLoadedError(err));
+    // console.log(err);
+    // yield put(taskCreateError(err));
   }
 }
 

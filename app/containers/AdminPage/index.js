@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { connect, batch } from 'react-redux';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
@@ -26,7 +26,10 @@ import Button from '../../components/Button';
 import TaskListWrapper from './TaskListWrapper';
 
 import TaskList from '../../components/TaskList';
-import RoomList from '../../components/RoomList';
+import { DateForm } from '../DateForm';
+import { TaskForm } from '../TaskForm';
+import RoomZones from '../../components/RoomZones';
+import AdminRoomList from '../AdminRoomList';
 
 export function AdminPage({
   rooms,
@@ -47,7 +50,7 @@ export function AdminPage({
     date,
   });
 
-  const [itemCheck, setItemCheck] = useState({
+  const [assignCheck, setAssignCheck] = useState({
     roomsChecked: false,
     tasksChecked: false,
   });
@@ -55,18 +58,17 @@ export function AdminPage({
   useEffect(() => {
     // calls to get rooms / tasks data from api
     // recall if date from props changes
-    batch(() => {
-      initRooms();
-      initTasks();
-    });
+    initRooms();
+    initTasks();
   }, [date]);
 
   useEffect(() => {
-    // second useEffect checks if rooms and tasks pulled from api have already an assigment
-    if (rooms.length > 0 && !itemCheck.roomsChecked) {
+    // second useEffect checks if rooms and tasks pulled from api have already an assignment
+    // :todo: rework rooms structure ?
+    if (Object.keys(rooms).length > 0 && !assignCheck.roomsChecked) {
       checkRoomsForEdition(rooms);
     }
-    if (tasks.length > 0 && !itemCheck.tasksChecked) {
+    if (tasks.length > 0 && !assignCheck.tasksChecked) {
       checkTasksForEdition(tasks);
     }
   }, [rooms, tasks]);
@@ -79,15 +81,15 @@ export function AdminPage({
   const checkRoomsForEdition = zones => {
     // :todo: improve double loop
     const roomsToEdit = [];
-    zones.forEach(zone => {
-      zone.items.forEach(item => {
-        if (item.hasOwnProperty('assignment') === true) roomsToEdit.push(item);
+    Object.keys(zones).forEach(key => {
+      zones[key].items.forEach(item => {
+        if ('assignment' in item) roomsToEdit.push(item.assignment.rooms);
       });
     });
     if (roomsToEdit.length > 0) {
       setAssignSelection({ ...assignSelection, rooms: roomsToEdit });
     }
-    setItemCheck({ ...itemCheck, roomsChecked: true });
+    setAssignCheck({ ...assignCheck, roomsChecked: true });
   };
 
   /**
@@ -98,7 +100,7 @@ export function AdminPage({
   const checkTasksForEdition = items => {
     const tasksToEdit = [];
     items.forEach(item => {
-      if (item.hasOwnProperty('assignment') === true) tasksToEdit.push(item);
+      if ('assignment' in item) tasksToEdit.push(item.assignment.tasks);
     });
     // if there's no tasks/rooms assigned its a new day then we check for daily tasks
     if (assignSelection.rooms.length === 0 && tasksToEdit.length === 0) {
@@ -107,7 +109,6 @@ export function AdminPage({
         // if its daily we push to task array the default task object
         tasksToEdit.push({
           ...item,
-          task: item._id,
           assignKey: 1,
           type: 'tasks',
         });
@@ -117,7 +118,7 @@ export function AdminPage({
     if (tasksToEdit.length > 0) {
       setAssignSelection({ ...assignSelection, tasks: tasksToEdit });
     }
-    setItemCheck({ ...itemCheck, tasksChecked: true });
+    setAssignCheck({ ...assignCheck, tasksChecked: true });
   };
 
   /**
@@ -128,36 +129,35 @@ export function AdminPage({
    */
   const updateAssignList = item => {
     let newItemToAssign;
-    if (item.type == 'rooms') {
+    if (item.type === 'rooms') {
       newItemToAssign = assignSelection.rooms;
     } else {
       newItemToAssign = assignSelection.tasks;
     }
-    let wasFounded = false;
-    wasFounded = newItemToAssign.find((o, i) => {
+    const wasFounded = newItemToAssign.find((o, i) => {
       if (o._id === item._id) {
         newItemToAssign[i] = item;
-        if (item.assignKey == 0) {
+        if (item.assignKey === 0) {
           newItemToAssign.splice(i, 1);
         }
         return true; // stop searching
       }
+      return false;
     });
-    if (!wasFounded && item.assignKey != 0) {
+    if (!wasFounded && item.assignKey !== 0) {
       newItemToAssign.push(item);
     }
     setAssignSelection({ ...assignSelection, [item.type]: newItemToAssign });
   };
-  const onChangeDateBridge = evt => {
-    const newDate = evt.target !== undefined ? evt.target.value : evt;
+  const handleDateChange = newDate => {
     // when date changes clean rooms already assigned and items checks
     setAssignSelection({
       rooms: [],
       tasks: [],
       date: newDate,
     });
-    // when date changes item's check status
-    setItemCheck({
+    // when date changes reset room/task check status
+    setAssignCheck({
       roomsChecked: false,
       tasksChecked: false,
     });
@@ -165,30 +165,15 @@ export function AdminPage({
     onChangeDate(newDate);
   };
 
-  const onSubmitFormBridge = evt => {
-    const task = evt.target.value
-      ? evt.target.value
-      : evt.target.querySelector('input').value;
-    if (task !== '') {
-      onSubmitForm(task); // submitting
-      evt.target.reset(); // clear input
-    }
-  };
   return (
     <article>
       <Helmet>
         <title>AdminPage</title>
         <meta name="description" content="Admin page room tracker" />
       </Helmet>
+      <H1>Room assignment</H1>
       <section>
-        <H1>Room assignment</H1>
-        <span>
-          <input
-            type="date"
-            onChange={onChangeDateBridge}
-            defaultValue={assignSelection.date}
-          />
-        </span>
+        <DateForm onChangeCallback={handleDateChange} defaultValue={date} />
         <Button onClick={() => onClickButton(assignSelection)}>
           Save assignment
         </Button>
@@ -196,36 +181,22 @@ export function AdminPage({
       <section>
         <H2>Tasks</H2>
         <TaskListWrapper>
-          <form
-            onSubmit={evt => {
-              evt.preventDefault();
-              onSubmitFormBridge(evt);
-            }}
-          >
-            <input placeholder="Enter new task" />
-            <input type="submit" value="Add" />
-          </form>
+          <TaskForm onSubmitForm={onSubmitForm} />
           <TaskList
             items={tasks}
-            clickAction={updateAssignList}
-            action={updateAssignList}
+            parentAction={updateAssignList}
             isAssignment
           />
         </TaskListWrapper>
         <H2>Rooms</H2>
-        <RoomList
-          items={rooms}
-          action={updateAssignList}
-          isAssignment
-          hasMultipleSet
-        />
+        <RoomZones component={AdminRoomList} zones={rooms} isAssignment />
       </section>
     </article>
   );
 }
 
 AdminPage.propTypes = {
-  rooms: PropTypes.array,
+  rooms: PropTypes.object,
   tasks: PropTypes.array,
   date: PropTypes.string,
   initRooms: PropTypes.func,

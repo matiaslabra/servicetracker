@@ -69,9 +69,9 @@ export function setAssignmentError(error) {
   };
 }
 
-// export function roomsLoadingError(error) {
-//   return {
-//     type: SET_ROOMS_ASSIGNED_ERROR,
-//     error,
-//   };
-// }
+export function roomsLoadingError(error) {
+  return {
+    type: LOAD_ASSIGNMENT_ERROR,
+    error,
+  };
+}
