@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
   position: relative;
@@ -32,7 +33,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Toogle = props => (
+const Toggle = props => (
   <Wrapper onClick={props.onClick}>
     <div className={props.open ? 'open' : ''}>
       <span>&nbsp;</span>
@@ -42,4 +43,8 @@ const Toogle = props => (
   </Wrapper>
 );
 
-export default Toogle;
+Toggle.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+};
+export default Toggle;
