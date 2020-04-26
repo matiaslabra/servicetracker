@@ -5,11 +5,12 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import StyledInput from './StyledInput';
+import Wrapper from './Wrapper';
 
-function Input() {
-  return <div />;
+function Input(props) {
+  const input = <StyledInput {...props} />;
+  return <Wrapper>{input}</Wrapper>;
 }
 
 Input.propTypes = {};
