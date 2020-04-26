@@ -78,6 +78,11 @@ module.exports = {
     'redux-saga/no-yield-in-race': 2,
     'redux-saga/yield-effects': 2,
     'require-yield': 0,
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-param-reassign': [
+      'error',
+      { props: true, ignorePropertyModificationsFor: ['draft'] },
+    ],
   },
   settings: {
     'import/resolver': {
