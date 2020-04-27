@@ -189,7 +189,12 @@ export function AdminPage({
           />
         </TaskListWrapper>
         <H2>Rooms</H2>
-        <RoomZones component={AdminRoomList} zones={rooms} isAssignment />
+        <RoomZones
+          component={AdminRoomList}
+          zones={rooms}
+          isAssignment
+          parentAction={updateAssignList}
+        />
       </section>
     </article>
   );

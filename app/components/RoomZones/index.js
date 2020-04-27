@@ -23,14 +23,14 @@ export function RoomZones({ zones, component, ...props }) {
       </div>
     ));
   } else {
-    sectionContent = <div>No zones</div>;
+    sectionContent = <p style={{ textAlign: 'center' }}>No rooms assigned</p>;
   }
   return sectionContent;
 }
 
 RoomZones.propTypes = {
   zones: PropTypes.object.isRequired,
-  updateAssignList: PropTypes.func.isRequired,
+  parentAction: PropTypes.func.isRequired,
   isAssignment: PropTypes.bool,
   isHousekeeping: PropTypes.bool,
 };
