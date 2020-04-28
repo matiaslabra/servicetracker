@@ -10,7 +10,7 @@ const url =
     ? process.env.MONGO_URL
     : 'mongodb://localhost:27017/housekeeping';
 
-mongoose.connect(url, { useNewUrlParser: true });
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 module.exports = function apiMiddlewares(app, options) {
   const io = socket.listen(options.server, {
