@@ -44,7 +44,7 @@ export function* subscribe(socket) {
     };
     socket.on('assignment-items', updateAssignment);
     return () => {
-      // socket.off(‘newTask’, handler);
+      // socket.off('assignment-items');
     };
   });
 }
@@ -111,7 +111,6 @@ export function* updateItemAssigned() {
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    // yield put(roomsAssigned(repos));
   } catch (err) {
     // console.log(err);
   }

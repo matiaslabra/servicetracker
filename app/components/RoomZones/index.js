@@ -30,6 +30,7 @@ export function RoomZones({ zones, component, ...props }) {
 
 RoomZones.propTypes = {
   zones: PropTypes.object.isRequired,
+  date: PropTypes.string,
   parentAction: PropTypes.func.isRequired,
   isAssignment: PropTypes.bool,
   isHousekeeping: PropTypes.bool,

@@ -66,6 +66,7 @@ export function HomePage({
           <TaskList
             items={assignment.tasks}
             parentAction={updateItemStatus}
+            date={assignment.date}
             isHousekeeping
           />
         </TaskListWrapper>
@@ -73,7 +74,8 @@ export function HomePage({
         <RoomZones
           component={HomeRoomList}
           zones={assignment.rooms}
-          updateItem={updateItemStatus}
+          parentAction={updateItemStatus}
+          date={assignment.date}
           isHousekeeping
         />
       </section>

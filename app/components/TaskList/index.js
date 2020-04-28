@@ -6,7 +6,7 @@ import Rl from './Rl';
 import Li from './Li';
 // import Wrapper from './Wrapper';
 
-function TaskList({ items, isAssignment, isHousekeeping, parentAction }) {
+function TaskList({ items, isAssignment, isHousekeeping, parentAction, date }) {
   const [taskList, setTaskList] = useState([]);
 
   const taskItem = {
@@ -65,7 +65,10 @@ function TaskList({ items, isAssignment, isHousekeeping, parentAction }) {
     }
 
     setTaskList(newTaskList);
-    parentAction(newTaskList[taskIndex]);
+    parentAction({
+      ...newTaskList[taskIndex],
+      date,
+    });
   };
   return (
     <Rl>
@@ -84,9 +87,10 @@ function TaskList({ items, isAssignment, isHousekeeping, parentAction }) {
 }
 
 TaskList.propTypes = {
-  items: PropTypes.array,
+  items: PropTypes.array.isRequired,
+  date: PropTypes.string.isRequired,
   parentAction: PropTypes.func,
-  isAssignment: PropTypes.bool.isRequired,
+  isAssignment: PropTypes.bool,
   isHousekeeping: PropTypes.bool,
 };
 

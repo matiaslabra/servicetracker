@@ -13,8 +13,9 @@ import List from '../../components/List';
 
 function HomeRoomList({
   items,
+  date,
   orientation,
-  updateItem,
+  parentAction,
   isAssignment,
   isHousekeeping,
 }) {
@@ -58,8 +59,8 @@ function HomeRoomList({
       ...roomList[roomIndex],
       hkKey: nextKey,
     };
-    updateItem(newRoomList[roomIndex]);
     setRoomList(newRoomList);
+    parentAction({ ...newRoomList[roomIndex], date });
   };
 
   return (
@@ -78,7 +79,8 @@ function HomeRoomList({
 
 HomeRoomList.propTypes = {
   items: PropTypes.array.isRequired,
-  updateItem: PropTypes.func.isRequired,
+  date: PropTypes.string.isRequired,
+  parentAction: PropTypes.func.isRequired,
   isAssignment: PropTypes.bool,
   isHousekeeping: PropTypes.bool,
   orientation: PropTypes.string.isRequired,

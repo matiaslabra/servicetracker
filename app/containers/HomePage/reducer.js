@@ -27,9 +27,11 @@ const homePageReducer = (state = initialState, action) =>
         break;
       case SET_ITEM_TO_UPDATE:
         draft.itemToUpdate = action.item;
+        draft.isLoading = true;
         break;
       case SET_ITEM_TO_UPDATE_SUCCESS:
         draft.itemToUpdate = '';
+        draft.isLoading = false;
         break;
     }
   });

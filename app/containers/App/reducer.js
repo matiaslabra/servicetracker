@@ -59,21 +59,25 @@ const appReducer = (state = initialState, action) =>
         break;
       case UPDATED_ASSIGNED_TASK_SUCCESS:
         // if someone updates an item from a different assignment date
-        // if(draft.date == updatedTask.date){ :todo:
-        draft.assignment.tasks[
-          draft.assignment.tasks.findIndex(task => task._id === action.task._id)
-        ].hkKey = action.task.hkKey;
+        if (draft.assignment.date === action.task.date) {
+          draft.assignment.tasks[
+            draft.assignment.tasks.findIndex(
+              task => task._id === action.task._id,
+            )
+          ].hkKey = action.task.hkKey;
+        }
         // }
         draft.isLoading = false;
         break;
       case UPDATED_ASSIGNED_ROOM_SUCCESS:
         // if someone updates an item from a different assignment date
-        // if(draft.date === updatedRoom.date){ :todo:
-        draft.assignment.rooms[action.room.zone].items[
-          draft.assignment.rooms[action.room.zone].items.findIndex(
-            room => room._id === action.room._id,
-          )
-        ].hkKey = action.room.hkKey;
+        if (draft.assignment.date === action.room.date) {
+          draft.assignment.rooms[action.room.zone].items[
+            draft.assignment.rooms[action.room.zone].items.findIndex(
+              room => room._id === action.room._id,
+            )
+          ].hkKey = action.room.hkKey;
+        }
         // }
         draft.isLoading = false;
         break;

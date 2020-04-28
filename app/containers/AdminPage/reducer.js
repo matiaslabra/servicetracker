@@ -28,7 +28,6 @@ const adminPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case CHANGE_DATE:
-        // console.log('adminPage reducer: change_date with', action);
         draft.date = action.date;
         draft.tasks = [];
         draft.rooms = [];
@@ -38,7 +37,6 @@ const adminPageReducer = (state = initialState, action) =>
         draft.error = false;
         break;
       case LOAD_ROOMS_SUCCESS:
-        // console.log('adminPage reducer: load_rooms_success with', action);
         draft.rooms = action.rooms;
         draft.loading = false;
         break;
@@ -55,7 +53,6 @@ const adminPageReducer = (state = initialState, action) =>
         draft.loading = false;
         break;
       case LOAD_TASKS_SUCCESS:
-        // console.log('adminPage reducer: load_tasks_success with', action);
         draft.tasks = action.tasks;
         draft.loading = false;
         break;
