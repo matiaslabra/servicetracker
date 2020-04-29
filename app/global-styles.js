@@ -38,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
     flex: 1 1 auto;
     position: relative;
     overflow-y: auto;
-    padding: 0em 2.5em 5em;
+    padding: 2em 2rem;
   }
 
 `;
