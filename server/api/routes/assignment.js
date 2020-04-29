@@ -22,6 +22,17 @@ module.exports = io => {
     });
   });
 
+  router.get('/id', async (req, res) => {
+    const date =
+      req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
+
+    const assignment = await Assignment.findOne({ date });
+    return res.json({
+      success: true,
+      _id: assignment ? assignment._id : '',
+    });
+  });
+
   router.get('/', async (req, res) => {
     const date =
       req.query.date !== '' ? req.query.date : moment().format('YYYY-MM-DD');
@@ -54,7 +65,6 @@ module.exports = io => {
     // console.log('req.body', req.body);
     const { item, assignmentId } = req.body;
     let dbItem;
-
     Assignment.findById(assignmentId)
       .then(assignment => {
         if (item.type === 'rooms') {
