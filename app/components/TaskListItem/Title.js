@@ -6,7 +6,7 @@ const Title = styled.div`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  font-size: 1em;
+  font-size: 0.75em;
 `;
 
 export default Title;

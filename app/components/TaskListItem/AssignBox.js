@@ -8,7 +8,8 @@ const AssignBox = styled.li`
     props.theme.colors.assign.task.bg[props.assignKey]};
   ${'' /* Room numer non selectable */}
   user-select: none;
-
+  text-transform: uppercase;
+  font-size: 1rem;
   ${'' /* to vertically align content */}
   display: flex;
   flex-wrap: wrap;
