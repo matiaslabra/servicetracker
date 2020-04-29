@@ -10,9 +10,6 @@
 import produce from 'immer';
 
 import {
-  SET_ASSIGNMENT,
-  SET_ASSIGNMENT_SUCCESS,
-  SET_ASSIGNMENT_ERROR,
   UPDATED_ASSIGNED_ITEM,
   UPDATED_ASSIGNED_TASK_SUCCESS,
   UPDATED_ASSIGNED_ROOM_SUCCESS,
@@ -80,25 +77,6 @@ const appReducer = (state = initialState, action) =>
         }
         // }
         draft.isLoading = false;
-        break;
-      case SET_ASSIGNMENT:
-        draft.isLoading = true;
-        draft.error = false;
-        draft.assignment.date = action.assignment.date;
-        draft.assignment.rooms = action.assignment.rooms;
-        draft.assignment.tasks = action.assignment.tasks;
-        break;
-      case SET_ASSIGNMENT_SUCCESS:
-        // if assignment is successfully created we clean the assignment object
-        draft.isLoading = false;
-        draft.error = false;
-        draft.assignment.tasks = [];
-        draft.assignment.rooms = [];
-        draft.assignment.date = '';
-        break;
-      case SET_ASSIGNMENT_ERROR:
-        draft.isLoading = false;
-        draft.error = action.error;
         break;
       default:
     }

@@ -12,8 +12,8 @@ import { Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { Notify } from 'react-redux-notify';
 import Header from 'components/Header';
-import HomePage from '../HomePage/Loadable';
-import AdminPage from '../AdminPage/Loadable';
+import HomePage from '../Home/HomePage/Loadable';
+import AdminPage from '../Admin/AdminPage/Loadable';
 import NotFoundPage from '../NotFoundPage/Loadable';
 
 // notify styles
