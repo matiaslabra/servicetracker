@@ -6,8 +6,9 @@ const Footer = styled.div`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  font-size: 0.85em;
+  font-size: 0.75em;
   font-weight: 300;
+  text-transform: uppercase;
 `;
 
 export default Footer;
