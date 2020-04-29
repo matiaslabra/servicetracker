@@ -1,0 +1,11 @@
+import styled from 'styled-components';
+
+const Horizontal = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  /* Then we define how is distributed the remaining space */
+  justify-content: space-around;
+`;
+
+export default Horizontal;

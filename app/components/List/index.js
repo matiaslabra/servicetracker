@@ -1,10 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
 
-import Rl from './Rl';
-import Li from './Li';
-
-// import Wrapper from './Wrapper';
+import Horizontal from './Horizontal';
+import Vertical from './Vertical';
 
 function List({
   clickAction,
@@ -15,7 +13,7 @@ function List({
   items,
   orientation,
 }) {
-  const roomListProps = {
+  const itemListProps = {
     clickAction,
     secClickAction,
     isAssignment,
@@ -23,7 +21,7 @@ function List({
   };
 
   const ComponentToRender = component;
-  const WrapperComponent = orientation === 'horizontal' ? Rl : Li;
+  const WrapperComponent = orientation === 'horizontal' ? Horizontal : Vertical;
 
   let content = <div />;
   const itemsRef = useRef([null]);
@@ -34,11 +32,11 @@ function List({
 
   if (items.length > 0) {
     content = items.map(item => (
-      <ComponentToRender {...roomListProps} key={item._id} item={item} />
+      <ComponentToRender {...itemListProps} key={item._id} item={item} />
     ));
   } else {
     // Otherwise render empty message
-    content = <div>No items assigned</div>;
+    content = <p>No items assigned</p>;
   }
 
   return <WrapperComponent>{content}</WrapperComponent>;
@@ -47,10 +45,10 @@ function List({
 List.propTypes = {
   component: PropTypes.elementType.isRequired,
   items: PropTypes.array.isRequired,
-  orientation: PropTypes.string.isRequired,
+  orientation: PropTypes.string,
   clickAction: PropTypes.func.isRequired,
   secClickAction: PropTypes.func,
-  isAssignment: PropTypes.bool.isRequired,
+  isAssignment: PropTypes.bool,
   isHousekeeping: PropTypes.bool,
 };
 
