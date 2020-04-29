@@ -4,11 +4,13 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import H2 from '../H2';
+import LoadingIndicator from '../LoadingIndicator';
+// import Vertical from '../List/Vertical';
 
-export function RoomZones({ zones, component, ...props }) {
+function RoomZones({ loading, zones, component, ...props }) {
   const ComponentToRender = component;
   let sectionContent = <div />;
   if (Object.keys(zones).length > 0) {
@@ -25,7 +27,7 @@ export function RoomZones({ zones, component, ...props }) {
   } else {
     sectionContent = <p style={{ textAlign: 'center' }}>No rooms assigned</p>;
   }
-  return sectionContent;
+  return <Fragment>{loading ? <LoadingIndicator /> : sectionContent}</Fragment>;
 }
 
 RoomZones.propTypes = {
@@ -34,6 +36,8 @@ RoomZones.propTypes = {
   parentAction: PropTypes.func.isRequired,
   isAssignment: PropTypes.bool,
   isHousekeeping: PropTypes.bool,
+  component: PropTypes.elementType.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default RoomZones;

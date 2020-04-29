@@ -22,7 +22,7 @@ function Header() {
     <NavBar>
       {/* logo */}
       <FlexContainer>
-        <Logo>GFH Room tracker</Logo>
+        <Logo>ST</Logo>
         <Menu>
           {/* Desktop/Table menu */}
           <HeaderLink to="/">Home</HeaderLink>

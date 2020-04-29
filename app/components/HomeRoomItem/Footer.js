@@ -9,6 +9,7 @@ const Footer = styled.div`
   font-size: 0.85em;
   font-weight: 300;
   border-top: 1px solid white;
+  text-transform: uppercase;
 `;
 
 export default Footer;
