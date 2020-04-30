@@ -15,8 +15,8 @@ import moment from 'moment';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { makeSelectAssignment, makeSelectLoading } from '../../App/selectors';
-import { makeSelectDate } from '../../Admin/AdminPage/selectors';
 import { loadAssignment } from '../../App/actions';
+import { makeSelectDate } from './selectors';
 import { setItemToUpdate, changeDate } from './actions';
 
 import reducer from './reducer';
@@ -28,8 +28,8 @@ import H1 from '../../../components/H1';
 import H2 from '../../../components/H2';
 import RoomZones from '../../../components/RoomZones';
 import HomeRoomList from '../HomeRoomList';
-import DateForm from '../../DateForm';
 import HomeTaskList from '../HomeTaskList';
+import DateForm from '../../DateForm';
 
 export function HomePage({
   getAssignment,
