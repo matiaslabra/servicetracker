@@ -69,7 +69,6 @@ const adminPageReducer = (state = initialState, action) =>
         draft.loading = false;
         break;
       case SET_ASSIGNMENT:
-        console.log('reducer called');
         draft.isLoading = true;
         draft.error = false;
         draft.assignment.proposal.date = action.assignment.date;

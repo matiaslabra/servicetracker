@@ -6,13 +6,13 @@ import List from '../../../components/List';
 import LoadingIndicator from '../../../components/LoadingIndicator';
 // import Wrapper from './Wrapper';
 
+const taskItem = {
+  hkArray: ['Not taken', 'Taken', 'Done'],
+  type: 'tasks',
+};
+
 function HomeTaskList({ loading, items, parentAction, date, ...props }) {
   const [taskList, setTaskList] = useState([]);
-
-  const taskItem = {
-    hkArray: ['Not taken', 'Taken', 'Done'],
-    type: 'tasks',
-  };
 
   useEffect(() => {
     // console.log('assignmentId', assignmentId);

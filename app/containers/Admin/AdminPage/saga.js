@@ -84,7 +84,7 @@ export function* checkAssignment() {
     });
     yield put(assignmentChecked(assignment._id));
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 export function* getRooms() {

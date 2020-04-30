@@ -9,6 +9,18 @@ import PropTypes from 'prop-types';
 import List from '../../../components/List';
 import HomeRoomItem from '../../../components/HomeRoomItem';
 
+const hkItem = {
+  hkArray: ['Not taken', 'In progress', 'Done'],
+  assignArray: [
+    'Not assigned',
+    'Check out',
+    'Service',
+    'Full service',
+    'Check out / in',
+  ],
+  type: 'rooms',
+};
+
 function HomeRoomList({
   items,
   date,
@@ -16,18 +28,6 @@ function HomeRoomList({
   parentAction,
   isHousekeeping,
 }) {
-  const hkItem = {
-    hkArray: ['Not taken', 'In progress', 'Done'],
-    assignArray: [
-      'Not assigned',
-      'Check out',
-      'Service',
-      'Full service',
-      'Check out / in',
-    ],
-    type: 'rooms',
-  };
-
   const [roomList, setRoomList] = useState([]);
 
   useEffect(() => {

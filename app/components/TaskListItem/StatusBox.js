@@ -6,7 +6,7 @@ const StatusBox = styled.div`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  font-size: 0.75em;
+  font-size: 0.65em;
   font-weight: 300;
   border-right: 1px solid white;
 `;

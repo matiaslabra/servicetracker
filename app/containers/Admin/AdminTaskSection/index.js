@@ -18,6 +18,12 @@ import { addTask, checkAssignment } from '../AdminPage/actions';
 import { makeSelectAssignmentId } from '../AdminPage/selectors';
 import TaskListWrapper from './TaskListWrapper';
 
+const taskItem = {
+  assignKey: 0,
+  assignArray: ['Not assigned', 'Assigned'],
+  type: 'tasks',
+};
+
 export function AdminTaskSection({
   items,
   parentAction,
@@ -26,12 +32,6 @@ export function AdminTaskSection({
   assignmentId,
 }) {
   const [taskList, setTaskList] = useState([]);
-
-  const taskItem = {
-    assignKey: 0,
-    assignArray: ['Not assigned', 'Assigned'],
-    type: 'tasks',
-  };
 
   useEffect(() => {
     getAssignmentId();

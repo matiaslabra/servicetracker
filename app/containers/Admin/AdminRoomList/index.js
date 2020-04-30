@@ -12,6 +12,20 @@ import AdminRoomItem from '../../../components/AdminRoomItem';
 import List from '../../../components/List';
 import Button from '../../../components/Button';
 
+const assignItem = {
+  assignKey: 0,
+  assignArray: [
+    'Not assigned',
+    'Check out',
+    'Service',
+    'Full service',
+    'Check out / in',
+  ],
+  washDoona: false,
+  washCurtain: false,
+  washMattressProtector: false,
+  type: 'rooms',
+};
 function AdminRoomList({
   items,
   orientation,
@@ -19,21 +33,6 @@ function AdminRoomList({
   isAssignment,
   isHousekeeping,
 }) {
-  const assignItem = {
-    assignKey: 0,
-    assignArray: [
-      'Not assigned',
-      'Check out',
-      'Service',
-      'Full service',
-      'Check out / in',
-    ],
-    washDoona: false,
-    washCurtain: false,
-    washMattressProtector: false,
-    type: 'rooms',
-  };
-
   const [roomList, setRoomList] = useState([]);
 
   useEffect(() => {

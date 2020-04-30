@@ -35,7 +35,6 @@ export function* subscribe(socket) {
   // eslint-disable-next-line new-cap
   return new eventChannel(emit => {
     const updateAssignment = data => {
-      console.log(data);
       if (data.item.type === 'rooms') {
         return emit(updateAssignmentRoomDone(data.item));
       }
@@ -111,15 +110,15 @@ export function* updateItemAssigned() {
       },
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* homePageSagas() {
-  yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
   yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
+  yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
   const socket = yield call(connect);
   yield fork(socketRead, socket);
   yield fork(socketWrite, socket);
