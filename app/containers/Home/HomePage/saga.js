@@ -2,7 +2,15 @@
  *
  */
 
-import { call, put, select, take, takeLatest, fork } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  select,
+  take,
+  takeLatest,
+  fork,
+  all,
+} from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 import io from 'socket.io-client';
 
@@ -113,12 +121,19 @@ export function* updateItemAssigned() {
     // console.log(err);
   }
 }
+function* watchGetAssignment() {
+  yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
+}
+
+function* watchItemUpdate() {
+  yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
+}
+
 /**
- * Root saga manages watcher lifecycle
+ * Home Root saga manages watcher lifecycle
  */
 export default function* homePageSagas() {
-  yield takeLatest(LOAD_ASSIGNMENT, getAssignment);
-  yield takeLatest(SET_ITEM_TO_UPDATE, updateItemAssigned);
+  yield all([fork(watchGetAssignment), fork(watchItemUpdate)]);
   const socket = yield call(connect);
   yield fork(socketRead, socket);
   yield fork(socketWrite, socket);

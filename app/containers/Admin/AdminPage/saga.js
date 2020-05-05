@@ -2,7 +2,15 @@
  *
  */
 
-import { call, put, select, take, takeEvery } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  select,
+  take,
+  takeEvery,
+  all,
+  fork,
+} from 'redux-saga/effects';
 import {
   createNotification,
   removeAllNotifications,
@@ -153,13 +161,35 @@ export function* createTask(action) {
   }
 }
 
+function* watchNewTask() {
+  /*
+    takeEvery will fork a new `callLogin` task on each LOGIN_REQUEST actions
+    i.e. concurrent LOGIN_REQUEST actions NOT are allowed
+  */
+  yield takeEvery(ADD_NEW_TASK, createTask);
+}
+
+function* watchGetRooms() {
+  yield takeEvery(LOAD_ROOMS, getRooms);
+}
+
+function* watchTaskRooms() {
+  yield takeEvery(LOAD_TASKS, getTasks);
+}
+
+function* watchSetAssignment() {
+  yield takeEvery(SET_ASSIGNMENT, setAssignment);
+}
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* adminPageSagas() {
-  yield takeEvery(ADD_NEW_TASK, createTask);
-  yield takeEvery(SET_ASSIGNMENT, setAssignment);
-  yield takeEvery(LOAD_ROOMS, getRooms);
-  yield takeEvery(LOAD_TASKS, getTasks);
+  yield all([
+    fork(watchNewTask),
+    fork(watchGetRooms),
+    fork(watchTaskRooms),
+    fork(watchSetAssignment),
+  ]);
+  // workaround for https://github.com/react-boilerplate/react-boilerplate/issues/2859
   yield take(CHECK_ASSIGNMENT, yield call(checkAssignment));
 }
